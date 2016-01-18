@@ -7,12 +7,12 @@ import javax.persistence.Table;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
 
-@Entity(name = "Brand")
-@Table(name = Brand.TABLE_NAME)
-public class Brand extends BaseObject {
-	private static final long serialVersionUID = 7028392275601746824L;
+@Entity(name = "Category")
+@Table(name = Category.TABLE_NAME)
+public class Category extends BaseObject {
+	private static final long serialVersionUID = -9017987825062299908L;
 	
-	public static final String TABLE_NAME = "brand";
+	public static final String TABLE_NAME = "category";
 	
 	private String name;
 	
