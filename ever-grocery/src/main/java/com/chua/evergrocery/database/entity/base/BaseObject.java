@@ -68,7 +68,7 @@ public class BaseObject
 
 	/**
 	 * Copy (soft) the fields from another object. The purpose of this method is to help the
-	 * subclass implementing {@link com.ivant.commons.entity.Copyable#copyFrom(Object)} as
+	 * subclass implementing {@link com.chua.evergrocery.entity.base.Copyable#copyFrom(Object)} as
 	 * not to create codes that copy the fields belonging to this class.
 	 * 
 	 * @param object the object which we are copying.
