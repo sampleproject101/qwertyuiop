@@ -5,13 +5,19 @@
     		<table class="table table-striped">
     			<thead>
     				<tr>
-    					<td>Name</td>
+    					<th>Name</th>
+    					<th>Address</th>
+    					<th>Agent</th>
+    					<th>Phone Number</th>
     				</tr>
     			</thead>
     		
     			<tbody data-bind="foreach: { data: distributorList, as: 'distributor' }">
     				<tr>
     					<td data-bind="text: distributor.name"></td>
+    					<td data-bind="text: distributor.address"></td>
+    					<td data-bind="text: distributor.agent"></td>
+    					<td data-bind="text: distributor.phoneNumber"></td>
     				</tr>
     			</tbody>
     		</table>

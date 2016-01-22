@@ -17,9 +17,15 @@ public class DistributorHandlerImpl implements DistributorHandler {
 		
 		final Distributor distributor1 = new Distributor();
 		distributor1.setName("Isonn Marketing");
+		distributor1.setAddress("Batac City");
+		distributor1.setAgent("Vincent");
+		distributor1.setPhoneNumber("247-79-33");
 		
 		final Distributor distributor2 = new Distributor();
 		distributor2.setName("Laoag Marketing Corporation");
+		distributor2.setAddress("Makati City");
+		distributor2.setAgent("Unknown");
+		distributor2.setPhoneNumber("247-79-34");
 		
 		distributorList.add(distributor1);
 		distributorList.add(distributor2);
