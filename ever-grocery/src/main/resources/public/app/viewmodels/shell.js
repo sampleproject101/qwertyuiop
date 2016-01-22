@@ -10,6 +10,9 @@
             router.map([
                 { route: '', title:'Home', moduleId: 'viewmodels/home', nav: true },
                 { route: 'brand', moduleId: 'viewmodels/brand', nav: true },
+                { route: 'category', moduleId: 'viewmodels/category', nav: true},
+                { route: 'company', moduleId: 'viewmodels/company', nav: true},
+                { route: 'distributor', moduleId: 'viewmodels/distributor', nav: true},
                 { route: 'sample', moduleId: 'viewmodels/sample', nav: true }
             ]).buildNavigationModel();
             
