@@ -31,7 +31,6 @@ public class BrandEndpoint {
 	@Path("/remove")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Boolean removeBrand(@FormParam("brandId") Long brandId) {
-		System.out.println("brand id ============================= " + brandId);
 		return brandHandler.removeBrand(brandId);
 	}
 }
