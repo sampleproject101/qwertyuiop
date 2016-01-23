@@ -2,7 +2,9 @@ package com.chua.evergrocery.rest.endpoint;
 
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -23,5 +25,12 @@ public class CompanyEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Company> getCompanyList() {
 		return companyHandler.getCompanyList();
+	}
+	
+	@POST
+	@Path("/remove")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Boolean removeCompany(@FormParam("companyId") Long companyId) {
+		return companyHandler.removeCompany(companyId);
 	}
 }

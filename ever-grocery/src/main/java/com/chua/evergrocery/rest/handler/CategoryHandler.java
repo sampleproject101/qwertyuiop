@@ -7,4 +7,6 @@ import com.chua.evergrocery.database.entity.Category;
 public interface CategoryHandler {
 
 	List<Category> getCategoryList();
+	
+	Boolean removeCategory(Long categoryId);
 }

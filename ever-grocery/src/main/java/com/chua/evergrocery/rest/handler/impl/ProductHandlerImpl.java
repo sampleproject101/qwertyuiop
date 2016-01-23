@@ -16,10 +16,10 @@ public class ProductHandlerImpl implements ProductHandler {
 		final List<Product> productList = new ArrayList<>();
 		
 		final Product product1 = new Product();
-		product1.setName("Jasper Shuki Soap");
+		product1.setName("Hansel Crackers Milk");
 		
 		final Product product2 = new Product();
-		product2.setName("Jasper Shuki Shampoo");
+		product2.setName("Hansel Crackers Butter");
 		
 		productList.add(product1);
 		productList.add(product2);

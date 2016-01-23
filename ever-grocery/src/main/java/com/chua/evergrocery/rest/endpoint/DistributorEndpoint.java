@@ -2,7 +2,9 @@ package com.chua.evergrocery.rest.endpoint;
 
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -23,5 +25,12 @@ public class DistributorEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Distributor> getDistributorList() {
 		return distributorHandler.getDistributorList();
+	}
+	
+	@POST
+	@Path("/remove")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Boolean removeDistributor(@FormParam("distributorId") Long distributorId) {
+		return distributorHandler.removeDistributor(distributorId);
 	}
 }

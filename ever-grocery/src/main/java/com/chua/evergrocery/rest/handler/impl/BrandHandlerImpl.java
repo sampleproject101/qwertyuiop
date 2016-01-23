@@ -11,19 +11,18 @@ import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.database.service.BrandService;
 import com.chua.evergrocery.rest.handler.BrandHandler;
 
+@Transactional
 @Component
 public class BrandHandlerImpl implements BrandHandler {
 
 	@Autowired
 	private BrandService brandService;
-	
-	@Transactional
+
 	@Override
 	public List<Brand> getBrandList() {
 		return brandService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
 	}
 
-	@Transactional
 	@Override
 	public Boolean removeBrand(Long brandId) {
 		return brandService.delete(brandService.find(brandId));

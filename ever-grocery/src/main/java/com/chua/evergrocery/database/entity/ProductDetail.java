@@ -3,14 +3,7 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
 
@@ -21,8 +14,6 @@ public class ProductDetail extends BaseObject {
 
 	public static final String TABLE_NAME = "product_detail";
 	
-	private Product product;
-	
 	//private UnitType unitType;
 	private String barcode;
 	private Float grossPrice;
@@ -31,27 +22,8 @@ public class ProductDetail extends BaseObject {
 	private Float sellingPrice;
 	private Float profit;
 	
-	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
-	@Where(clause = "valid = 1")
-	@NotFound(action = NotFoundAction.IGNORE)
-	public Product getProduct() {
-		return product;
-	}
-	
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
-/*	// change to primitive data
-	public UnitType getUnit() {
-		return unit;
-	}
-	
-	// 
-	public void setUnit(UnitType unitType) {
-		
-	}*/
+	private String unitType;
+	private Integer typeDepth;
 	
 	@Basic
 	@Column(name = "barcode")
@@ -111,5 +83,25 @@ public class ProductDetail extends BaseObject {
 	
 	public void setProfit(Float profit) {
 		this.profit = profit;
+	}
+	
+	@Basic
+	@Column(name = "unitType")
+	public String getUnitType() {
+		return unitType;
+	}
+	
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
+	}
+	
+	@Basic
+	@Column(name = "typeDepth")
+	public Integer getTypeDepth() {
+		return typeDepth;
+	}
+	
+	public void setTypeDepth(Integer typeDepth) {
+		this.typeDepth = typeDepth;
 	}
 }
