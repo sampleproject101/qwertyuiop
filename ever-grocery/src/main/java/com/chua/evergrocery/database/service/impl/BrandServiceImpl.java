@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.chua.evergrocery.database.dao.BrandDAO;
 import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.database.service.BrandService;
+import com.chua.evergrocery.objects.ObjectList;
 
 @Service
 public class BrandServiceImpl
@@ -20,5 +21,10 @@ public class BrandServiceImpl
 	@PostConstruct
 	public void postConstruct() {
 		super.setDao(brandDao);
+	}
+
+	@Override
+	public ObjectList<Brand> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
+		return brandDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
 	}
 }

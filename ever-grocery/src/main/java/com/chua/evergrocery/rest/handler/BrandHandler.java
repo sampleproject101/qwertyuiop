@@ -7,4 +7,6 @@ import com.chua.evergrocery.database.entity.Brand;
 public interface BrandHandler {
 	
 	List<Brand> getBrandList();
+	
+	Boolean removeBrand(Long brandId);
 }

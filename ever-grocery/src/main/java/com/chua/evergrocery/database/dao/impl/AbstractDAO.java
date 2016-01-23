@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -149,7 +148,7 @@ public abstract class AbstractDAO<T extends BaseID<ID>, ID extends Serializable>
 		return findAllByCriterion(null, null, null, null, Restrictions.eq("isValid", Boolean.TRUE));
 	}
 	
-	@Override
+	/*@Override
 	public boolean delete(ID id)
 	{
 		final StringBuilder deleteHQL = new StringBuilder(100);
@@ -189,7 +188,7 @@ public abstract class AbstractDAO<T extends BaseID<ID>, ID extends Serializable>
 			releaseSession(session);
 		}
 		return ret;
-	}
+	}*/
 	
 	@Override
 	public void evict(T object)

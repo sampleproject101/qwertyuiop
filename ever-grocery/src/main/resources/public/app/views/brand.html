@@ -1,5 +1,26 @@
 <section>
 	<br /><br /><br />
+	<div class="row">
+		<div class="col-md-6">
+			<button type="button" class="btn btn-success">Add New Brand</button>
+		</div>
+		<div class="input-group col-md-4 pull-right">
+			<div class="input-group-btn">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">By Name<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a href="#">By Name</a></li>
+				</ul>
+			</div>
+			<input type="text" class="form-control" placeholder="Search Brand">
+			<!-- search icon
+			<div class="input-group-btn">
+				<button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
+			</div>
+			-->
+		</div>
+		</div>
+	</div>
+	<br />
     <div class="row">
     	<div class="col-md-12">
     		<table class="table table-hover">
@@ -12,6 +33,12 @@
     			<tbody data-bind="foreach: { data: brandList, as: 'brand' }">
     				<tr>
     					<td data-bind="text: brand.name"></td>
+    					<td>
+    						<div class="pull-right">
+    							<button data-bind="click: $parent.edit" type="button" class="btn btn-warning btn-sm">Edit</button>
+    							<button data-bind="click: function() { $parent.remove(brand.id) }" type="button" class="btn btn-danger btn-sm">Remove</button>
+    						</div>
+    					</td>
     				</tr>
     			</tbody>
     		</table>
