@@ -13,7 +13,21 @@
             </a>
         </div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+        	<!--  <ul class="nav navbar-nav">
+        		<li class="active"><a href="#">Home</a></li>
+        		<li class="dropdown">
+        			<a data-toggle="dropdown" class="dropdown-toggle" href="#">Manage<b class="caret"></b></a>
+        			<ul role="menu" class="dropdown-menu">
+        				<li><a href="#brand">Brand</a></li>
+        				<li><a href="#category">Category</a></li>
+        				<li><a href="#company">Company</a></li>
+        				<li><a href="#distributor">Distributor</a></li>
+        			</ul>
+        		</li>
+        		<li class="active"><a href="#sample">Sample</a></li>
+        	</ul> -->
+        
             <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
                 <li data-bind="css: { active: isActive }">
                     <a data-bind="attr: { href: hash }, text: title"></a>
