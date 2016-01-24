@@ -13,8 +13,7 @@
                 { route: 'category', moduleId: 'viewmodels/category', nav: false},
                 { route: 'company', moduleId: 'viewmodels/company', nav: false},
                 { route: 'distributor', moduleId: 'viewmodels/distributor', nav: false},
-                { route: 'product', moduleId: 'viewmodels/product', nav: false},
-                { route: 'sample', moduleId: 'viewmodels/sample', nav: false }
+                { route: 'product', moduleId: 'viewmodels/product', nav: false}
             ]).buildNavigationModel();
             
             return router.activate();
