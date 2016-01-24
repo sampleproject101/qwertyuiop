@@ -1,4 +1,4 @@
-define(['knockout', 'modules/companyservice'], function (ko, companyService) {
+define(['knockout', 'modules/companyservice', 'viewmodels/forms/companyform'], function (ko, companyService, CompanyForm) {
 	var Company = function() {
 		this.companyList = ko.observable();
 	};
@@ -15,8 +15,18 @@ define(['knockout', 'modules/companyservice'], function (ko, companyService) {
 		});
 	};
 	
-	Company.prototype.edit = function() {
-		alert('edit');
+	Company.prototype.create = function() {
+		var self = this;
+		
+		CompanyForm.show('Create', null).then(function(response) {
+			if(response) {
+				self.refreshCompanyList();
+			}
+		});
+	};
+	
+	Company.prototype.edit = function(companyId) {
+		CompanyForm.show('Update', companyId);
 	};
 	
 	Company.prototype.remove = function(companyId) {alert(companyId);

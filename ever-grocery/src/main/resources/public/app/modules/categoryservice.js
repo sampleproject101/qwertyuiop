@@ -6,8 +6,14 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	editCategory: function() {
-    		
+    	saveCategory: function(categoryFormData) {
+    		return $.ajax({
+    			url: '/services/category/save',
+    			method: 'POST',
+    			data: {
+    				categoryFormData: categoryFormData
+    			}
+    		});
     	},
     	
     	removeCategory: function(categoryId) {

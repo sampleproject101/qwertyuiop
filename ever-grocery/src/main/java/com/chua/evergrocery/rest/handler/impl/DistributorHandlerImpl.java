@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chua.evergrocery.Application;
+import com.chua.evergrocery.beans.DistributorFormBean;
 import com.chua.evergrocery.database.entity.Distributor;
 import com.chua.evergrocery.database.service.DistributorService;
 import com.chua.evergrocery.rest.handler.DistributorHandler;
@@ -23,9 +24,40 @@ public class DistributorHandlerImpl implements DistributorHandler {
 	public List<Distributor> getDistributorList() {
 		return distributorService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
 	}
+	
+	@Override
+	public Boolean createDistributor(DistributorFormBean distributorForm) {
+		final Distributor distributor = new Distributor();
+		
+		setDistributor(distributor, distributorForm);
+		
+		return distributorService.insert(distributor) != null;
+	}
+	
+	@Override
+	public Boolean updateDistributor(DistributorFormBean distributorForm) {
+		final Boolean success;
+		
+		final Distributor distributor = distributorService.find(distributorForm.getId());
+		if(distributor != null) {
+			setDistributor(distributor, distributorForm);
+			success = distributorService.update(distributor);
+		} else {
+			success = Boolean.FALSE;
+		}
+		
+		return success;
+	}
 
 	@Override
 	public Boolean removeDistributor(Long distributorId) {
 		return distributorService.delete(distributorService.find(distributorId));
+	}
+	
+	private void setDistributor(Distributor distributor, DistributorFormBean distributorForm) {
+		distributor.setName(distributorForm.getName());
+		distributor.setAddress(distributorForm.getAddress());
+		distributor.setAgent(distributorForm.getAgent());
+		distributor.setPhoneNumber(distributorForm.getPhoneNumber());
 	}
 }

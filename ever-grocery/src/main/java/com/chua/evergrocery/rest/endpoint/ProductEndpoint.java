@@ -1,5 +1,6 @@
 package com.chua.evergrocery.rest.endpoint;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -11,8 +12,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.rest.handler.ProductHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/product")
 public class ProductEndpoint {
@@ -25,6 +28,22 @@ public class ProductEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Product> getProductList() {
 		return productHandler.getProductList();
+	}
+	
+	@POST
+	@Path("/save")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Boolean saveProduct(@FormParam("productFormData") String productFormData) throws IOException {
+		final Boolean success;
+		
+		final ProductFormBean productForm = new ObjectMapper().readValue(productFormData, ProductFormBean.class);
+		if(productForm.getId() != null) {
+			success = productHandler.updateProduct(productForm);
+		} else {
+			success = productHandler.createProduct(productForm);
+		}
+		
+		return success;
 	}
 	
 	@POST

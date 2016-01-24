@@ -1,4 +1,4 @@
-define(['knockout', 'modules/distributorservice'], function (ko, distributorService) {
+define(['knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (ko, distributorService, DistributorForm) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
 	};
@@ -15,8 +15,18 @@ define(['knockout', 'modules/distributorservice'], function (ko, distributorServ
 		});
 	};
 	
-	Distributor.prototype.edit = function() {
-		alert('edit');
+	Distributor.prototype.create = function() {
+		var self = this;
+		
+		DistributorForm.show('Create', null).then(function(response) {
+			if(response) {
+				self.refreshDistributorList();
+			}
+		});
+	};
+	
+	Distributor.prototype.edit = function(distributorId) {
+		DistributorForm.show('Update', distributorId);
 	};
 	
 	Distributor.prototype.remove = function(distributorId) {alert(distributorId);

@@ -1,5 +1,6 @@
 package com.chua.evergrocery.rest.endpoint;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -11,8 +12,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chua.evergrocery.beans.CategoryFormBean;
 import com.chua.evergrocery.database.entity.Category;
 import com.chua.evergrocery.rest.handler.CategoryHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/category")
 public class CategoryEndpoint {
@@ -25,6 +28,22 @@ public class CategoryEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Category> getCategoryList() {
 		return categoryHandler.getCategoryList();
+	}
+	
+	@POST
+	@Path("/save")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Boolean saveCategory(@FormParam("categoryFormData") String categoryFormData) throws IOException {
+		final Boolean success;
+		
+		final CategoryFormBean categoryForm = new ObjectMapper().readValue(categoryFormData, CategoryFormBean.class);
+		if(categoryForm.getId() != null) {
+			success = categoryHandler.updateCategory(categoryForm);
+		} else {
+			success = categoryHandler.createCategory(categoryForm);
+		}
+		
+		return success;
 	}
 	
 	@POST

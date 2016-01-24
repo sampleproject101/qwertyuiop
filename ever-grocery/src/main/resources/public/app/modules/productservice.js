@@ -6,8 +6,14 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	editProduct: function() {
-    		
+    	saveProduct: function(productFormData) {
+    		return $.ajax({
+    			url: '/services/product/save',
+    			method: 'POST',
+    			data: {
+    				productFormData: productFormData
+    			}
+    		});
     	},
     	
     	removeProduct: function(productId) {

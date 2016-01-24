@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chua.evergrocery.Application;
+import com.chua.evergrocery.beans.CompanyFormBean;
 import com.chua.evergrocery.database.entity.Company;
 import com.chua.evergrocery.database.service.CompanyService;
 import com.chua.evergrocery.rest.handler.CompanyHandler;
@@ -23,9 +24,40 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	public List<Company> getCompanyList() {
 		return companyService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
 	}
+	
+	@Override
+	public Boolean createCompany(CompanyFormBean companyForm) {
+		final Company company = new Company();
+		
+		setCompany(company, companyForm);
+		
+		return companyService.insert(company) != null;
+	}
+	
+	@Override
+	public Boolean updateCompany(CompanyFormBean companyForm) {
+		final Boolean success;
+		
+		final Company company = companyService.find(companyForm.getId());
+		if(company != null) {
+			setCompany(company, companyForm);
+			success = companyService.update(company);
+		} else {
+			success = Boolean.FALSE;
+		}
+		
+		return success;
+	}
 
 	@Override
 	public Boolean removeCompany(Long companyId) {
 		return companyService.delete(companyService.find(companyId));
+	}
+	
+	private void setCompany(Company company, CompanyFormBean companyForm) {
+		company.setName(companyForm.getName());
+		company.setAddress(companyForm.getAddress());
+		company.setAgent(companyForm.getAgent());
+		company.setPhoneNumber(companyForm.getPhoneNumber());
 	}
 }

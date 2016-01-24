@@ -6,8 +6,14 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	editCompany: function() {
-    		
+    	saveCompany: function(companyFormData) {
+    		return $.ajax({
+    			url: '/services/company/save',
+    			method: 'POST',
+    			data: {
+    				companyFormData: companyFormData
+    			}
+    		});
     	},
     	
     	removeCompany: function(companyId) {

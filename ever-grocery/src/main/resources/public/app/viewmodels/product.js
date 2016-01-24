@@ -1,4 +1,4 @@
-define(['knockout', 'modules/productservice'], function (ko, productService) {
+define(['knockout', 'modules/productservice', 'viewmodels/forms/productform'], function (ko, productService, ProductForm) {
 	var Product = function() {
 		this.productList = ko.observable();
 	};
@@ -15,8 +15,18 @@ define(['knockout', 'modules/productservice'], function (ko, productService) {
 		});
 	};
 	
-	Product.prototype.edit = function() {
-		alert('edit');
+	Product.prototype.create = function() {
+		var self = this;
+		
+		ProductForm.show('Create', null).then(function(response) {
+			if(response) {
+				self.refreshProductList();
+			}
+		});
+	};
+	
+	Product.prototype.edit = function(productId) {
+		ProductForm.show('Update', productId);
 	};
 	
 	Product.prototype.remove = function(productId) {alert(productId);

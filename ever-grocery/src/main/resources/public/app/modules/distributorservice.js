@@ -6,8 +6,14 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	editDistributor: function() {
-    		
+    	saveDistributor: function(distributorFormData) {
+    		return $.ajax({
+    			url: '/services/distributor/save',
+    			method: 'POST',
+    			data: {
+    				distributorFormData: distributorFormData
+    			}
+    		});
     	},
     	
     	removeDistributor: function(distributorId) {
