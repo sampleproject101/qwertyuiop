@@ -20,8 +20,13 @@ public class BrandHandlerImpl implements BrandHandler {
 	private BrandService brandService;
 
 	@Override
-	public List<Brand> getBrandList() {
-		return brandService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
+	public List<Brand> getBrandList(String searchKey) {
+		return brandService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, searchKey).getList();
+	}
+	
+	@Override
+	public Brand getBrand(Long brandId) {
+		return brandService.find(brandId);
 	}
 	
 	@Override

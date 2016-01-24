@@ -1,8 +1,21 @@
 define(['jquery'], function ($) {
     return {
-    	getBrandList: function() {
+    	getBrandList: function(searchKey) {
     		return $.ajax({
-    			url: '/services/brand/list'
+    			url: '/services/brand/list',
+    			data: {
+    				searchKey: searchKey
+    			}
+    		});
+    	},
+    	
+    	getBrand: function(brandId) {
+    		return $.ajax({
+    			url: '/services/brand/get',
+    			async: false,
+    			data: {
+    				brandId: brandId
+    			}
     		});
     	},
     	

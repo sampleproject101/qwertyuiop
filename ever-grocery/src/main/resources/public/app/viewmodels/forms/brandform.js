@@ -1,17 +1,17 @@
 define(['plugins/dialog', 'knockout', 'modules/brandservice'], function (dialog, ko, brandService) {
-    var BrandForm = function(preTitle, brandId) {
+    var BrandForm = function(preTitle, brand) {
         this.preTitle = preTitle;
         
         this.brandFormModel = {
-        	id: ko.observable(brandId),
-        	name: ko.observable()	
+        	id: ko.observable(brand.id),
+        	name: ko.observable(brand.name)	
         };
     };
  
-    BrandForm.show = function(preTitle, brandId) {
-        return dialog.show(new BrandForm(preTitle, brandId));
+    BrandForm.show = function(preTitle, brand) {
+        return dialog.show(new BrandForm(preTitle, brand));
     };
- 
+    
     BrandForm.prototype.save = function() {
     	var self = this;
     	

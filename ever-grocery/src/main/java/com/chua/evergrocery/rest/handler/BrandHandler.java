@@ -7,7 +7,9 @@ import com.chua.evergrocery.database.entity.Brand;
 
 public interface BrandHandler {
 	
-	List<Brand> getBrandList();
+	List<Brand> getBrandList(String searchKey);
+	
+	Brand getBrand(Long brandId);
 	
 	Boolean createBrand(BrandFormBean brandForm);
 	
