@@ -7,7 +7,9 @@ import com.chua.evergrocery.database.entity.Company;
 
 public interface CompanyHandler {
 
-	List<Company> getCompanyList();
+	List<Company> getCompanyList(String searchKey);
+	
+	Company getCompany(Long companyId);
 	
 	Boolean createCompany(CompanyFormBean companyForm);
 	

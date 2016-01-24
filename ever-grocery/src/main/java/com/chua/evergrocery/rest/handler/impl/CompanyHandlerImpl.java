@@ -21,8 +21,13 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	private CompanyService companyService;
 
 	@Override
-	public List<Company> getCompanyList() {
-		return companyService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
+	public List<Company> getCompanyList(String searchKey) {
+		return companyService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, searchKey).getList();
+	}
+	
+	@Override
+	public Company getCompany(Long companyId) {
+		return companyService.find(companyId);
 	}
 	
 	@Override

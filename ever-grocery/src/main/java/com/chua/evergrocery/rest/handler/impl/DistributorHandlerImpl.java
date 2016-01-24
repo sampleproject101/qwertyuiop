@@ -21,8 +21,13 @@ public class DistributorHandlerImpl implements DistributorHandler {
 	private DistributorService distributorService;
 
 	@Override
-	public List<Distributor> getDistributorList() {
-		return distributorService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
+	public List<Distributor> getDistributorList(String searchKey) {
+		return distributorService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, searchKey).getList();
+	}
+	
+	@Override
+	public Distributor getDistributor(Long distributorId) {
+		return distributorService.find(distributorId);
 	}
 	
 	@Override

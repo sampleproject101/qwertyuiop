@@ -1,8 +1,20 @@
 define(['jquery'], function ($) {
     return {
-    	getCategoryList: function() {
+    	getCategoryList: function(searchKey) {
     		return $.ajax({
-    			url: '/services/category/list'
+    			url: '/services/category/list',
+    			data: {
+    				searchKey: searchKey
+    			}
+    		});
+    	},
+    	
+    	getCategory: function(categoryId) {
+    		return $.ajax({
+    			url: '/services/category/get',
+    			data: {
+    				categoryId: categoryId
+    			}
     		});
     	},
     	

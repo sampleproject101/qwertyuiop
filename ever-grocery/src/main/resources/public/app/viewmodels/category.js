@@ -1,6 +1,8 @@
-define(['knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'], function (ko, categoryService, CategoryForm) {
+define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'], function (app, ko, categoryService, CategoryForm) {
 	var Category = function() {
 		this.categoryList = ko.observable();
+		
+		this.searchKey = ko.observable();
 	};
 	
 	Category.prototype.activate = function() {
@@ -10,7 +12,7 @@ define(['knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'],
 	Category.prototype.refreshCategoryList = function() {
 		var self = this;
 		
-		categoryService.getCategoryList().done(function(data) {
+		categoryService.getCategoryList(self.searchKey()).done(function(data) {
 			self.categoryList(data);
 		});
 	};
@@ -18,15 +20,33 @@ define(['knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'],
 	Category.prototype.create = function() {
 		var self = this;
 		
-		CategoryForm.show('Create', null).then(function(response) {
-			if(response) {
-				self.refreshCategoryList();
+		CategoryForm.show('Create', this.newCategory()).then(function(response) {
+			if(response != undefined) {
+				if(response) {
+					app.showMessage('Category successfully created.');
+					self.refreshCategoryList();
+				} else {
+					app.showMessage('Failed to create category.');
+				}
 			}
 		});
 	};
 	
 	Category.prototype.edit = function(categoryId) {
-		CategoryForm.show('Update', categoryId);
+		var self = this;
+		
+		categoryService.getCategory(categoryId).done(function(data) {
+			CategoryForm.show('Update', data).then(function(response) {
+				if(response != undefined) {
+					if(response) {
+						app.showMessage('Category successfully updated.');
+						self.refreshCategoryList();
+					} else {
+						app.showMessage('Failed to update category.');
+					}
+				}
+			});
+		});
 	};
 	
 	Category.prototype.remove = function(categoryId) {alert(categoryId);
@@ -35,6 +55,15 @@ define(['knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'],
 		categoryService.removeCategory(categoryId).done(function(data) {
 			self.refreshCategoryList();
 		});
+	};
+	
+	Category.prototype.newCategory = function() {
+		var category = new Object();
+		
+		category.id = null;
+		category.name = '';
+		
+		return category;
 	};
 	
     return Category;

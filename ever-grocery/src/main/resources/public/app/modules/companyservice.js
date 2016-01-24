@@ -1,8 +1,20 @@
 define(['jquery'], function ($) {
     return {
-    	getCompanyList: function() {
+    	getCompanyList: function(searchKey) {
     		return $.ajax({
-    			url: '/services/company/list'
+    			url: '/services/company/list',
+				data: {
+    				searchKey: searchKey
+    			}
+    		});
+    	},
+    	
+    	getCompany: function(companyId) {
+    		return $.ajax({
+    			url: '/services/company/get',
+    			data: {
+    				companyId: companyId
+    			}
     		});
     	},
     	

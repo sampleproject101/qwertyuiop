@@ -12,7 +12,6 @@ define(['jquery'], function ($) {
     	getBrand: function(brandId) {
     		return $.ajax({
     			url: '/services/brand/get',
-    			async: false,
     			data: {
     				brandId: brandId
     			}

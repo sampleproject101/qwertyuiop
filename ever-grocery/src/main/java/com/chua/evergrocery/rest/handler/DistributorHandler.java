@@ -7,7 +7,9 @@ import com.chua.evergrocery.database.entity.Distributor;
 
 public interface DistributorHandler {
 
-	List<Distributor> getDistributorList();
+	List<Distributor> getDistributorList(String searchKey);
+	
+	Distributor getDistributor(Long distributorId);
 	
 	Boolean createDistributor(DistributorFormBean distributorForm);
 	

@@ -1,6 +1,8 @@
-define(['knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (ko, distributorService, DistributorForm) {
+define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (app, ko, distributorService, DistributorForm) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
+		
+		this.searchKey = ko.observable();
 	};
 	
 	Distributor.prototype.activate = function() {
@@ -10,7 +12,7 @@ define(['knockout', 'modules/distributorservice', 'viewmodels/forms/distributorf
 	Distributor.prototype.refreshDistributorList = function() {
 		var self = this;
 		
-		distributorService.getDistributorList().done(function(data) {
+		distributorService.getDistributorList(self.searchKey()).done(function(data) {
 			self.distributorList(data);
 		});
 	};
@@ -18,15 +20,33 @@ define(['knockout', 'modules/distributorservice', 'viewmodels/forms/distributorf
 	Distributor.prototype.create = function() {
 		var self = this;
 		
-		DistributorForm.show('Create', null).then(function(response) {
-			if(response) {
-				self.refreshDistributorList();
+		DistributorForm.show('Create', this.newDistributor()).then(function(response) {
+			if(response != undefined) {
+				if(response) {
+					app.showMessage('Distributor successfully created.');
+					self.refreshDistributorList();
+				} else {
+					app.showMessage('Failed to create distributor.');
+				}
 			}
 		});
 	};
 	
 	Distributor.prototype.edit = function(distributorId) {
-		DistributorForm.show('Update', distributorId);
+		var self = this;
+		
+		distributorService.getDistributor(distributorId).done(function(data) {
+			DistributorForm.show('Update', data).then(function(response) {
+				if(response != undefined) {
+					if(response) {
+						app.showMessage('Distributor successfully updated.');
+						self.refreshDistributorList();
+					} else {
+						app.showMessage('Failed to update distributor.');
+					}
+				}
+			});
+		});
 	};
 	
 	Distributor.prototype.remove = function(distributorId) {alert(distributorId);
@@ -35,6 +55,18 @@ define(['knockout', 'modules/distributorservice', 'viewmodels/forms/distributorf
 		distributorService.removeDistributor(distributorId).done(function(data) {
 			self.refreshDistributorList();
 		});
+	};
+	
+	Distributor.prototype.newDistributor = function() {
+		var distributor = new Object();
+		
+		distributor.id = null;
+		distributor.name = '';
+		distributor.address = '';
+		distributor.agent = '';
+		distributor.phoneNumber = '';
+		
+		return distributor;
 	};
 	
     return Distributor;

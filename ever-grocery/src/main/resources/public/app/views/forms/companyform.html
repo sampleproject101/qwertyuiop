@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div id="divCompanyModal" class="modal-content">
     <div class="modal-header">
         <h3><span data-bind="text: preTitle"></span> Company</h3>
     </div>
@@ -6,7 +6,7 @@
     <div class="modal-body">
         <div class="form-group">
 			<label for="inputName" class="control-label">Name</label>
-			<input data-bind="value: companyFormModel.name" type="text" class="form-control" id="inputName" placeholder="Name">
+			<input data-bind="value: companyFormModel.name" type="text" class="form-control autofocus" id="inputName" placeholder="Name">
 			<label for="inputAddress" class="control-label">Address</label>
 			<input data-bind="value: companyFormModel.address" type="text" class="form-control" id="inputAddress" placeholder="Address">
 			<label for="inputAgent" class="control-label">Agent</label>

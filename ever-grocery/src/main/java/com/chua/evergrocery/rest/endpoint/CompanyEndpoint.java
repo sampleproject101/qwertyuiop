@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,15 @@ public class CompanyEndpoint {
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Company> getCompanyList() {
-		return companyHandler.getCompanyList();
+	public List<Company> getCompanyList(@QueryParam("searchKey") String searchKey) {
+		return companyHandler.getCompanyList(searchKey);
+	}
+	
+	@GET
+	@Path("/get")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Company getCompany(@QueryParam("companyId") Long companyId) {
+		return companyHandler.getCompany(companyId);
 	}
 	
 	@POST

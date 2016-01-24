@@ -7,7 +7,9 @@ import com.chua.evergrocery.database.entity.Category;
 
 public interface CategoryHandler {
 
-	List<Category> getCategoryList();
+	List<Category> getCategoryList(String searchKey);
+	
+	Category getCategory(Long categoryId);
 	
 	Boolean createCategory(CategoryFormBean categoryForm);
 	

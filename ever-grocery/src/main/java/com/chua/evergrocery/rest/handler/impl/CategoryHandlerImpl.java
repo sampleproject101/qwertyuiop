@@ -20,8 +20,13 @@ public class CategoryHandlerImpl implements CategoryHandler {
 	private CategoryService categoryService;
 
 	@Override
-	public List<Category> getCategoryList() {
-		return categoryService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
+	public List<Category> getCategoryList(String searchKey) {
+		return categoryService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, searchKey).getList();
+	}
+	
+	@Override
+	public Category getCategory(Long categoryId) {
+		return categoryService.find(categoryId);
 	}
 	
 	@Override
