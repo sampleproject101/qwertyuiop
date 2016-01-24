@@ -14,7 +14,6 @@ public class ProductDetail extends BaseObject {
 
 	public static final String TABLE_NAME = "product_detail";
 	
-	//private UnitType unitType;
 	private String barcode;
 	private Float grossPrice;
 	private Float discount;

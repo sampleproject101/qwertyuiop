@@ -7,4 +7,6 @@ import com.chua.evergrocery.database.entity.Product;
 public interface ProductHandler {
 
 	List<Product> getProductList();
+	
+	Boolean removeProduct(Long productId);
 }

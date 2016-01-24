@@ -24,5 +24,6 @@ public class JerseyConfig extends ResourceConfig {
 		register(CategoryEndpoint.class);
 		register(CompanyEndpoint.class);
 		register(DistributorEndpoint.class);
+		register(ProductEndpoint.class);
 	}
 }

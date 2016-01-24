@@ -8,12 +8,13 @@
         },
         activate: function () {
             router.map([
-                { route: '', title:'Home', moduleId: 'viewmodels/home', nav: true },
-                { route: 'brand', moduleId: 'viewmodels/brand', nav: true },
-                { route: 'category', moduleId: 'viewmodels/category', nav: true},
-                { route: 'company', moduleId: 'viewmodels/company', nav: true},
-                { route: 'distributor', moduleId: 'viewmodels/distributor', nav: true},
-                { route: 'sample', moduleId: 'viewmodels/sample', nav: true }
+                { route: '', title:'Home', moduleId: 'viewmodels/home', nav: false },
+                { route: 'brand', moduleId: 'viewmodels/brand', nav: false },
+                { route: 'category', moduleId: 'viewmodels/category', nav: false},
+                { route: 'company', moduleId: 'viewmodels/company', nav: false},
+                { route: 'distributor', moduleId: 'viewmodels/distributor', nav: false},
+                { route: 'product', moduleId: 'viewmodels/product', nav: false},
+                { route: 'sample', moduleId: 'viewmodels/sample', nav: false }
             ]).buildNavigationModel();
             
             return router.activate();
