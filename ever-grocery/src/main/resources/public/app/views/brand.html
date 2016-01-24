@@ -2,7 +2,7 @@
 	<br /><br /><br />
 	<div class="row">
 		<div class="col-md-4 col-xs-4">
-			<button type="button" class="btn btn-success">Add New Brand</button>
+			<button data-bind="click: create" type="button" class="btn btn-success">Add New Brand</button>
 		</div>
 		<div class="input-group col-md-4 col-xs-4 pull-right">
 			<div class="input-group-btn">
@@ -34,7 +34,7 @@
     					<td data-bind="text: brand.name"></td>
     					<td>
     						<div class="pull-right">
-    							<button data-bind="click: $parent.edit" type="button" class="btn btn-warning btn-sm">Edit</button>
+    							<button data-bind="click: function() { $parent.edit(brand.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>
     							<button data-bind="click: function() { $parent.remove(brand.id) }" type="button" class="btn btn-danger btn-sm">Remove</button>
     						</div>
     					</td>

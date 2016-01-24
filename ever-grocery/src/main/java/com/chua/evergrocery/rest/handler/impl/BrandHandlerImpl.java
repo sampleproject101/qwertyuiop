@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chua.evergrocery.Application;
+import com.chua.evergrocery.beans.BrandFormBean;
 import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.database.service.BrandService;
 import com.chua.evergrocery.rest.handler.BrandHandler;
@@ -22,10 +23,37 @@ public class BrandHandlerImpl implements BrandHandler {
 	public List<Brand> getBrandList() {
 		return brandService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
 	}
+	
+	@Override
+	public Boolean createBrand(BrandFormBean brandForm) {
+		final Brand brand = new Brand();
+		
+		setBrand(brand, brandForm);
+		
+		return brandService.insert(brand) != null;
+	}
+	
+	@Override
+	public Boolean updateBrand(BrandFormBean brandForm) {
+		final Boolean success;
+		
+		final Brand brand = brandService.find(brandForm.getId());
+		if(brand != null) {
+			setBrand(brand, brandForm);
+			success = brandService.update(brand);
+		} else {
+			success = Boolean.FALSE;
+		}
+		
+		return success;
+	}
 
 	@Override
 	public Boolean removeBrand(Long brandId) {
 		return brandService.delete(brandService.find(brandId));
 	}
 	
+	private void setBrand(Brand brand, BrandFormBean brandForm) {
+		brand.setName(brandForm.getName());
+	}
 }

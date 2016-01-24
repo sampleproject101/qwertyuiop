@@ -1,4 +1,4 @@
-define(['knockout', 'modules/brandservice'], function (ko, brandService) {
+define(['knockout', 'modules/brandservice', 'viewmodels/forms/brandform'], function (ko, brandService, BrandForm) {
 	var Brand = function() {
 		this.brandList = ko.observable();
 	};
@@ -15,8 +15,18 @@ define(['knockout', 'modules/brandservice'], function (ko, brandService) {
 		});
 	};
 	
-	Brand.prototype.edit = function() {
-		alert('edit');
+	Brand.prototype.create = function() {
+		var self = this;
+		
+		BrandForm.show('Create', null).then(function(response) {
+			if(response) {
+				self.refreshBrandList();
+			}
+		});
+	};
+	
+	Brand.prototype.edit = function(brandId) {
+		BrandForm.show('Update', brandId);
 	};
 	
 	Brand.prototype.remove = function(brandId) {alert(brandId);

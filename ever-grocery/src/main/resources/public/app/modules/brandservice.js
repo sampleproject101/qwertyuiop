@@ -6,8 +6,14 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	editBrand: function() {
-    		
+    	saveBrand: function(brandFormData) {
+    		return $.ajax({
+    			url: '/services/brand/save',
+    			method: 'POST',
+    			data: {
+    				brandFormData: brandFormData
+    			}
+    		});
     	},
     	
     	removeBrand: function(brandId) {
