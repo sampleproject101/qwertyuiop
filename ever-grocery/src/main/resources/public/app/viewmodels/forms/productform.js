@@ -1,21 +1,21 @@
 define(['plugins/dialog', 'knockout', 'modules/productservice'], function (dialog, ko, productService) {
-    var ProductForm = function(preTitle, productId) {
+    var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
         
         this.productFormModel = {
-        	id: ko.observable(productId),
-        	name: ko.observable()	
+        	id: ko.observable(product.id),
+        	name: ko.observable(product.name)	
         };
     };
  
-    ProductForm.show = function(preTitle, productId) {
-        return dialog.show(new ProductForm(preTitle, productId));
+    ProductForm.show = function(preTitle, product) {
+        return dialog.show(new ProductForm(preTitle, product));
     };
- 
+    
     ProductForm.prototype.save = function() {
     	var self = this;
     	
-    	productService.saveProduct(ko.toJSON(self.productFormModel)).done(function(data) {
+        productService.saveProduct(ko.toJSON(self.productFormModel)).done(function(data) {
         	dialog.close(self, data);
         });
     };

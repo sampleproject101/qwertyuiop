@@ -21,8 +21,13 @@ public class ProductHandlerImpl implements ProductHandler {
 	private ProductService productService;
 
 	@Override
-	public List<Product> getProductList() {
-		return productService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, null).getList();
+	public List<Product> getProductList(String searchKey) {
+		return productService.findAllWithPaging(0, Application.ITEMS_PER_PAGE, searchKey).getList();
+	}
+	
+	@Override
+	public Product getProduct(Long productId) {
+		return productService.find(productId);
 	}
 	
 	@Override
