@@ -1,4 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/companyform'], function (app, ko, companyService, CompanyForm) {
+define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/companyform', 'durandal/system'], function (app, ko, companyService,
+		CompanyForm, system) {
 	var Company = function() {
 		this.companyList = ko.observable();
 		
@@ -49,12 +50,24 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/
 		});
 	};
 	
-	Company.prototype.remove = function(companyId) {alert(companyId);
+	Company.prototype.remove = function(companyId, companyName) {
 		var self = this;
 		
-		companyService.removeCompany(companyId).done(function(data) {
-			self.refreshCompanyList();
-		});
+		app.showMessage('Are you sure you want to remove Company "' + companyName + '"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				companyService.removeCompany(companyId).done(function(data) {
+					if(data) {
+						self.refreshCompanyList();
+						app.showMessage('Successfully removed Company "' + companyName + '".');
+					} else {
+						app.showMessage('Failed to remove Company "' + companyName + '".');
+					}
+				});
+			}
+		})
 	};
 	
 	Company.prototype.newCompany = function() {

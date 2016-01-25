@@ -18,16 +18,30 @@
     			<thead>
     				<tr>
     					<th>Name</th>
+    					<th>Brand</th>
+    					<th>Category</th>
+    					<th>Company</th>
+    					<th>Distributor</th>
+    					<th>Unit Type</th>
+    					<th>Net Price</th>
+    					<th>Selling Price</th>
     				</tr>
     			</thead>
     		
     			<tbody data-bind="foreach: { data: productList, as: 'product' }">
     				<tr>
     					<td data-bind="text: product.name"></td>
+    					<td data-bind="text: product.brand"></td>
+    					<td data-bind="text: product.category"></td>
+    					<td data-bind="text: product.company"></td>
+    					<td data-bind="text: product.distributor"></td>
+    					<td data-bind="text: product.productDetail.unitType"></td>
+    					<td data-bind="text: product.productDetail.netPrice"></td>
+    					<td data-bind="text: product.productDetail.sellingPrice"></td>
     					<td>
     						<div class="pull-right">
     							<button data-bind="click: function() { $parent.edit(product.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>
-    							<button data-bind="click: function() { $parent.remove(product.id) }" type="button" class="btn btn-danger btn-sm">Remove</button>
+    							<button data-bind="click: function() { $parent.remove(product.id, product.name) }" type="button" class="btn btn-danger btn-sm">Remove</button>
     						</div>
     					</td>
     				</tr>

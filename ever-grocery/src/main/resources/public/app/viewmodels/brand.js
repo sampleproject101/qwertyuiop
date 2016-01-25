@@ -7,8 +7,6 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/br
 	};
 	
 	Brand.prototype.activate = function() {
-		system.log('krizia');
-		console.log("tet");
 		this.refreshBrandList();
 	};
 	

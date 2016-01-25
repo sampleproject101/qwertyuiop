@@ -1,4 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (app, ko, distributorService, DistributorForm) {
+define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform', 'durandal/system'], function (app, ko, distributorService,
+		DistributorForm, system) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
 		
@@ -49,12 +50,24 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/fo
 		});
 	};
 	
-	Distributor.prototype.remove = function(distributorId) {alert(distributorId);
+	Distributor.prototype.remove = function(distributorId, distributorName) {
 		var self = this;
 		
-		distributorService.removeDistributor(distributorId).done(function(data) {
-			self.refreshDistributorList();
-		});
+		app.showMessage('Are you sure you want to remove Distributor "' + distributorName + '"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				distributorService.removeDistributor(distributorId).done(function(data) {
+					if(data) {
+						self.refreshDistributorList();
+						app.showMessage('Successfully removed Distributor "' + distributorName + '".');
+					} else {
+						app.showMessage('Failed to remove Distributor "' + distributorName + '".');
+					}
+				});
+			}
+		})
 	};
 	
 	Distributor.prototype.newDistributor = function() {

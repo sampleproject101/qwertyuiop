@@ -1,4 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/productform'], function (app, ko, productService, ProductForm) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/productform', 'durandal/system'], function (app, ko, productService,
+		ProductForm, system) {
 	var Product = function() {
 		this.productList = ko.observable();
 		
@@ -49,12 +50,24 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/
 		});
 	};
 	
-	Product.prototype.remove = function(productId) {alert(productId);
+	Product.prototype.remove = function(productId, productName) {
 		var self = this;
 		
-		productService.removeProduct(productId).done(function(data) {
-			self.refreshProductList();
-		});
+		app.showMessage('Are you sure you want to remove Product "' + productName + '"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				productService.removeProduct(productId).done(function(data) {
+					if(data) {
+						self.refreshProductList();
+						app.showMessage('Successfully removed Product "' + productName + '".');
+					} else {
+						app.showMessage('Failed to remove Product "' + productName + '".');
+					}
+				});
+			}
+		})
 	};
 	
 	Product.prototype.newProduct = function() {

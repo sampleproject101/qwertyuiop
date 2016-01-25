@@ -1,4 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'], function (app, ko, categoryService, CategoryForm) {
+define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform', 'durandal/system'], function (app, ko, categoryService, 
+		CategoryForm, system) {
 	var Category = function() {
 		this.categoryList = ko.observable();
 		
@@ -49,12 +50,24 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/forms
 		});
 	};
 	
-	Category.prototype.remove = function(categoryId) {alert(categoryId);
+	Category.prototype.remove = function(categoryId, categoryName) {
 		var self = this;
 		
-		categoryService.removeCategory(categoryId).done(function(data) {
-			self.refreshCategoryList();
-		});
+		app.showMessage('Are you sure you want to remove Category "' + categoryName + '"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				categoryService.removeCategory(categoryId).done(function(data) {
+					if(data) {
+						self.refreshCategoryList();
+						app.showMessage('Successfully removed Category "' + categoryName + '".');
+					} else {
+						app.showMessage('Failed to remove Category "' + categoryName + '".');
+					}
+				});
+			}
+		})
 	};
 	
 	Category.prototype.newCategory = function() {

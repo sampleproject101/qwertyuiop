@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 public class Application {
 
 	public static final int ITEMS_PER_PAGE = 10;
-	
+
 	public static void main(String ... args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
