@@ -1,4 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/brandform'], function (app, ko, brandService, BrandForm) {
+define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/brandform', 'durandal/system'], function (app, ko, brandService, 
+		BrandForm, system) {
 	var Brand = function() {
 		this.brandList = ko.observable();
 		
@@ -6,6 +7,8 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/br
 	};
 	
 	Brand.prototype.activate = function() {
+		system.log('krizia');
+		console.log("tet");
 		this.refreshBrandList();
 	};
 	
@@ -49,12 +52,24 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/br
 		});
 	};
 	
-	Brand.prototype.remove = function(brandId) {alert(brandId);
+	Brand.prototype.remove = function(brandId, brandName) {
 		var self = this;
 		
-		brandService.removeBrand(brandId).done(function(data) {
-			self.refreshBrandList();
-		});
+		app.showMessage('Are you sure you want to remove Brand "' + brandName + '"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				brandService.removeBrand(brandId).done(function(data) {
+					if(data) {
+						self.refreshBrandList();
+						app.showMessage('Successfully removed Brand "' + brandName + '".');
+					} else {
+						app.showMessage('Failed to remove Brand "' + brandName + '".');
+					}
+				});
+			}
+		})
 	};
 	
 	Brand.prototype.newBrand = function() {
