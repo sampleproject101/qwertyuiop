@@ -1,12 +1,18 @@
-define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/brandform', 'durandal/system'], function (app, ko, brandService, 
-		BrandForm, system) {
+define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/brandform'], function (app, ko, brandService, BrandForm) {
 	var Brand = function() {
 		this.brandList = ko.observable();
 		
 		this.searchKey = ko.observable();
+		
+		this.itemsPerPage = ko.observable();
+		this.totalItems = ko.observable();
+		this.currentPage = ko.observable();
 	};
 	
 	Brand.prototype.activate = function() {
+		this.itemsPerPage(10);
+		this.totalItems(30);
+		this.currentPage(1);
 		this.refreshBrandList();
 	};
 	

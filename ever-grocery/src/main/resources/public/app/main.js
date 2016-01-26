@@ -24,8 +24,9 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'bootstrap'],
     app.title = 'Ever Grocery';
 
     app.configurePlugins({
-        router:true,
-        dialog: true
+        router: true,
+        dialog: true,
+        widget: true
     });
 
     app.start().then(function() {
@@ -34,6 +35,6 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'bootstrap'],
         viewLocator.useConvention();
 
         //Show the app by setting the root view model for our application with a transition.
-        app.setRoot('viewmodels/shell', 'entrance');
+        app.setRoot('viewmodels/shell');
     });
 });

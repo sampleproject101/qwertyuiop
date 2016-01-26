@@ -1,25 +1,33 @@
 define(['knockout'], function (ko) {
-    var Pager = function(numberOfPagesToShow) {
-    	this.numberOfPagesToShow = ko.observable(numberOfPagesToShow);
+    var Pager = function() {
+    	this.numberOfPagesToShow = ko.observable();
     	
     	this.currentPage = ko.observable();
     	this.totalItems = ko.observable();
     	this.itemsPerPage = ko.observable();
+    };
+    
+    Pager.prototype.activate = function(settings) {
+    	this.numberOfPagesToShow(settings.config.numberOfPagesToShow);
     	
-    	this.numberOfPages = ko.computed(function() {
-    		var noOfPages = this.totalItems() / this.itemsPerPage();
-    		noOfPages = parseInt(noOfPages + (this.totalItems() % this.itemsPerPage() > 0 ? 1 : 0));
-    		
-    		return noOfPages;
-    	}, this);
-    }
+    	// itemsPerPage, totalItems and currentPage should be passed by the implementing page and must be observable to be able to notify changes
+    	this.itemsPerPage = settings.config.itemsPerPage;
+    	this.totalItems = settings.config.totalItems;
+    	this.currentPage = settings.config.currentPage;
+    };
+    
+    Pager.prototype.numberOfPages = function() {
+    	var noOfPages = this.totalItems() / this.itemsPerPage();
+    	noOfPages = parseInt(noOfPages + (this.totalItems() % this.itemsPerPage() > 0 ? 1 : 0));
+    	return noOfPages;
+    };
     
     Pager.prototype.computePageNumbers = function() {
     	var pageNumbers = new Array();
     	
     	var c;
     	var numberOfAvailablePagesToShow = this.numberOfPagesToShow() < this.numberOfPages() ? this.numberOfPagesToShow() : this.numberOfPages();
-    	var median = Math.ceil(numberOfAvailablePagesToShow / 2);
+    	var median = numberOfAvailablePagesToShow < this.numberOfPagesToShow() ? numberOfAvailablePagesToShow : Math.ceil(numberOfAvailablePagesToShow / 2);
     	
     	if(this.currentPage() + (median - 1) > this.numberOfPages()) {
     		for(c = this.numberOfPages() - numberOfAvailablePagesToShow + 1; c <= this.numberOfPages(); c++) {
@@ -36,7 +44,7 @@ define(['knockout'], function (ko) {
         		pageNumbers.push(this.currentPage() + c);
         	}
     	} else {
-    		for(c = 1; c < numberOfAvailablePagesToShow; c++) {
+    		for(c = 1; c <= numberOfAvailablePagesToShow; c++) {
     			pageNumbers.push(c);
     		}
     	}
