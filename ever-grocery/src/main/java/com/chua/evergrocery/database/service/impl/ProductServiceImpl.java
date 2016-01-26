@@ -20,11 +20,11 @@ public class ProductServiceImpl
 	
 	@PostConstruct
 	public void postConstruct() {
-	super.setDao(productDao);
+		super.setDao(productDao);
 	}
 	
 	@Override
 	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-	return productDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+		return productDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
 	}
 }

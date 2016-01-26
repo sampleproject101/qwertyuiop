@@ -4,7 +4,7 @@ define(['plugins/dialog', 'knockout', 'modules/productservice'], function (dialo
         
         this.productFormModel = {
         	id: ko.observable(product.id),
-        	name: ko.observable(product.name)	
+        	name: ko.observable(product.name)
         };
     };
  

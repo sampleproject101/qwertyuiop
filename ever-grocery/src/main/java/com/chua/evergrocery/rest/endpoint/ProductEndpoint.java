@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/product")
 public class ProductEndpoint {
-
+	
 	@Autowired
 	private ProductHandler productHandler;
 	

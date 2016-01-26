@@ -15,13 +15,15 @@ public class ProductDetail extends BaseObject {
 	public static final String TABLE_NAME = "product_detail";
 	
 	private String barcode;
+	private Long quantity;
 	private Float grossPrice;
 	private Float discount;
 	private Float netPrice;
+	private Float percentProfit;
 	private Float sellingPrice;
-	private Float profit;
+	private Float netProfit;
 	
-	private String unitType;
+	private String unitType; // convert to enum
 	private Integer typeDepth;
 	
 	@Basic
@@ -35,7 +37,17 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "grossPrice")
+	@Column(name = "quantity")
+	public Long getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+	
+	@Basic
+	@Column(name = "gross_price")
 	public Float getGrossPrice() {
 		return grossPrice;
 	}
@@ -55,7 +67,7 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "netPrice")
+	@Column(name = "net_price")
 	public Float getNetPrice() {
 		return netPrice;
 	}
@@ -65,7 +77,17 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "sellingPrice")
+	@Column(name = "percent_profit")
+	public Float getPercentProfit() {
+		return percentProfit;
+	}
+	
+	public void setPercentProfit(Float percentProfit) {
+		this.percentProfit = percentProfit;
+	}
+	
+	@Basic
+	@Column(name = "selling_price")
 	public Float getSellingPrice() {
 		return sellingPrice;
 	}
@@ -75,17 +97,17 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "profit")
-	public Float getProfit() {
-		return profit;
+	@Column(name = "net_profit")
+	public Float getNetProfit() {
+		return netProfit;
 	}
 	
-	public void setProfit(Float profit) {
-		this.profit = profit;
+	public void setNetProfit(Float netProfit) {
+		this.netProfit = netProfit;
 	}
 	
 	@Basic
-	@Column(name = "unitType")
+	@Column(name = "unit_type")
 	public String getUnitType() {
 		return unitType;
 	}
@@ -95,7 +117,7 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "typeDepth")
+	@Column(name = "type_depth")
 	public Integer getTypeDepth() {
 		return typeDepth;
 	}
