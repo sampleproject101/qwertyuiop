@@ -16,7 +16,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'bootstrap'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'modules/settingsservice', 'bootstrap'],  function (system, app, viewLocator, settingsService) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -29,6 +29,10 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'bootstrap'],
         widget: true
     });
 
+    settingsService.getItemsPerPage().done(function(itemsPerPage) {
+    	app.itemsPerPage = itemsPerPage;
+    });
+    
     app.start().then(function() {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
         //Look for partial views in a 'views' folder in the root.

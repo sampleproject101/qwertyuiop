@@ -1,13 +1,12 @@
 package com.chua.evergrocery.rest.handler;
 
-import java.util.List;
-
 import com.chua.evergrocery.beans.BrandFormBean;
 import com.chua.evergrocery.database.entity.Brand;
+import com.chua.evergrocery.objects.ObjectList;
 
 public interface BrandHandler {
 	
-	List<Brand> getBrandList(String searchKey);
+	ObjectList<Brand> getBrandList(Integer pageNumber, String searchKey);
 	
 	Brand getBrand(Long brandId);
 	

@@ -4,23 +4,29 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/br
 		
 		this.searchKey = ko.observable();
 		
-		this.itemsPerPage = ko.observable();
+		this.itemsPerPage = ko.observable(app.itemsPerPage);
 		this.totalItems = ko.observable();
-		this.currentPage = ko.observable();
+		this.currentPage = ko.observable(1);
+		this.currentPageSubscription = null;
 	};
 	
 	Brand.prototype.activate = function() {
-		this.itemsPerPage(10);
-		this.totalItems(30);
-		this.currentPage(1);
-		this.refreshBrandList();
+		var self = this;
+		
+		self.currentPage(1);
+		self.currentPageSubscription = self.currentPage.subscribe(function() {
+			self.refreshBrandList();
+		});
+		
+		self.refreshBrandList();
 	};
 	
 	Brand.prototype.refreshBrandList = function() {
 		var self = this;
 		
-		brandService.getBrandList(self.searchKey()).done(function(data) {
-			self.brandList(data);
+		brandService.getBrandList(self.currentPage(), self.searchKey()).done(function(data) {
+			self.brandList(data.list);
+			self.totalItems(data.total);
 		});
 	};
 	
