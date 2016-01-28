@@ -1,20 +1,32 @@
-define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform', 'durandal/system'], function (app, ko, distributorService,
-		DistributorForm, system) {
+define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (app, ko, distributorService, DistributorForm) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
 		
 		this.searchKey = ko.observable();
+		
+		this.itemsPerPage = ko.observable(app.itemsPerPage);
+		this.totalItems = ko.observable();
+		this.currentPage = ko.observable(1);
+		this.currentPageSubscription = null;
 	};
 	
 	Distributor.prototype.activate = function() {
-		this.refreshDistributorList();
+		var self = this;
+		
+		self.currentPage(1);
+		self.currentPageSubscription = self.currentPage.subscribe(function() {
+			self.refreshDistributorList();
+		});
+		
+		self.refreshDistributorList();
 	};
 	
 	Distributor.prototype.refreshDistributorList = function() {
 		var self = this;
 		
-		distributorService.getDistributorList(self.searchKey()).done(function(data) {
-			self.distributorList(data);
+		distributorService.getDistributorList(self.currentPage(), self.searchKey()).done(function(data) {
+			self.distributorList(data.list);
+			self.totalItems(data.total);
 		});
 	};
 	

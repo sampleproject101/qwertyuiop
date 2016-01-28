@@ -1,13 +1,12 @@
 package com.chua.evergrocery.rest.handler;
 
-import java.util.List;
-
 import com.chua.evergrocery.beans.CompanyFormBean;
 import com.chua.evergrocery.database.entity.Company;
+import com.chua.evergrocery.objects.ObjectList;
 
 public interface CompanyHandler {
 
-	List<Company> getCompanyList(String searchKey);
+	ObjectList<Company> getCompanyList(Integer pageNumber, String searchKey);
 	
 	Company getCompany(Long companyId);
 	

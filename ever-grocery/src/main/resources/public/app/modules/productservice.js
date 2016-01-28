@@ -1,9 +1,10 @@
 define(['jquery'], function ($) {
     return {
-    	getProductList: function(searchKey) {
+    	getProductList: function(pageNumber, searchKey) {
     		return $.ajax({
     			url: '/services/product/list',
     			data: {
+    				pageNumber: pageNumber - 1,
     				searchKey: searchKey
     			}
     		});

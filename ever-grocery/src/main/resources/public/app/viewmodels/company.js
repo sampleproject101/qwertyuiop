@@ -1,20 +1,32 @@
-define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/companyform', 'durandal/system'], function (app, ko, companyService,
-		CompanyForm, system) {
+define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/companyform'], function (app, ko, companyService, CompanyForm) {
 	var Company = function() {
 		this.companyList = ko.observable();
 		
 		this.searchKey = ko.observable();
+		
+		this.itemsPerPage = ko.observable(app.itemsPerPage);
+		this.totalItems = ko.observable();
+		this.currentPage = ko.observable(1);
+		this.currentPageSubscription = null;
 	};
 	
 	Company.prototype.activate = function() {
-		this.refreshCompanyList();
+		var self = this;
+		
+		self.currentPage(1);
+		self.currentPageSubscription = self.currentPage.subscribe(function() {
+			self.refreshCompanyList();
+		});
+		
+		self.refreshCompanyList();
 	};
 	
 	Company.prototype.refreshCompanyList = function() {
 		var self = this;
 		
-		companyService.getCompanyList(self.searchKey()).done(function(data) {
-			self.companyList(data);
+		companyService.getCompanyList(self.currentPage(), self.searchKey()).done(function(data) {
+			self.companyList(data.list);
+			self.totalItems(data.total);
 		});
 	};
 	

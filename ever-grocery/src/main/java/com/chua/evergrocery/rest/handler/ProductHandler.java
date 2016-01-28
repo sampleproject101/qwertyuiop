@@ -1,13 +1,12 @@
 package com.chua.evergrocery.rest.handler;
 
-import java.util.List;
-
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
+import com.chua.evergrocery.objects.ObjectList;
 
 public interface ProductHandler {
 
-	List<Product> getProductList(String searchKey);
+	ObjectList<Product> getProductList(Integer pageNumber, String searchKey);
 	
 	Product getProduct(Long productId);
 	

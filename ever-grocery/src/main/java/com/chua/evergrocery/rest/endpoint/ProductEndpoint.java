@@ -1,7 +1,6 @@
 package com.chua.evergrocery.rest.endpoint;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
+import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,8 +27,8 @@ public class ProductEndpoint {
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Product> getProductList(@QueryParam("searchKey") String searchKey) {
-		return productHandler.getProductList(searchKey);
+	public ObjectList<Product> getProductList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
+		return productHandler.getProductList(pageNumber, searchKey);
 	}
 	
 	@GET

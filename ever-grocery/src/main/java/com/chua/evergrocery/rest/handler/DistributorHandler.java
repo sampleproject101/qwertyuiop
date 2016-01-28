@@ -1,13 +1,12 @@
 package com.chua.evergrocery.rest.handler;
 
-import java.util.List;
-
 import com.chua.evergrocery.beans.DistributorFormBean;
 import com.chua.evergrocery.database.entity.Distributor;
+import com.chua.evergrocery.objects.ObjectList;
 
 public interface DistributorHandler {
 
-	List<Distributor> getDistributorList(String searchKey);
+	ObjectList<Distributor> getDistributorList(Integer pageNumber, String searchKey);
 	
 	Distributor getDistributor(Long distributorId);
 	

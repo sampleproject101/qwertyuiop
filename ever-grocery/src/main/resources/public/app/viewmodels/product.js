@@ -1,20 +1,32 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/productform', 'durandal/system'], function (app, ko, productService, 
-		ProductForm, system) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/productform'], function (app, ko, productService, ProductForm) {
 	var Product = function() {
 		this.productList = ko.observable();
 		
 		this.searchKey = ko.observable();
+		
+		this.itemsPerPage = ko.observable(app.itemsPerPage);
+		this.totalItems = ko.observable();
+		this.currentPage = ko.observable(1);
+		this.currentPageSubscription = null;
 	};
 	
 	Product.prototype.activate = function() {
-		this.refreshProductList();
+		var self = this;
+		
+		self.currentPage(1);
+		self.currentPageSubscription = self.currentPage.subscribe(function() {
+			self.refreshProductList();
+		});
+		
+		self.refreshProductList();
 	};
 	
 	Product.prototype.refreshProductList = function() {
 		var self = this;
 		
-		productService.getProductList(self.searchKey()).done(function(data) {
-			self.productList(data);
+		productService.getProductList(self.currentPage(), self.searchKey()).done(function(data) {
+			self.productList(data.list);
+			self.totalItems(data.total);
 		});
 	};
 	
