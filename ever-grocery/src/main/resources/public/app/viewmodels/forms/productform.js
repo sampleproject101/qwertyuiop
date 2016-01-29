@@ -6,6 +6,8 @@ define(['plugins/dialog', 'knockout', 'modules/productservice'], function (dialo
         	id: ko.observable(product.id),
         	name: ko.observable(product.name)
         };
+        
+        this.pieceQuantity = ko.observable(0);
     };
  
     ProductForm.show = function(preTitle, product) {
