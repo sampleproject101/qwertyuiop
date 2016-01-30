@@ -2,12 +2,14 @@ define(['plugins/dialog', 'knockout', 'modules/productservice'], function (dialo
     var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
         
+        /*this.brandList = ko.observable();*/
+        
         this.productFormModel = {
         	id: ko.observable(product.id),
         	name: ko.observable(product.name)
         };
         
-        this.pieceQuantity = ko.observable(0);
+        /*this.pieceQuantity = ko.observable(0);*/
     };
  
     ProductForm.show = function(preTitle, product) {
