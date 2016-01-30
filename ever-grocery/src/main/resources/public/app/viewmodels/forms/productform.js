@@ -1,4 +1,5 @@
-define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandservice'], function (dialog, ko, productService, brandService) {
+define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandservice', 'modules/categoryservice', 'modules/companyservice', 'modules/distributorservice'], function (dialog, ko, productService, brandService,
+		categoryService, companyService, distributorService) {
     var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
         
@@ -6,11 +7,15 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
         	id: ko.observable(product.id),
         	name: ko.observable(product.name),
         	brandId: ko.observable(),
-        	categoryId: ko.observable()
+        	categoryId: ko.observable(),
+        	companyId: ko.observable(),
+        	distributorId: ko.observable()
         };
         
         this.brandList = ko.observable();
         this.categoryList = ko.observable();
+        this.companyList = ko.observable();
+        this.distributorList = ko.observable();
     };
  
     ProductForm.prototype.activate = function() {
@@ -22,6 +27,14 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
     	
     	categoryService.getCategoryListByName().done(function(categoryList) {
     		self.categoryList(categoryList);
+    	});
+    	
+    	companyService.getCompanyListByName().done(function(companyList) {
+    		self.companyList(companyList);
+    	});
+    	
+    	distributorService.getDistributorListByName().done(function(distributorList) {
+    		self.distributorList(distributorList);
     	});
     };
     

@@ -1,5 +1,7 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	private CompanyService companyService;
 
 	@Override
-	public ObjectList<Company> getCompanyList(Integer pageNumber, String searchKey) {
+	public ObjectList<Company> getCompanyObjectList(Integer pageNumber, String searchKey) {
 		return companyService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
 	}
 	
@@ -56,6 +58,11 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	@Override
 	public Boolean removeCompany(Long companyId) {
 		return companyService.delete(companyService.find(companyId));
+	}
+	
+	@Override
+	public List<Company> getCompanyList() {
+		return companyService.findAllOrderByName();
 	}
 	
 	private void setCompany(Company company, CompanyFormBean companyForm) {

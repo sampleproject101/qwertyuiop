@@ -6,6 +6,8 @@ public class ProductFormBean extends FormBean {
 	
 	private Long brandId;
 	private Long categoryId;
+	private Long companyId;
+	private Long distributorId;
 	
 	public String getName() {
 		return name;
@@ -29,5 +31,21 @@ public class ProductFormBean extends FormBean {
 	
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
+	}
+	
+	public Long getCompanyId() {
+		return companyId;
+	}
+	
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+	
+	public Long getDistributorId() {
+		return distributorId;
+	}
+	
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
 	}
 }

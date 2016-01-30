@@ -1,6 +1,7 @@
 package com.chua.evergrocery.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -28,7 +29,7 @@ public class DistributorEndpoint {
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ObjectList<Distributor> getDistributorList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
-		return distributorHandler.getDistributorList(pageNumber, searchKey);
+		return distributorHandler.getDistributorObjectList(pageNumber, searchKey);
 	}
 	
 	@GET
@@ -59,5 +60,12 @@ public class DistributorEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Boolean removeDistributor(@FormParam("distributorId") Long distributorId) {
 		return distributorHandler.removeDistributor(distributorId);
+	}
+	
+	@GET
+	@Path("/listbyname")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Distributor> getDistributorList() {
+		return distributorHandler.getDistributorList();
 	}
 }

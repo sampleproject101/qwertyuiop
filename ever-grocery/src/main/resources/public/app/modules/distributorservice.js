@@ -37,6 +37,12 @@ define(['jquery'], function ($) {
     				distributorId: distributorId
     			}
     		});
+    	},
+    	
+    	getDistributorListByName: function() {
+    		return $.ajax({
+    			url: '/services/distributor/listbyname'
+    		});
     	}
     };
 });

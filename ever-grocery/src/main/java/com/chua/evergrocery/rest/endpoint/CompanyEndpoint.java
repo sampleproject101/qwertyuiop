@@ -1,6 +1,7 @@
 package com.chua.evergrocery.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -28,7 +29,7 @@ public class CompanyEndpoint {
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ObjectList<Company> getCompanyList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
-		return companyHandler.getCompanyList(pageNumber, searchKey);
+		return companyHandler.getCompanyObjectList(pageNumber, searchKey);
 	}
 	
 	@GET
@@ -59,5 +60,12 @@ public class CompanyEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Boolean removeCompany(@FormParam("companyId") Long companyId) {
 		return companyHandler.removeCompany(companyId);
+	}
+	
+	@GET
+	@Path("/listbyname")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Company> getCompanyList() {
+		return companyHandler.getCompanyList();
 	}
 }

@@ -1,5 +1,8 @@
 package com.chua.evergrocery.database.service.impl;
 
+import java.util.List;
+
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +24,10 @@ public class CompanyServiceImpl
 	@Override
 	public ObjectList<Company> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
 		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	}
+	
+	@Override
+	public List<Company> findAllOrderByName() {
+		return dao.findAllWithOrder(new Order[] { Order.asc("name") });
 	}
 }

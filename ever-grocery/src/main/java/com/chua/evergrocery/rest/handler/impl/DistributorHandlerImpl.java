@@ -1,5 +1,7 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class DistributorHandlerImpl implements DistributorHandler {
 	private DistributorService distributorService;
 
 	@Override
-	public ObjectList<Distributor> getDistributorList(Integer pageNumber, String searchKey) {
+	public ObjectList<Distributor> getDistributorObjectList(Integer pageNumber, String searchKey) {
 		return distributorService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
 	}
 	
@@ -56,6 +58,11 @@ public class DistributorHandlerImpl implements DistributorHandler {
 	@Override
 	public Boolean removeDistributor(Long distributorId) {
 		return distributorService.delete(distributorService.find(distributorId));
+	}
+	
+	@Override
+	public List<Distributor> getDistributorList() {
+		return distributorService.findAllOrderByName();
 	}
 	
 	private void setDistributor(Distributor distributor, DistributorFormBean distributorForm) {

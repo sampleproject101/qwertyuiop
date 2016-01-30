@@ -15,6 +15,8 @@ import org.hibernate.annotations.Where;
 import com.chua.evergrocery.database.entity.base.BaseObject;
 import com.chua.evergrocery.serializer.json.BrandSerializer;
 import com.chua.evergrocery.serializer.json.CategorySerializer;
+import com.chua.evergrocery.serializer.json.CompanySerializer;
+import com.chua.evergrocery.serializer.json.DistributorSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity(name = "Product")
@@ -30,8 +32,10 @@ public class Product extends BaseObject {
 	@JsonSerialize(using = CategorySerializer.class)
 	private Category category;
 	
+	@JsonSerialize(using = CompanySerializer.class)
 	private Company company;
 	
+	@JsonSerialize(using = DistributorSerializer.class)
 	private Distributor distributor;
 	
 	private String name;

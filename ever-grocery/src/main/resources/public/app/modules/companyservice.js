@@ -37,6 +37,12 @@ define(['jquery'], function ($) {
     				companyId: companyId
     			}
     		});
+    	},
+    	
+    	getCompanyListByName: function() {
+    		return $.ajax({
+    			url: '/services/company/listbyname'
+    		});
     	}
     };
 });
