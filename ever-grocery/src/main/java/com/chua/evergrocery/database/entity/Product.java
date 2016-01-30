@@ -25,7 +25,6 @@ public class Product extends BaseObject {
 	private Category category;
 	private Company company;
 	private Distributor distributor;
-	private ProductDetail productDetail;
 	
 	private String name;
 	private Float totalStockCount;
@@ -76,18 +75,6 @@ public class Product extends BaseObject {
 	
 	public void setDistributor(Distributor distributor) {
 		this.distributor = distributor;
-	}
-	
-	@ManyToOne(targetEntity = ProductDetail.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_detail_id")
-	@Where(clause = "valid = 1")
-	@NotFound(action = NotFoundAction.IGNORE)
-	public ProductDetail getProductDetail() {
-		return productDetail;
-	}
-	
-	public void setProductDetail(ProductDetail productDetail) {
-		this.productDetail = productDetail;
 	}
 	
 	@Basic

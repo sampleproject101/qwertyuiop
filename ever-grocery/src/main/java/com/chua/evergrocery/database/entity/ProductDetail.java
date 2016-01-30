@@ -3,7 +3,14 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
 
@@ -13,6 +20,8 @@ public class ProductDetail extends BaseObject {
 	private static final long serialVersionUID = 4868322850907223089L;
 
 	public static final String TABLE_NAME = "product_detail";
+	
+	private Product product;
 	
 	private String barcode;
 	private Long quantity;
@@ -25,6 +34,18 @@ public class ProductDetail extends BaseObject {
 	
 	private String unitType; // convert to enum
 	private Integer typeDepth;
+	
+	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id")
+	@Where(clause = "valid = 1")
+	@NotFound(action = NotFoundAction.IGNORE)
+	public Product getProduct() {
+		return product;
+	}
+	
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	
 	@Basic
 	@Column(name = "barcode")
