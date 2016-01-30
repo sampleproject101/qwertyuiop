@@ -5,10 +5,12 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
         this.productFormModel = {
         	id: ko.observable(product.id),
         	name: ko.observable(product.name),
-        	brandId: ko.observable()
+        	brandId: ko.observable(),
+        	categoryId: ko.observable()
         };
         
         this.brandList = ko.observable();
+        this.categoryList = ko.observable();
     };
  
     ProductForm.prototype.activate = function() {
@@ -16,6 +18,10 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
     	
     	brandService.getBrandListByName().done(function(brandList) {
     		self.brandList(brandList);
+    	});
+    	
+    	categoryService.getCategoryListByName().done(function(categoryList) {
+    		self.categoryList(categoryList);
     	});
     };
     

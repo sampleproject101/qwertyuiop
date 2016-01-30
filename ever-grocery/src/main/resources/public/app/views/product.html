@@ -45,7 +45,11 @@
     							<span data-bind="text: product.brand.name"></span>
     						</span>
     					</td>
-    					<td data-bind="text: product.category"></td>
+    					<td>
+    						<span data-bind="if: product.category">
+    							<span data-bind="text: product.category.name"></span>
+    						</span>
+    					</td>
     					<td data-bind="text: product.company"></td>
     					<td data-bind="text: product.distributor"></td>
     				<!-- 	<td data-bind="text: product.productDetail.unitType"></td>

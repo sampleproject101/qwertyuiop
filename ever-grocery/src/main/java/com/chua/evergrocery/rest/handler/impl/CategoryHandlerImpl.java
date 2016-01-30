@@ -1,5 +1,7 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,7 @@ public class CategoryHandlerImpl implements CategoryHandler {
 	private CategoryService categoryService;
 
 	@Override
-	public ObjectList<Category> getCategoryList(Integer pageNumber, String searchKey) {
+	public ObjectList<Category> getCategoryObjectList(Integer pageNumber, String searchKey) {
 		return categoryService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
 	}
 	
@@ -55,6 +57,11 @@ public class CategoryHandlerImpl implements CategoryHandler {
 	@Override
 	public Boolean removeCategory(Long categoryId) {
 		return categoryService.delete(categoryService.find(categoryId));
+	}
+	
+	@Override
+	public List<Category> getCategoryList() {
+		return categoryService.findAllOrderByName();
 	}
 	
 	private void setCategory(Category category, CategoryFormBean categoryForm) {

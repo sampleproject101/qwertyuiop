@@ -1,8 +1,11 @@
 package com.chua.evergrocery.database.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +19,7 @@ public class CategoryDAOImpl
 		implements CategoryDAO {
 	
 	@Override
-	public ObjectList<Category> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey)
-	{
+	public ObjectList<Category> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
 		
@@ -28,5 +30,10 @@ public class CategoryDAOImpl
 		}
 		
 		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
+	}
+	
+	@Override
+	public List<Category> findAllWithOrder(Order[] orders) {
+		return findAllByCriterionList(null, null, null, orders, Restrictions.eq("isValid", Boolean.TRUE));
 	}
 }

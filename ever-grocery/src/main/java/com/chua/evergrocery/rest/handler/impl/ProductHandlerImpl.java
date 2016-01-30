@@ -9,6 +9,7 @@ import com.chua.evergrocery.Application;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.database.service.BrandService;
+import com.chua.evergrocery.database.service.CategoryService;
 import com.chua.evergrocery.database.service.ProductService;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
@@ -19,6 +20,9 @@ public class ProductHandlerImpl implements ProductHandler {
 
 	@Autowired
 	private BrandService brandService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@Autowired
 	private ProductService productService;
@@ -65,5 +69,6 @@ public class ProductHandlerImpl implements ProductHandler {
 	private void setProduct(Product product, ProductFormBean productForm) {
 		product.setName(productForm.getName());
 		product.setBrand(brandService.find(productForm.getBrandId()));
+		product.setCategory(categoryService.find(productForm.getCategoryId()));
 	}
 }

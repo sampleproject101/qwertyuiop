@@ -37,6 +37,12 @@ define(['jquery'], function ($) {
     				categoryId: categoryId
     			}
     		});
+    	},
+    	
+    	getCategoryListByName: function() {
+    		return $.ajax({
+    			url: '/services/category/listbyname'
+    		});
     	}
     };
 });
