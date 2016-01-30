@@ -4,7 +4,8 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
         
         this.productFormModel = {
         	id: ko.observable(product.id),
-        	name: ko.observable(product.name)
+        	name: ko.observable(product.name),
+        	brandId: ko.observable()
         };
         
         this.brandList = ko.observable();

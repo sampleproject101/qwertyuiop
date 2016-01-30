@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.chua.evergrocery.Application;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
+import com.chua.evergrocery.database.service.BrandService;
 import com.chua.evergrocery.database.service.ProductService;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
@@ -16,6 +17,9 @@ import com.chua.evergrocery.rest.handler.ProductHandler;
 @Component
 public class ProductHandlerImpl implements ProductHandler {
 
+	@Autowired
+	private BrandService brandService;
+	
 	@Autowired
 	private ProductService productService;
 
@@ -60,5 +64,6 @@ public class ProductHandlerImpl implements ProductHandler {
 	
 	private void setProduct(Product product, ProductFormBean productForm) {
 		product.setName(productForm.getName());
+		product.setBrand(brandService.find(productForm.getBrandId()));
 	}
 }

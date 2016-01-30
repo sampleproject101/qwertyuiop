@@ -13,6 +13,8 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
+import com.chua.evergrocery.serializer.json.BrandSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity(name = "Product")
 @Table(name = Product.TABLE_NAME)
@@ -21,9 +23,13 @@ public class Product extends BaseObject {
 	
 	public static final String TABLE_NAME = "product";
 	
+	@JsonSerialize(using = BrandSerializer.class)
 	private Brand brand;
+	
 	private Category category;
+	
 	private Company company;
+	
 	private Distributor distributor;
 	
 	private String name;
