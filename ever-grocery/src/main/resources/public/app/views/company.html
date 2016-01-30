@@ -4,12 +4,16 @@
 		<div class="col-md-4 col-xs-4">
 			<button data-bind="click: create" type="button" class="btn btn-success">Add New Company</button>
 		</div>
-		<div class="input-group col-md-4 col-xs-4 pull-right">
-			<input data-bind="value: searchKey" type="text" class="form-control" placeholder="Search Company">
-			<div class="input-group-btn">
-				<button data-bind="click: refreshCompanyList" class="btn btn-default glyphicon glyphicon-search"></button>
+		<form class="form-inline" role="form">
+			<div class="input-group col-md-4 col-xs-4 pull-right">
+				<div class="form-group">
+					<input data-bind="value: searchKey" size="45" type="text" class="form-control" placeholder="Search Company">
+				</div>
+				<div class="form-group">
+					<button data-bind="click: refreshCompanyList" class="btn btn-default glyphicon glyphicon-search"></button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 	<br />
 	
