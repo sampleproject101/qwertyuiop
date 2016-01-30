@@ -14,5 +14,5 @@ public interface CompanyPrototype extends Prototype<Company, Long> {
 	 * 
 	 * @return the object list of company
 	 */
-	public ObjectList<Company> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	ObjectList<Company> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
 }

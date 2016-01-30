@@ -1,7 +1,5 @@
 package com.chua.evergrocery.database.service.impl;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +14,13 @@ public class DistributorServiceImpl
 		implements DistributorService {
 
 	@Autowired
-	private DistributorDAO distributorDao;
-	
-	@PostConstruct
-	public void postConstruct() {
-		super.setDao(distributorDao);
+	protected DistributorServiceImpl(DistributorDAO dao) {
+		super(dao);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public ObjectList<Distributor> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-		return distributorDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
 	}
 }

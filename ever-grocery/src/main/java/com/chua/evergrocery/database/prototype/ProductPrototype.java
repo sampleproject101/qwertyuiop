@@ -14,5 +14,5 @@ public interface ProductPrototype {
 	 * 
 	 * @return the object list of product
 	 */
-	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
 }

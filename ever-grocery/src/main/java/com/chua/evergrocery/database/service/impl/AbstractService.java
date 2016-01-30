@@ -34,7 +34,7 @@ public abstract class AbstractService<T extends BaseID<ID>, ID extends Serializa
 	 * 
 	 * @param dao the DAO.
 	 */
-	protected void setDao(D dao)
+	protected AbstractService(D dao)
 	{
 		if (dao == null)
 		{

@@ -25,7 +25,7 @@ public interface Service<T extends BaseID<ID>, ID extends Serializable>
 	 * 
 	 * @throws NullPointerException
 	 */
-	public T reload(ID id) throws NullPointerException;
+	T reload(ID id) throws NullPointerException;
 
 	/**
 	 * Reload the item. This method must not be called in outside scope (servlet, actions, DWR, etc...).
@@ -36,26 +36,26 @@ public interface Service<T extends BaseID<ID>, ID extends Serializable>
 	 * 
 	 * @throws NullPointerException
 	 */
-	public T reload(ID id, boolean readonly) throws NullPointerException;
+	T reload(ID id, boolean readonly) throws NullPointerException;
 	
 	/**
 	 * create and return a new instance of the entity
 	 * 
 	 * @return null, if not successful (see log for details)
 	 */
-	public T getItemInstance();
+	T getItemInstance();
 	
 	/**
 	 * Get the class of the DAO it handles
 	 * 
 	 * @return the entity class.
 	 */
-	public Class<T> getEntityClass();
+	Class<T> getEntityClass();
 	
 	/**
 	 * Sets the valid flag to 0 so that the record will not be retrieved anymore
 	 * @param obj the object to be invalidated in our database based on the primary key
 	 * @return <code>true</code> when the entity is successfully deleted.
 	 */
-	public boolean delete(T obj);
+	boolean delete(T obj);
 }

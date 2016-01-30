@@ -1,6 +1,6 @@
 package com.chua.evergrocery.database.service.impl;
 
-import javax.annotation.PostConstruct;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,19 @@ import com.chua.evergrocery.objects.ObjectList;
 public class BrandServiceImpl
 		extends AbstractService<Brand, Long, BrandDAO>
 		implements BrandService {
-
-	@Autowired
-	private BrandDAO brandDao;
 	
-	@PostConstruct
-	public void postConstruct() {
-		super.setDao(brandDao);
+	@Autowired
+	protected BrandServiceImpl(BrandDAO dao) {
+		super(dao);
 	}
 
 	@Override
 	public ObjectList<Brand> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-		return brandDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	}
+
+	@Override
+	public List<Brand> searchAll(String name) {
+		return dao.searchAll(name);
 	}
 }

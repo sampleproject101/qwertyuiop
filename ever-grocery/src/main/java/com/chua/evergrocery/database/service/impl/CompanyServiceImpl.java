@@ -1,7 +1,5 @@
 package com.chua.evergrocery.database.service.impl;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +14,12 @@ public class CompanyServiceImpl
 		implements CompanyService {
 
 	@Autowired
-	private CompanyDAO companyDao;
-	
-	@PostConstruct
-	public void postConstruct() {
-		super.setDao(companyDao);
+	protected CompanyServiceImpl(CompanyDAO dao) {
+		super(dao);
 	}
-	
+
 	@Override
 	public ObjectList<Company> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-		return companyDao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
 	}
 }

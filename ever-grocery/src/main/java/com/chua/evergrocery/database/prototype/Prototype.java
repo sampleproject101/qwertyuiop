@@ -29,7 +29,7 @@ public interface Prototype<T extends BaseID<ID>, ID extends Serializable>
 	 * 
 	 * @return all valid items.
 	 */
-	public List<T> findAllList();
+	List<T> findAllList();
 	
 	/**
 	 * Retrieves all the records in our table into a <code>java.util.List</code> object.
@@ -38,14 +38,14 @@ public interface Prototype<T extends BaseID<ID>, ID extends Serializable>
 	 * 
 	 * @return all valid items.
 	 */
-	public ObjectList<T> findAll();
+	ObjectList<T> findAll();
 	
 	/**
 	 * Evict an object from first level cache. Make sure to lazy load associated collection of objects before calling this.
 	 * 
 	 * @param object the object to evict
 	 */
-	public void evict(T object);
+	void evict(T object);
 	
 	/**
 	 * Set the object by the given read only value.
@@ -53,5 +53,5 @@ public interface Prototype<T extends BaseID<ID>, ID extends Serializable>
 	 * @param object the object 
 	 * @param readOnly the read only flag
 	 */
-	public void setReadOnly(T object, boolean readOnly);
+	void setReadOnly(T object, boolean readOnly);
 }

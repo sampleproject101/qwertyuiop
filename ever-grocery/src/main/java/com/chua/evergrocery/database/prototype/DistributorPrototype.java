@@ -14,5 +14,5 @@ public interface DistributorPrototype extends Prototype<Distributor, Long> {
 	 * 
 	 * @return the object list of distributor
 	 */
-	public ObjectList<Distributor> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	ObjectList<Distributor> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
 }
