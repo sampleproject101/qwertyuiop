@@ -37,6 +37,12 @@ define(['jquery'], function ($) {
     				brandId: brandId
     			}
     		});
+    	},
+    	
+    	getBrandListByName: function() {
+    		return $.ajax({
+    			url: '/services/brand/listbyname'
+    		});
     	}
     };
 });

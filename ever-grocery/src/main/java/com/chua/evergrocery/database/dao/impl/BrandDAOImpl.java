@@ -33,16 +33,7 @@ public class BrandDAOImpl
 	}
 
 	@Override
-	public List<Brand> searchAll(String name) {
-		final Order[] orders = { Order.asc("name") };
-		
-		final Junction conjunction = Restrictions.conjunction();
-		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
-		
-		if(StringUtils.isNotBlank(name)) {
-			conjunction.add(Restrictions.ilike("name", name, MatchMode.ANYWHERE));
-		}
-		
-		return findAllByCriterionList(null, null, null, orders, conjunction);
+	public List<Brand> findAllWithOrder(Order[] orders) {
+		return findAllByCriterionList(null, null, null, orders, Restrictions.eq("isValid", Boolean.TRUE));
 	}
 }

@@ -1,6 +1,7 @@
 package com.chua.evergrocery.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -28,7 +29,7 @@ public class BrandEndpoint {
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ObjectList<Brand> getBrandList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
-		return brandHandler.getBrandList(pageNumber, searchKey);
+		return brandHandler.getBrandObjectList(pageNumber, searchKey);
 	}
 	
 	@GET
@@ -59,5 +60,12 @@ public class BrandEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Boolean removeBrand(@FormParam("brandId") Long brandId) {
 		return brandHandler.removeBrand(brandId);
+	}
+	
+	@GET
+	@Path("/listbyname")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Brand> getBrandList() {
+		return brandHandler.getBrandList();
 	}
 }

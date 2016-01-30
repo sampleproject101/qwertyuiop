@@ -1,5 +1,7 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,7 @@ public class BrandHandlerImpl implements BrandHandler {
 	private BrandService brandService;
 
 	@Override
-	public ObjectList<Brand> getBrandList(Integer pageNumber, String searchKey) {
+	public ObjectList<Brand> getBrandObjectList(Integer pageNumber, String searchKey) {
 		return brandService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
 	}
 	
@@ -55,6 +57,11 @@ public class BrandHandlerImpl implements BrandHandler {
 	@Override
 	public Boolean removeBrand(Long brandId) {
 		return brandService.delete(brandService.find(brandId));
+	}
+	
+	@Override
+	public List<Brand> getBrandList() {
+		return brandService.findAllOrderByName();
 	}
 	
 	private void setBrand(Brand brand, BrandFormBean brandForm) {

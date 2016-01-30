@@ -1,17 +1,23 @@
-define(['plugins/dialog', 'knockout', 'modules/productservice'], function (dialog, ko, productService) {
+define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandservice'], function (dialog, ko, productService, brandService) {
     var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
-        
-        /*this.brandList = ko.observable();*/
         
         this.productFormModel = {
         	id: ko.observable(product.id),
         	name: ko.observable(product.name)
         };
         
-        /*this.pieceQuantity = ko.observable(0);*/
+        this.brandList = ko.observable();
     };
  
+    ProductForm.prototype.activate = function() {
+    	var self = this;
+    	
+    	brandService.getBrandListByName().done(function(brandList) {
+    		self.brandList(brandList);
+    	});
+    };
+    
     ProductForm.show = function(preTitle, product) {
         return dialog.show(new ProductForm(preTitle, product));
     };

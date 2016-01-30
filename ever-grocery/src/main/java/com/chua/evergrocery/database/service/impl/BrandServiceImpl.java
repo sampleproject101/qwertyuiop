@@ -2,6 +2,7 @@ package com.chua.evergrocery.database.service.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class BrandServiceImpl
 	}
 
 	@Override
-	public List<Brand> searchAll(String name) {
-		return dao.searchAll(name);
+	public List<Brand> findAllOrderByName() {
+		return dao.findAllWithOrder(new Order[] { Order.asc("name") });
 	}
 }
