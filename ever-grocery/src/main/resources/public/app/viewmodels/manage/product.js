@@ -33,7 +33,7 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 	Product.prototype.create = function() {
 		var self = this;
 		
-		ProductForm.show('Create', this.newProduct()).then(function(response) {
+		ProductForm.show('Create', new Object()).then(function(response) {
 			if(response != undefined) {
 				if(response) {
 					app.showMessage('Product successfully created.');
@@ -80,15 +80,6 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 				});
 			}
 		})
-	};
-	
-	Product.prototype.newProduct = function() {
-		var product = new Object();
-		
-		product.id = null;
-		product.name = '';
-		
-		return product;
 	};
 	
     return Product;

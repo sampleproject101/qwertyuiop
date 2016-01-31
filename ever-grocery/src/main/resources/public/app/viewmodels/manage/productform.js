@@ -2,10 +2,11 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
 		categoryService, companyService, distributorService) {
     var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
+        this.product = product;
         
         this.productFormModel = {
-        	id: ko.observable(product.id),
-        	name: ko.observable(product.name),
+        	id: ko.observable(),
+        	name: ko.observable(),
         	brandId: ko.observable(),
         	categoryId: ko.observable(),
         	companyId: ko.observable(),
@@ -21,20 +22,27 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
     ProductForm.prototype.activate = function() {
     	var self = this;
     	
+    	self.productFormModel.id(self.product.id);
+    	self.productFormModel.name(self.product.name);
+    	
     	brandService.getBrandListByName().done(function(brandList) {
     		self.brandList(brandList);
+    		self.productFormModel.brandId(self.product.brand.id);
     	});
     	
     	categoryService.getCategoryListByName().done(function(categoryList) {
     		self.categoryList(categoryList);
+    		self.productFormModel.categoryId(self.product.category.id);
     	});
     	
     	companyService.getCompanyListByName().done(function(companyList) {
     		self.companyList(companyList);
+    		self.productFormModel.companyId(self.product.company.id);
     	});
     	
     	distributorService.getDistributorListByName().done(function(distributorList) {
     		self.distributorList(distributorList);
+    		self.productFormModel.distributorId(self.product.distributor.id);
     	});
     };
     
