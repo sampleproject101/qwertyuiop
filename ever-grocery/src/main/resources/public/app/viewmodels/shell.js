@@ -1,20 +1,35 @@
 ﻿define(['plugins/router', 'durandal/app'], function (router, app) {
+	var routes = [
+	  	{ route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true },
+	  	{ route: 'manage', moduleRootId: 'viewmodels/manage', title: '', nav: true, hash: '#manage',
+	  		childRoutes: [
+	  		    { route: 'brand', moduleId: 'brand', title: 'Brand', nav: true, hash: 'brand' },
+	  		    { route: 'category', moduleId: 'category', title: 'Category', nav: true, hash: 'category' },
+	  		    { route: 'company', moduleId: 'company', title: 'Company', nav: true, hash: 'company' },
+	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributor', nav: true, hash: 'distributor' },
+	      		{ route: 'product', moduleId: 'product', title: 'Product', nav: true, hash: 'product' }
+	  		]
+	  	}
+	];
+	
     return {
         router: router,
-        search: function() {
-            //It's really easy to show a message box.
-            //You can add custom options too. Also, it returns a promise for the user's response.
-            app.showMessage('Search not yet implemented...');
-        },
+        
         activate: function () {
-            router.map([
-                { route: '', title:'Home', moduleId: 'viewmodels/home', nav: false },
-                { route: 'brand', moduleId: 'viewmodels/brand', nav: false },
-                { route: 'category', moduleId: 'viewmodels/category', nav: false},
-                { route: 'company', moduleId: 'viewmodels/company', nav: false},
-                { route: 'distributor', moduleId: 'viewmodels/distributor', nav: false},
-                { route: 'product', moduleId: 'viewmodels/product', nav: false}
-            ]).buildNavigationModel();
+        	$.each(routes, function(index, route) {
+                if (route.childRoutes === undefined)
+                    return
+                $.each(route.childRoutes, function(index, childRoute) {
+                    childRoute.route = route.route + '/' + childRoute.route;
+                    childRoute.moduleId = route.moduleRootId + '/' + childRoute.moduleId;
+                    childRoute.title = childRoute.title;
+                    childRoute.hash = route.hash + '/' + childRoute.hash;
+                    childRoute.parent = route.moduleRootId;
+                });
+                routes = routes.concat(route.childRoutes);
+            });
+        	
+            router.map(routes).buildNavigationModel();
             
             return router.activate();
         }

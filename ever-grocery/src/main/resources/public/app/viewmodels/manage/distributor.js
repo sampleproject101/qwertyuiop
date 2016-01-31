@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/forms/distributorform'], function (app, ko, distributorService, DistributorForm) {
+define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/manage/distributorform'], function (app, ko, distributorService, DistributorForm) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
 		

@@ -13,20 +13,24 @@
             </a>
         </div>
 
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-        	<ul class="nav navbar-nav">
-        		<li class="active"><a href="#">Home</a></li>
-        		<li class="dropdown">
-        			<a data-toggle="dropdown" class="dropdown-toggle" href="#">Manage<b class="caret"></b></a>
-        			<ul role="menu" class="dropdown-menu">
-        				<li><a href="#brand">Brand</a></li>
-        				<li><a href="#category">Category</a></li>
-        				<li><a href="#company">Company</a></li>
-        				<li><a href="#distributor">Distributor</a></li>
-        				<li><a href="#product">Product</a></li>
-        			</ul>
-        		</li>
-        	</ul>
+		<div data-bind="foreach: router.navigationModel" class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="nav navbar-nav">
+				<!-- ko if: $data.childRoutes === undefined && $data.parent === undefined -->
+					<li data-bind="css: { active: isActive }">
+	                    <a data-bind="attr: { href: hash }, html: title"></a>
+	                </li>
+				<!-- /ko -->
+				<!-- ko if: $data.childRoutes !== undefined -->
+					<li class="dropdown">
+	        			<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span data-bind="text: title"></span><b class="caret"></b></a>
+	        			<ul data-bind="foreach: childRoutes" role="menu" class="dropdown-menu">
+	        				<li data-bind="css: { active: isActive }">
+	        					<a data-bind="attr: { href: hash }, html: title"></a>
+	        				</li>
+	        			</ul>
+	        		</li>
+				<!-- /ko -->
+           	</ul>
         </div>
     </nav>
 
