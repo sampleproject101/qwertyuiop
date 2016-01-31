@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/forms/productform'], function (app, ko, productService, ProductForm) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage/productform'], function (app, ko, productService, ProductForm) {
 	var Product = function() {
 		this.productList = ko.observable();
 		

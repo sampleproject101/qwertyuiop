@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/forms/companyform'], function (app, ko, companyService, CompanyForm) {
+define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage/companyform'], function (app, ko, companyService, CompanyForm) {
 	var Company = function() {
 		this.companyList = ko.observable();
 		

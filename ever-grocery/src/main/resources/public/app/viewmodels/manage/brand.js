@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/forms/brandform'], function (app, ko, brandService, BrandForm) {
+define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/brandform'], function (app, ko, brandService, BrandForm) {
 	var Brand = function() {
 		this.brandList = ko.observable();
 		

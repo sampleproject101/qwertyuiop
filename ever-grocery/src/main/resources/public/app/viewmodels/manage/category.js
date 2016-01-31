@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/forms/categoryform'], function (app, ko, categoryService, CategoryForm) {
+define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manage/categoryform'], function (app, ko, categoryService, CategoryForm) {
 	var Category = function() {
 		this.categoryList = ko.observable();
 		
