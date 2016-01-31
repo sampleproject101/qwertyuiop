@@ -33,7 +33,7 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 	Category.prototype.create = function() {
 		var self = this;
 		
-		CategoryForm.show('Create', this.newCategory()).then(function(response) {
+		CategoryForm.show('Create', new Object()).then(function(response) {
 			if(response != undefined) {
 				if(response) {
 					app.showMessage('Category successfully created.');
@@ -80,15 +80,6 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 				});
 			}
 		})
-	};
-	
-	Category.prototype.newCategory = function() {
-		var category = new Object();
-		
-		category.id = null;
-		category.name = '';
-		
-		return category;
 	};
 	
     return Category;

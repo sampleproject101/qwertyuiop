@@ -33,7 +33,7 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 	Distributor.prototype.create = function() {
 		var self = this;
 		
-		DistributorForm.show('Create', this.newDistributor()).then(function(response) {
+		DistributorForm.show('Create', new Object()).then(function(response) {
 			if(response != undefined) {
 				if(response) {
 					app.showMessage('Distributor successfully created.');
@@ -80,18 +80,6 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 				});
 			}
 		})
-	};
-	
-	Distributor.prototype.newDistributor = function() {
-		var distributor = new Object();
-		
-		distributor.id = null;
-		distributor.name = '';
-		distributor.address = '';
-		distributor.agent = '';
-		distributor.phoneNumber = '';
-		
-		return distributor;
 	};
 	
     return Distributor;

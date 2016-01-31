@@ -33,7 +33,7 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 	Company.prototype.create = function() {
 		var self = this;
 		
-		CompanyForm.show('Create', this.newCompany()).then(function(response) {
+		CompanyForm.show('Create', new Object()).then(function(response) {
 			if(response != undefined) {
 				if(response) {
 					app.showMessage('Company successfully created.');
@@ -80,18 +80,6 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 				});
 			}
 		})
-	};
-	
-	Company.prototype.newCompany = function() {
-		var company = new Object();
-		
-		company.id = null;
-		company.name = '';
-		company.address = '';
-		company.agent = '';
-		company.phoneNumber = '';
-		
-		return company;
 	};
 	
     return Company;

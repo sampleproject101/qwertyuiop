@@ -33,7 +33,7 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 	Brand.prototype.create = function() {
 		var self = this;
 		
-		BrandForm.show('Create', this.newBrand()).then(function(response) {
+		BrandForm.show('Create', new Object()).then(function(response) {
 			if(response != undefined) {
 				if(response) {
 					app.showMessage('Brand successfully created.');
@@ -80,15 +80,6 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 				});
 			}
 		})
-	};
-	
-	Brand.prototype.newBrand = function() {
-		var brand = new Object();
-		
-		brand.id = null;
-		brand.name = '';
-		
-		return brand;
 	};
 	
     return Brand;

@@ -1,14 +1,25 @@
 define(['plugins/dialog', 'knockout', 'modules/companyservice'], function (dialog, ko, companyService) {
     var CompanyForm = function(preTitle, company) {
         this.preTitle = preTitle;
+        this.company = company;
         
         this.companyFormModel = {
-        	id: ko.observable(company.id),
-        	name: ko.observable(company.name),
-        	address: ko.observable(company.address),
-        	agent: ko.observable(company.agent),
-        	phoneNumber: ko.observable(company.phoneNumber)
+        	id: ko.observable(),
+        	name: ko.observable(),
+        	address: ko.observable(),
+        	agent: ko.observable(),
+        	phoneNumber: ko.observable()
         };
+    };
+    
+    CompanyForm.prototype.activate = function() {
+    	var self = this;
+    	
+    	self.companyFormModel.id(self.company.id);
+    	self.companyFormModel.name(self.company.name);
+    	self.companyFormModel.address(self.company.address);
+    	self.companyFormModel.agent(self.company.agent);
+    	self.companyFormModel.phoneNumber(self.company.phoneNumber);
     };
  
     CompanyForm.show = function(preTitle, company) {

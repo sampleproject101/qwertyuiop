@@ -1,11 +1,19 @@
 define(['plugins/dialog', 'knockout', 'modules/categoryservice'], function (dialog, ko, categoryService) {
     var CategoryForm = function(preTitle, category) {
         this.preTitle = preTitle;
+        this.category = category;
         
         this.categoryFormModel = {
-        	id: ko.observable(category.id),
-        	name: ko.observable(category.name)
+        	id: ko.observable(),
+        	name: ko.observable()
         };
+    };
+    
+    CategoryForm.prototype.activate = function() {
+    	var self = this;
+    	
+    	self.categoryFormModel.id(self.category.id);
+    	self.categoryFormModel.name(self.category.name);
     };
  
     CategoryForm.show = function(preTitle, category) {

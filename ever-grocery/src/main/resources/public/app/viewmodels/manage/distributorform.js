@@ -1,14 +1,25 @@
 define(['plugins/dialog', 'knockout', 'modules/distributorservice'], function (dialog, ko, distributorService) {
     var DistributorForm = function(preTitle, distributor) {
         this.preTitle = preTitle;
+        this.distributor = distributor;
         
         this.distributorFormModel = {
-        	id: ko.observable(distributor.id),
-        	name: ko.observable(distributor.name),
-        	address: ko.observable(distributor.address),
-        	agent: ko.observable(distributor.agent),
-        	phoneNumber: ko.observable(distributor.phoneNumber)
+        	id: ko.observable(),
+        	name: ko.observable(),
+        	address: ko.observable(),
+        	agent: ko.observable(),
+        	phoneNumber: ko.observable()
         };
+    };
+    
+    DistributorForm.prototype.activate = function() {
+    	var self = this;
+    	
+    	self.distributorFormModel.id(self.distributor.id);
+    	self.distributorFormModel.name(self.distributor.name);
+    	self.distributorFormModel.address(self.distributor.address);
+    	self.distributorFormModel.agent(self.distributor.agent);
+    	self.distributorFormModel.phoneNumber(self.distributor.phoneNumber);
     };
  
     DistributorForm.show = function(preTitle, distributor) {
