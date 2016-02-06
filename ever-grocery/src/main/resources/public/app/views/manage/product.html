@@ -65,6 +65,7 @@
     					<td data-bind="text: product.productDetail.sellingPrice"></td> -->
     					<td>
     						<div class="pull-right">
+    							<button data-bind="click: function() { $parent.details(product.id) }" type="button" class="btn btn-primary btn-sm">Details</button>
     							<button data-bind="click: function() { $parent.edit(product.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>
     							<button data-bind="click: function() { $parent.remove(product.id, product.name) }" type="button" class="btn btn-danger btn-sm">Remove</button>
     						</div>

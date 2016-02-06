@@ -1,0 +1,216 @@
+<div id="divProductDetailsModal" class="modal-content modal-lg">
+    <div class="modal-header">
+        <h3>Manage Product Details</h3>
+    </div>
+    
+    <div class="modal-body">
+    	<div class="row">
+    		<div class="col-md-12">
+    			<span data-bind="text: productDetailsFormModel.name"></span>
+    		</div>
+    	</div>
+    	
+		<div class="row">
+			<div class="col-md-3 col-xs-3">
+				<h3 align="center">Whole</h3>
+				<form>
+					<div class="form-group">
+						<label for="inputWholeBarcode" class="control-label">Barcode</label>
+						<input type="text" class="form-control" id="inputWholeBarcode">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeQuantity" class="control-label">Quantity</label>
+						<input type="text" class="form-control" id="inputWholeQuantity" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeUnit">Unit</label>
+						<select class="form-control" id="inputWholeUnit">
+							<option>Case</option>
+							<option>Bundle</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="inputWholeGrossPrice" class="control-label">Gross Price</label>
+						<input type="text" class="form-control" id="inputWholeGrossPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeDiscount" class="control-label">Discount</label>
+						<input type="text" class="form-control" id="inputWholeDiscount" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeNetPrice" class="control-label">Net Price</label>
+						<input type="text" class="form-control" id="inputWholeNetPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholePercentProfit" class="control-label">Percent Profit</label>
+						<input type="number" step="any" class="form-control" id="inputWholePercentProfit">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeSellingPrice" class="control-label">Selling Price</label>
+						<input type="text" class="form-control" id="inputWholeSellingPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeNetProfit" class="control-label">Net Profit</label>
+						<input type="text" class="form-control" id="inputWholeNetProfit" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputWholeStockCount" class="control-label">Stock Count</label>
+						<input type="number" step="1" class="form-control" id="inputWholeStockCount">
+					</div>
+				</form>
+			</div>
+			<div class="col-md-3 col-xs-3">
+				<h3 align="center">Piece</h3>
+				<form>
+					<div class="form-group">
+						<label for="inputPieceBarcode" class="control-label">Barcode</label>
+						<input type="text" class="form-control" id="inputPieceBarcode">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceQuantity" class="control-label">Quantity</label>
+						<input type="number" step="1" min="0" class="form-control" id="inputPieceQuantity">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceUnit">Unit</label>
+						<select class="form-control" id="inputPieceUnit">
+							<option>Piece</option>
+							<option>Bag</option>
+							<option>Can</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="inputPieceGrossPrice" class="control-label">Gross Price</label>
+						<input type="number" step="any" class="form-control" id="inputPieceGrossPrice">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceDiscount" class="control-label">Discount</label>
+						<input type="number" step="any" min="0" max="100" class="form-control" id="inputPieceDiscount">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceNetPrice" class="control-label">Net Price</label>
+						<input type="text" class="form-control" id="inputPieceNetPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputPiecePercentProfit" class="control-label">Percent Profit</label>
+						<input type="number" step="any" class="form-control" id="inputPiecePercentProfit">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceSellingPrice" class="control-label">Selling Price</label>
+						<input type="text" class="form-control" id="inputPieceSellingPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceNetProfit" class="control-label">Net Profit</label>
+						<input type="text" class="form-control" id="inputPieceNetProfit" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputPieceStockCount" class="control-label">Stock Count</label>
+						<input type="number" step="1" class="form-control" id="inputPieceStockCount">
+					</div>
+				</form>
+			</div>
+			<div class="col-md-3 col-xs-3">
+				<h3 align="center">Inner Piece</h3>
+				<form>
+					<div class="form-group">
+						<label for="inputInnerPieceBarcode" class="control-label">Barcode</label>
+						<input type="text" class="form-control" id="inputInnerPieceBarcode">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceQuantity" class="control-label">Quantity</label>
+						<input type="number" step="1" min="0" class="form-control" id="inputInnerPieceQuantity">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceUnit">Unit</label>
+						<select class="form-control" id="inputInnerPieceUnit">
+							<option>Piece</option>
+							<option>Bag</option>
+							<option>Can</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceGrossPrice" class="control-label">Gross Price</label>
+						<input type="text" class="form-control" id="inputInnerPieceGrossPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceDiscount" class="control-label">Discount</label>
+						<input type="text" class="form-control" id="inputInnerPieceDiscount" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceNetPrice" class="control-label">Net Price</label>
+						<input type="text" class="form-control" id="inputInnerPieceNetPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPiecePercentProfit" class="control-label">Percent Profit</label>
+						<input type="number" step="any" class="form-control" id="inputInnerPiecePercentProfit">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceSellingPrice" class="control-label">Selling Price</label>
+						<input type="text" class="form-control" id="inputInnerPieceSellingPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceNetProfit" class="control-label">Net Profit</label>
+						<input type="text" class="form-control" id="inputInnerPieceNetProfit" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="inputInnerPieceStockCount" class="control-label">Stock Count</label>
+						<input type="number" step="1" class="form-control" id="inputInnerPieceStockCount">
+					</div>
+				</form>
+			</div>
+			<div class="col-md-3 col-xs-3">
+				<h3 align="center">2nd Inner Piece</h3>
+				<form>
+					<div class="form-group">
+						<label for="input2ndInnerPieceBarcode" class="control-label">Barcode</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceBarcode">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceQuantity" class="control-label">Quantity</label>
+						<input type="number" step="1" min="0" class="form-control" id="input2ndInnerPieceQuantity">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceUnit">Unit</label>
+						<select class="form-control" id="input2ndInnerPieceUnit">
+							<option>Piece</option>
+							<option>Bag</option>
+							<option>Can</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceGrossPrice" class="control-label">Gross Price</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceGrossPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceDiscount" class="control-label">Discount</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceDiscount" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceNetPrice" class="control-label">Net Price</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceNetPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPiecePercentProfit" class="control-label">Percent Profit</label>
+						<input type="number" step="any" class="form-control" id="input2ndInnerPiecePercentProfit">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceSellingPrice" class="control-label">Selling Price</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceSellingPrice" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceNetProfit" class="control-label">Net Profit</label>
+						<input type="text" class="form-control" id="input2ndInnerPieceNetProfit" disabled="disabled">
+					</div>
+					<div class="form-group">
+						<label for="input2ndInnerPieceStockCount" class="control-label">Stock Count</label>
+						<input type="number" step="1" class="form-control" id="input2ndInnerPieceStockCount">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    
+    <div class="modal-footer">
+    	<button class="btn btn-primary" data-bind="click: save">Save</button>
+        <button class="btn btn-warning" data-bind="click: cancel">Cancel</button>
+    </div>
+</div>

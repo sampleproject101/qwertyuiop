@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage/productform'], function (app, ko, productService, ProductForm) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage/productform', 'viewmodels/manage/productdetailsform'], function (app, ko, productService, ProductForm, ProductDetailsForm) {
 	var Product = function() {
 		this.productList = ko.observable();
 		
@@ -42,6 +42,23 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 					app.showMessage('Failed to create product.');
 				}
 			}
+		});
+	};
+	
+	Product.prototype.details = function(productId) {
+		var self = this;
+		
+		productService.getProduct(productId).done(function(data) {
+			ProductDetailsForm.show(data).then(function(response) {
+				if(response != undefined) {
+					if(response) {
+						app.showMessage('Product details successfully managed.');
+						self.refreshProductList();
+					} else {
+						app.showMessage('Failed to manage product.');
+					}
+				}
+			});
 		});
 	};
 	
