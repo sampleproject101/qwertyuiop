@@ -8,7 +8,8 @@
         'bootstrap': '../lib/bootstrap/js/bootstrap',
         'jquery': '../lib/jquery/jquery-1.9.1',
         'bootstrap-datetimepicker': '../lib/bootstrap/js/bootstrap-datetimepicker',
-        'moment': '../lib/moment/moment'
+        'moment': '../lib/moment/moment',
+        'fullcalendar' : '../lib/fullcalendar/js/fullcalendar.min'
     },
     shim: {
         'bootstrap': {
