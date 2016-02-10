@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'objects/productdetailsbean'], function (dialog, ko, ProductDetails, ProductDetailsBean) {
+define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails'], function (dialog, ko, ProductDetails) {
     var ProductDetailsForm = function(product) {
         this.product = product;
         
