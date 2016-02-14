@@ -5,11 +5,15 @@ define(['knockout'], function (ko) {
     	},
     	
     	computeSellingPrice: function(base, percentProfit) {
-    		return base + (base * percentProfit / 100);	//I need ceil .. create roundoff function
+    		return this.round(base + (base * percentProfit / 100));
     	},
     	
     	computeNetProfit: function(base, selling) {
     		return selling - base;
+    	},
+    	
+    	round: function(number) {
+    		return (Math.ceil(number * 4)) / 4;
     	}
     };
 });

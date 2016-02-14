@@ -1,15 +1,9 @@
 <div id="divProductDetailsModal" class="modal-content modal-lg">
     <div class="modal-header">
-        <h3>Manage Product Details</h3>
+        <h3 align="center">Manage Product Details - <span data-bind="text: product.name"></span></h3>
     </div>
     
     <div class="modal-body">
-    	<div class="row">
-    		<div class="col-md-12">
-    			<span data-bind="text: product.name"></span>
-    		</div>
-    	</div>
-    	
 		<div class="row">
 			<div data-bind="compose: { model: productDetailsFormModel.whole }" class="col-md-3 col-xs-3"></div>
 			<div data-bind="compose: { model: productDetailsFormModel.piece }" class="col-md-3 col-xs-3"></div>
