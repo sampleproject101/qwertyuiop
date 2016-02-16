@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modules/utility'], function (dialog, ko, ProductDetails, utility) {
+define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modules/utility', 'modules/productservice'], function (dialog, ko, ProductDetails, utility, productService) {
     var ProductDetailsForm = function(product) {
         this.product = product;
         
@@ -28,7 +28,7 @@ define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modul
     	
     	self.productDetailsFormModel.id(self.product.id);
 
-    	self.productDetailsFormModel.piece.quantity.subscribe(function(newValue) {
+    	/*self.productDetailsFormModel.piece.quantity.subscribe(function(newValue) {
     		if(newValue > 1) {
     			self.productDetailsFormModel.whole.quantity(1);
     		}
@@ -160,7 +160,7 @@ define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modul
     	self.productDetailsFormModel.secondInnerPiece.netPrice.subscribe(function(newValue) {
     		self.productDetailsFormModel.secondInnerPiece.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.secondInnerPiece.percentProfit()));
     		self.productDetailsFormModel.secondInnerPiece.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.secondInnerPiece.sellingPrice()));
-    	});
+    	});*/
     };
     
     ProductDetailsForm.show = function(product) {
@@ -170,7 +170,9 @@ define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modul
     ProductDetailsForm.prototype.save = function() {
     	var self = this;
     	
-        alert('save');
+    	productService.saveProductDetails(ko.toJSON(self.productDetailsFormModel.whole.formModel)).done(function(data) {
+        	dialog.close(self, data);
+        });
     };
     
     ProductDetailsForm.prototype.cancel = function() {

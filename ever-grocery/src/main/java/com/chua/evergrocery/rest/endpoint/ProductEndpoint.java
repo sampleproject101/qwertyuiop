@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.objects.ObjectList;
@@ -59,5 +60,23 @@ public class ProductEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Boolean removeProduct(@FormParam("productId") Long productId) {
 		return productHandler.removeProduct(productId);
+	}
+	
+	@POST
+	@Path("/savedetails")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Boolean saveProductDetails(@FormParam("productDetailsFormData") String productDetailsFormData) throws IOException {
+		final Boolean success;
+		
+		System.out.println("raw ============= " + productDetailsFormData);
+		final ProductDetailsFormBean productDetailsForm = new ObjectMapper().readValue(productDetailsFormData, ProductDetailsFormBean.class);
+		System.out.println("details =============== " + productDetailsForm);
+		/*if(productForm.getId() != null) {
+			success = productHandler.updateProduct(productForm);
+		} else {
+			success = productHandler.createProduct(productForm);
+		}*/
+		
+		return true;
 	}
 }
