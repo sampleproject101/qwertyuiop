@@ -37,6 +37,16 @@ define(['jquery'], function ($) {
     				productId: productId
     			}
     		});
+    	},
+    	
+    	saveProductDetails: function(productDetailsFormData) {
+    		return $.ajax({
+    			url: '/services/product/savedetails',
+    			method: 'POST',
+    			data: {
+    				productDetailsFormData: productDetailsFormData
+    			}
+    		});
     	}
     };
 });

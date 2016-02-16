@@ -8,48 +8,58 @@ define(['knockout'], function (ko) {
     	
     	this.enableConfig = enableConfig;
     	
-        this.barcode = ko.observable();
-        
-        this.quantity = ko.observable();
+    	this.formModel = {
+    		barcode: ko.observable(),
+    		
+    		quantity: ko.observable(),
+    		
+    		unit: ko.observable(),
+    		
+    		grossPrice: ko.observable(),
+    		
+    		discount: ko.observable(),
+    		
+    		netPrice: ko.observable(),
+    		
+    		percentProfit: ko.observable(),
+    		
+    		sellingPrice: ko.observable(),
+    		
+    		netProfit: ko.observable(),
+    		
+    		stockCount: ko.observable()
+    	};
+    	
         this.enableQuantity = ko.observable();
         
-        this.unit = ko.observable();
-        
-        this.grossPrice = ko.observable();
         this.enableGrossPrice = ko.observable();
         
-        this.discount = ko.observable();
         this.enableDiscount = ko.observable();
 
-        this.netPrice = ko.observable();
         this.enableNetPrice = ko.observable();
         
-        this.percentProfit = ko.observable();
         this.enablePercentProfit = ko.observable();
         
-        this.sellingPrice = ko.observable();
         this.enableSellingPrice = ko.observable();
         
-        this.netProfit = ko.observable();
         this.enableNetProfit = ko.observable();
         
-        this.stockCount = ko.observable();
         this.enableStockCount = ko.observable();
     };
     
     ProductDetails.prototype.activate = function() {
     	var self = this;
     	
-    	self.barcode(self.productDetails.barcode);
-    	self.quantity(self.productDetails.quantity);
-    	self.unit(self.productDetails.unit);
-    	self.grossPrice(self.productDetails.grossPrice);
-    	self.discount(self.productDetails.discount);
-    	self.netPrice(self.productDetails.netPrice);
-    	self.percentProfit(self.productDetails.percentProfit);
-    	self.sellingPrice(self.productDetails.sellingPrice);
-    	self.netProfit(self.productDetails.netProfit);
-    	self.stockCount(self.productDetails.stockCount);
+    	self.formModel.barcode(self.productDetails.barcode);
+    	self.formModel.quantity(self.productDetails.quantity);
+    	self.formModel.unit(self.productDetails.unit);
+    	self.formModel.grossPrice(self.productDetails.grossPrice);
+    	self.formModel.discount(self.productDetails.discount);
+    	self.formModel.netPrice(self.productDetails.netPrice);
+    	self.formModel.percentProfit(self.productDetails.percentProfit);
+    	self.formModel.sellingPrice(self.productDetails.sellingPrice);
+    	self.formModel.netProfit(self.productDetails.netProfit);
+    	self.formModel.stockCount(self.productDetails.stockCount);
     	
     	self.enableQuantity(self.enableConfig.enableQuantity);
     	self.enableGrossPrice(self.enableConfig.enableGrossPrice);

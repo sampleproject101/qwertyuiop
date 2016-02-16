@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chua.evergrocery.Application;
+import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.database.service.BrandService;
@@ -72,6 +73,11 @@ public class ProductHandlerImpl implements ProductHandler {
 	@Override
 	public Boolean removeProduct(Long productId) {
 		return productService.delete(productService.find(productId));
+	}
+	
+	@Override
+	public Boolean createProductDetails(ProductDetailsFormBean productDetailsForm) {
+		return true;
 	}
 	
 	private void setProduct(Product product, ProductFormBean productForm) {
