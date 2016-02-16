@@ -25,6 +25,7 @@ public class ProductDetail extends BaseObject {
 	
 	private String barcode;
 	private Long quantity;
+	private Float beforeVatPrice;
 	private Float grossPrice;
 	private Float discount;
 	private Float netPrice;
@@ -32,7 +33,7 @@ public class ProductDetail extends BaseObject {
 	private Float sellingPrice;
 	private Float netProfit;
 	
-	private String unitType; // convert to enum
+	private String unitType;
 	private Integer typeDepth;
 	
 	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
@@ -65,6 +66,16 @@ public class ProductDetail extends BaseObject {
 	
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
+	}
+	
+	@Basic
+	@Column(name = "before_vat_price")
+	public Float getBeforeVatPrice() {
+		return beforeVatPrice;
+	}
+	
+	public void setBeforeVatPrice(Float beforeVatPrice) {
+		this.beforeVatPrice = beforeVatPrice;
 	}
 	
 	@Basic
