@@ -28,139 +28,139 @@ define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modul
     	
     	self.productDetailsFormModel.id(self.product.id);
 
-    	/*self.productDetailsFormModel.piece.quantity.subscribe(function(newValue) {
+    	self.productDetailsFormModel.piece.formModel.quantity.subscribe(function(newValue) {
     		if(newValue > 1) {
-    			self.productDetailsFormModel.whole.quantity(1);
+    			self.productDetailsFormModel.whole.formModel.quantity(1);
     		}
     		else {
-    			self.productDetailsFormModel.whole.quantity(0);
+    			self.productDetailsFormModel.whole.formModel.quantity(0);
     		}
     	});
     	
-    	self.productDetailsFormModel.whole.grossPrice(0);
-    	self.productDetailsFormModel.whole.discount(0);
-    	self.productDetailsFormModel.whole.netPrice(0);
-    	self.productDetailsFormModel.whole.percentProfit(3.75);
-    	self.productDetailsFormModel.whole.sellingPrice(0);
-    	self.productDetailsFormModel.whole.netProfit(0);
-    	self.productDetailsFormModel.whole.stockCount(0);
+    	self.productDetailsFormModel.whole.formModel.grossPrice(0);
+    	self.productDetailsFormModel.whole.formModel.discount(0);
+    	self.productDetailsFormModel.whole.formModel.netPrice(0);
+    	self.productDetailsFormModel.whole.formModel.percentProfit(3.75);
+    	self.productDetailsFormModel.whole.formModel.sellingPrice(0);
+    	self.productDetailsFormModel.whole.formModel.netProfit(0);
+    	self.productDetailsFormModel.whole.formModel.stockCount(0);
     	
-    	self.productDetailsFormModel.whole.grossPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.whole.discount()));
+    	self.productDetailsFormModel.whole.formModel.grossPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.whole.formModel.discount()));
     	});
     	
-    	self.productDetailsFormModel.whole.discount.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.netPrice(utility.computeNetPrice(self.productDetailsFormModel.whole.grossPrice(), newValue));
+    	self.productDetailsFormModel.whole.formModel.discount.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.whole.formModel.grossPrice(), newValue));
     	});
     	
-    	self.productDetailsFormModel.whole.percentProfit.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.whole.netPrice(), newValue));
-    		self.productDetailsFormModel.whole.netProfit(utility.computeNetProfit(self.productDetailsFormModel.whole.netPrice(), self.productDetailsFormModel.whole.sellingPrice()));
+    	self.productDetailsFormModel.whole.formModel.percentProfit.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.whole.formModel.netPrice(), newValue));
+    		self.productDetailsFormModel.whole.formModel.netProfit(utility.computeNetProfit(self.productDetailsFormModel.whole.formModel.netPrice(), self.productDetailsFormModel.whole.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.whole.netPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.whole.percentProfit()));
-    		self.productDetailsFormModel.whole.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.whole.sellingPrice()));
+    	self.productDetailsFormModel.whole.formModel.netPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.whole.formModel.percentProfit()));
+    		self.productDetailsFormModel.whole.formModel.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.whole.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.piece.quantity(0);
-    	self.productDetailsFormModel.piece.grossPrice(0);
-    	self.productDetailsFormModel.piece.discount(0);
-    	self.productDetailsFormModel.piece.netPrice(0);
-    	self.productDetailsFormModel.piece.percentProfit(5);
-    	self.productDetailsFormModel.piece.sellingPrice(0);
-    	self.productDetailsFormModel.piece.netProfit(0);
-    	self.productDetailsFormModel.piece.stockCount(0);
+    	self.productDetailsFormModel.piece.formModel.quantity(0);
+    	self.productDetailsFormModel.piece.formModel.grossPrice(0);
+    	self.productDetailsFormModel.piece.formModel.discount(0);
+    	self.productDetailsFormModel.piece.formModel.netPrice(0);
+    	self.productDetailsFormModel.piece.formModel.percentProfit(5);
+    	self.productDetailsFormModel.piece.formModel.sellingPrice(0);
+    	self.productDetailsFormModel.piece.formModel.netProfit(0);
+    	self.productDetailsFormModel.piece.formModel.stockCount(0);
     	
-    	self.productDetailsFormModel.piece.quantity.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.grossPrice(self.productDetailsFormModel.piece.grossPrice() * newValue);
+    	self.productDetailsFormModel.piece.formModel.quantity.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.grossPrice(self.productDetailsFormModel.piece.formModel.grossPrice() * newValue);
     	});
     	
-    	self.productDetailsFormModel.piece.grossPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.grossPrice(newValue * self.productDetailsFormModel.piece.quantity());
-    		self.productDetailsFormModel.piece.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.piece.discount()));
-    		self.productDetailsFormModel.innerPiece.grossPrice(newValue / self.productDetailsFormModel.innerPiece.quantity());
+    	self.productDetailsFormModel.piece.formModel.grossPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.grossPrice(newValue * self.productDetailsFormModel.piece.formModel.quantity());
+    		self.productDetailsFormModel.piece.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.piece.formModel.discount()));
+    		self.productDetailsFormModel.innerPiece.formModel.grossPrice(newValue / self.productDetailsFormModel.innerPiece.formModel.quantity());
     	});
     	
-    	self.productDetailsFormModel.piece.discount.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.discount(newValue);
-    		self.productDetailsFormModel.piece.netPrice(utility.computeNetPrice(self.productDetailsFormModel.piece.grossPrice(), newValue));
-    		self.productDetailsFormModel.innerPiece.discount(newValue);
-    		self.productDetailsFormModel.secondInnerPiece.discount(newValue);
+    	self.productDetailsFormModel.piece.formModel.discount.subscribe(function(newValue) {
+    		self.productDetailsFormModel.whole.formModel.discount(newValue);
+    		self.productDetailsFormModel.piece.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.piece.formModel.grossPrice(), newValue));
+    		self.productDetailsFormModel.innerPiece.formModel.discount(newValue);
+    		self.productDetailsFormModel.secondInnerPiece.formModel.discount(newValue);
     	});
     	
-    	self.productDetailsFormModel.piece.percentProfit.subscribe(function(newValue) {
-    		self.productDetailsFormModel.piece.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.piece.netPrice(), newValue));
-    		self.productDetailsFormModel.piece.netProfit(utility.computeNetProfit(self.productDetailsFormModel.piece.netPrice(), self.productDetailsFormModel.piece.sellingPrice()));
+    	self.productDetailsFormModel.piece.formModel.percentProfit.subscribe(function(newValue) {
+    		self.productDetailsFormModel.piece.formModel.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.piece.formModel.netPrice(), newValue));
+    		self.productDetailsFormModel.piece.formModel.netProfit(utility.computeNetProfit(self.productDetailsFormModel.piece.formModel.netPrice(), self.productDetailsFormModel.piece.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.piece.netPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.piece.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.piece.percentProfit()));
-    		self.productDetailsFormModel.piece.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.piece.sellingPrice()));
+    	self.productDetailsFormModel.piece.formModel.netPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.piece.formModel.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.piece.formModel.percentProfit()));
+    		self.productDetailsFormModel.piece.formModel.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.piece.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.innerPiece.quantity(0);
-    	self.productDetailsFormModel.innerPiece.grossPrice(0);
-    	self.productDetailsFormModel.innerPiece.discount(0);
-    	self.productDetailsFormModel.innerPiece.netPrice(0);
-    	self.productDetailsFormModel.innerPiece.percentProfit(7.5);
-    	self.productDetailsFormModel.innerPiece.sellingPrice(0);
-    	self.productDetailsFormModel.innerPiece.netProfit(0);
-    	self.productDetailsFormModel.innerPiece.stockCount(0);
+    	self.productDetailsFormModel.innerPiece.formModel.quantity(0);
+    	self.productDetailsFormModel.innerPiece.formModel.grossPrice(0);
+    	self.productDetailsFormModel.innerPiece.formModel.discount(0);
+    	self.productDetailsFormModel.innerPiece.formModel.netPrice(0);
+    	self.productDetailsFormModel.innerPiece.formModel.percentProfit(7.5);
+    	self.productDetailsFormModel.innerPiece.formModel.sellingPrice(0);
+    	self.productDetailsFormModel.innerPiece.formModel.netProfit(0);
+    	self.productDetailsFormModel.innerPiece.formModel.stockCount(0);
     	
-    	self.productDetailsFormModel.innerPiece.quantity.subscribe(function(newValue) {
-    		self.productDetailsFormModel.innerPiece.grossPrice(self.productDetailsFormModel.piece.grossPrice() / newValue);
+    	self.productDetailsFormModel.innerPiece.formModel.quantity.subscribe(function(newValue) {
+    		self.productDetailsFormModel.innerPiece.formModel.grossPrice(self.productDetailsFormModel.piece.formModel.grossPrice() / newValue);
     	});
     	
-    	self.productDetailsFormModel.innerPiece.grossPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.innerPiece.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.innerPiece.discount()));
-    		self.productDetailsFormModel.secondInnerPiece.grossPrice(newValue / self.productDetailsFormModel.secondInnerPiece.quantity());
+    	self.productDetailsFormModel.innerPiece.formModel.grossPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.innerPiece.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.innerPiece.formModel.discount()));
+    		self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(newValue / self.productDetailsFormModel.secondInnerPiece.formModel.quantity());
     	});
     	
-    	self.productDetailsFormModel.innerPiece.discount.subscribe(function(newValue) {
-    		self.productDetailsFormModel.innerPiece.netPrice(utility.computeNetPrice(self.productDetailsFormModel.innerPiece.grossPrice(), newValue));
+    	self.productDetailsFormModel.innerPiece.formModel.discount.subscribe(function(newValue) {
+    		self.productDetailsFormModel.innerPiece.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.innerPiece.formModel.grossPrice(), newValue));
     	});
     	
-    	self.productDetailsFormModel.innerPiece.percentProfit.subscribe(function(newValue) {
-    		self.productDetailsFormModel.innerPiece.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.innerPiece.netPrice(), newValue));
-    		self.productDetailsFormModel.innerPiece.netProfit(utility.computeNetProfit(self.productDetailsFormModel.innerPiece.netPrice(), self.productDetailsFormModel.innerPiece.sellingPrice()));
+    	self.productDetailsFormModel.innerPiece.formModel.percentProfit.subscribe(function(newValue) {
+    		self.productDetailsFormModel.innerPiece.formModel.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.innerPiece.formModel.netPrice(), newValue));
+    		self.productDetailsFormModel.innerPiece.formModel.netProfit(utility.computeNetProfit(self.productDetailsFormModel.innerPiece.formModel.netPrice(), self.productDetailsFormModel.innerPiece.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.innerPiece.netPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.innerPiece.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.innerPiece.percentProfit()));
-    		self.productDetailsFormModel.innerPiece.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.innerPiece.sellingPrice()));
+    	self.productDetailsFormModel.innerPiece.formModel.netPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.innerPiece.formModel.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.innerPiece.formModel.percentProfit()));
+    		self.productDetailsFormModel.innerPiece.formModel.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.innerPiece.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.secondInnerPiece.quantity(0);
-    	self.productDetailsFormModel.secondInnerPiece.grossPrice(0);
-    	self.productDetailsFormModel.secondInnerPiece.discount(0);
-    	self.productDetailsFormModel.secondInnerPiece.netPrice(0);
-    	self.productDetailsFormModel.secondInnerPiece.percentProfit(11.25);
-    	self.productDetailsFormModel.secondInnerPiece.sellingPrice(0);
-    	self.productDetailsFormModel.secondInnerPiece.netProfit(0);
-    	self.productDetailsFormModel.secondInnerPiece.stockCount(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.quantity(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.discount(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.netPrice(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.percentProfit(11.25);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.sellingPrice(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.netProfit(0);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.stockCount(0);
     	
-    	self.productDetailsFormModel.secondInnerPiece.quantity.subscribe(function(newValue) {
-    		self.productDetailsFormModel.secondInnerPiece.grossPrice(self.productDetailsFormModel.innerPiece.grossPrice() / newValue);
+    	self.productDetailsFormModel.secondInnerPiece.formModel.quantity.subscribe(function(newValue) {
+    		self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(self.productDetailsFormModel.innerPiece.formModel.grossPrice() / newValue);
     	});
     	
-    	self.productDetailsFormModel.secondInnerPiece.grossPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.secondInnerPiece.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.secondInnerPiece.discount()));
+    	self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.secondInnerPiece.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.secondInnerPiece.formModel.discount()));
     	});
     	
-    	self.productDetailsFormModel.secondInnerPiece.discount.subscribe(function(newValue) {
-    		self.productDetailsFormModel.secondInnerPiece.netPrice(utility.computeNetPrice(self.productDetailsFormModel.secondInnerPiece.grossPrice(), newValue));
+    	self.productDetailsFormModel.secondInnerPiece.formModel.discount.subscribe(function(newValue) {
+    		self.productDetailsFormModel.secondInnerPiece.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(), newValue));
     	});
     	
-    	self.productDetailsFormModel.secondInnerPiece.percentProfit.subscribe(function(newValue) {
-    		self.productDetailsFormModel.secondInnerPiece.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.secondInnerPiece.netPrice(), newValue));
-    		self.productDetailsFormModel.secondInnerPiece.netProfit(utility.computeNetProfit(self.productDetailsFormModel.secondInnerPiece.netPrice(), self.productDetailsFormModel.secondInnerPiece.sellingPrice()));
+    	self.productDetailsFormModel.secondInnerPiece.formModel.percentProfit.subscribe(function(newValue) {
+    		self.productDetailsFormModel.secondInnerPiece.formModel.sellingPrice(utility.computeSellingPrice(self.productDetailsFormModel.secondInnerPiece.formModel.netPrice(), newValue));
+    		self.productDetailsFormModel.secondInnerPiece.formModel.netProfit(utility.computeNetProfit(self.productDetailsFormModel.secondInnerPiece.formModel.netPrice(), self.productDetailsFormModel.secondInnerPiece.formModel.sellingPrice()));
     	});
     	
-    	self.productDetailsFormModel.secondInnerPiece.netPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.secondInnerPiece.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.secondInnerPiece.percentProfit()));
-    		self.productDetailsFormModel.secondInnerPiece.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.secondInnerPiece.sellingPrice()));
-    	});*/
+    	self.productDetailsFormModel.secondInnerPiece.formModel.netPrice.subscribe(function(newValue) {
+    		self.productDetailsFormModel.secondInnerPiece.formModel.sellingPrice(utility.computeSellingPrice(newValue, self.productDetailsFormModel.secondInnerPiece.formModel.percentProfit()));
+    		self.productDetailsFormModel.secondInnerPiece.formModel.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.secondInnerPiece.formModel.sellingPrice()));
+    	});
     };
     
     ProductDetailsForm.show = function(product) {
