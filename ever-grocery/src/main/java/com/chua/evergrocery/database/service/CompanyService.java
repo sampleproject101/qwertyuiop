@@ -7,11 +7,12 @@ import com.chua.evergrocery.database.prototype.CompanyPrototype;
 
 public interface CompanyService
 		extends Service<Company, Long>, CompanyPrototype {
-
 	/**
 	 * Find all company ordered by name.
 	 * 
 	 * @return the list of company
 	 */
 	List<Company> findAllOrderByName();
+	
+	Boolean isExistsByName(String name);
 }

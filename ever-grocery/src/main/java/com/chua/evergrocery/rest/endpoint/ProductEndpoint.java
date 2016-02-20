@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
@@ -44,23 +45,23 @@ public class ProductEndpoint {
 	@POST
 	@Path("/save")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveProduct(@FormParam("productFormData") String productFormData) throws IOException {
-		final Boolean success;
+	public ResultBean saveProduct(@FormParam("productFormData") String productFormData) throws IOException {
+		final ResultBean result;
 		
 		final ProductFormBean productForm = new ObjectMapper().readValue(productFormData, ProductFormBean.class);
 		if(productForm.getId() != null) {
-			success = productHandler.updateProduct(productForm);
+			result = productHandler.updateProduct(productForm);
 		} else {
-			success = productHandler.createProduct(productForm);
+			result = productHandler.createProduct(productForm);
 		}
 		
-		return success;
+		return result;
 	}
 	
 	@POST
 	@Path("/remove")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean removeProduct(@FormParam("productId") Long productId) {
+	public ResultBean removeProduct(@FormParam("productId") Long productId) {
 		return productHandler.removeProduct(productId);
 	}
 	

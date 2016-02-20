@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'modules/distributorservice'], function (dialog, ko, distributorService) {
+define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/distributorservice'], function (dialog, app, ko, distributorService) {
     var DistributorForm = function(preTitle, distributor) {
         this.preTitle = preTitle;
         this.distributor = distributor;
@@ -29,8 +29,11 @@ define(['plugins/dialog', 'knockout', 'modules/distributorservice'], function (d
     DistributorForm.prototype.save = function() {
     	var self = this;
     	
-    	distributorService.saveDistributor(ko.toJSON(self.distributorFormModel)).done(function(data) {
-        	dialog.close(self, data);
+    	distributorService.saveDistributor(ko.toJSON(self.distributorFormModel)).done(function(result) {
+        	if(result.success) {
+        		dialog.close(self);	
+        	} 
+        	app.showMessage(result.message);
         });
     };
     

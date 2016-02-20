@@ -5,4 +5,5 @@ import com.chua.evergrocery.database.prototype.ProductPrototype;
 
 public interface ProductDAO extends DAO<Product, Long>, ProductPrototype {
 
+	Product findByName(String name);
 }

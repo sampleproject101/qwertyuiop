@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandservice', 'modules/categoryservice', 'modules/companyservice', 'modules/distributorservice'], function (dialog, ko, productService, brandService,
+define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/productservice', 'modules/brandservice', 'modules/categoryservice', 'modules/companyservice', 'modules/distributorservice'], function (dialog, app, ko, productService, brandService,
 		categoryService, companyService, distributorService) {
     var ProductForm = function(preTitle, product) {
         this.preTitle = preTitle;
@@ -53,8 +53,11 @@ define(['plugins/dialog', 'knockout', 'modules/productservice', 'modules/brandse
     ProductForm.prototype.save = function() {
     	var self = this;
     	
-        productService.saveProduct(ko.toJSON(self.productFormModel)).done(function(data) {
-        	dialog.close(self, data);
+        productService.saveProduct(ko.toJSON(self.productFormModel)).done(function(result) {
+        	if(result.success) {
+        		dialog.close(self);	
+        	} 
+        	app.showMessage(result.message);
         });
     };
     

@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chua.evergrocery.beans.DistributorFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Distributor;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.DistributorHandler;
@@ -42,23 +43,23 @@ public class DistributorEndpoint {
 	@POST
 	@Path("/save")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveDistributor(@FormParam("distributorFormData") String distributorFormData) throws IOException {
-		final Boolean success;
+	public ResultBean saveDistributor(@FormParam("distributorFormData") String distributorFormData) throws IOException {
+		final ResultBean result;
 		
 		final DistributorFormBean distributorForm = new ObjectMapper().readValue(distributorFormData, DistributorFormBean.class);
 		if(distributorForm.getId() != null) {
-			success = distributorHandler.updateDistributor(distributorForm);
+			result = distributorHandler.updateDistributor(distributorForm);
 		} else {
-			success = distributorHandler.createDistributor(distributorForm);
+			result = distributorHandler.createDistributor(distributorForm);
 		}
 		
-		return success;
+		return result;
 	}
 	
 	@POST
 	@Path("/remove")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean removeDistributor(@FormParam("distributorId") Long distributorId) {
+	public ResultBean removeDistributor(@FormParam("distributorId") Long distributorId) {
 		return distributorHandler.removeDistributor(distributorId);
 	}
 	

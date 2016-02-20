@@ -1,5 +1,6 @@
 package com.chua.evergrocery.database.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,10 @@ public class ProductServiceImpl
 	@Override
 	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
 		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	}
+	
+	@Override
+	public Boolean isExistsByName(String name) {
+		return dao.findByName(StringUtils.trimToEmpty(name)) != null;
 	}
 }

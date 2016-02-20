@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chua.evergrocery.Application;
 import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.database.entity.ProductDetail;
 import com.chua.evergrocery.database.service.BrandService;
@@ -54,32 +56,73 @@ public class ProductHandlerImpl implements ProductHandler {
 	}
 	
 	@Override
-	public Boolean createProduct(ProductFormBean productForm) {
-		final Product product = new Product();
+	public ResultBean createProduct(ProductFormBean productForm) {
+		final ResultBean result;
 		
-		setProduct(product, productForm);
+		if(!productService.isExistsByName(productForm.getName())) {
+			final Product product = new Product();
+			setProduct(product, productForm);
+			
+			result = new ResultBean();
+			result.setSuccess(productService.insert(product) != null);
+			if(result.getSuccess()) {
+				result.setMessage("Product successfully created.");
+			} else {
+				result.setMessage("Failed to create product.");
+			}
+		} else {
+			result = new ResultBean(false, "Product \"" + productForm.getName() + "\" already exists!");
+		}
 		
-		return productService.insert(product) != null;
+		return result;
 	}
 	
 	@Override
-	public Boolean updateProduct(ProductFormBean productForm) {
-		final Boolean success;
+	public ResultBean updateProduct(ProductFormBean productForm) {
+		final ResultBean result;
 		
 		final Product product = productService.find(productForm.getId());
 		if(product != null) {
-			setProduct(product, productForm);
-			success = productService.update(product);
+			if(!(StringUtils.trimToEmpty(product.getName()).equalsIgnoreCase(productForm.getName())) &&
+					productService.isExistsByName(productForm.getName())) {
+				result = new ResultBean(false, "Product \"" + productForm.getName() + "\" already exists!");
+			} else {
+				setProduct(product, productForm);
+				
+				result = new ResultBean();
+				result.setSuccess(productService.update(product));
+				if(result.getSuccess()) {
+					result.setMessage("Product successfully updated.");
+				} else {
+					result.setMessage("Failed to update product.");
+				}
+			}
 		} else {
-			success = Boolean.FALSE;
+			result = new ResultBean(false, "Product not found.");
 		}
 		
-		return success;
+		return result;
 	}
 
 	@Override
-	public Boolean removeProduct(Long productId) {
-		return productService.delete(productService.find(productId));
+	public ResultBean removeProduct(Long productId) {
+		final ResultBean result;
+		
+		final Product product = productService.find(productId);
+		if(product != null) {
+			result = new ResultBean();
+			
+			result.setSuccess(productService.delete(product));
+			if(result.getSuccess()) {
+				result.setMessage("Successfully removed Product \"" + product.getName() + "\".");
+			} else {
+				result.setMessage("Failed to remove Product \"" + product.getName() + "\".");
+			}
+		} else {
+			result = new ResultBean(false, "Product not found.");
+		}
+		
+		return result;
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.chua.evergrocery.rest.handler;
 import java.util.List;
 
 import com.chua.evergrocery.beans.DistributorFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Distributor;
 import com.chua.evergrocery.objects.ObjectList;
 
@@ -12,11 +13,11 @@ public interface DistributorHandler {
 	
 	Distributor getDistributor(Long distributorId);
 	
-	Boolean createDistributor(DistributorFormBean distributorForm);
+	ResultBean createDistributor(DistributorFormBean distributorForm);
 	
-	Boolean updateDistributor(DistributorFormBean distributorForm);
+	ResultBean updateDistributor(DistributorFormBean distributorForm);
 	
-	Boolean removeDistributor(Long distributorId);
+	ResultBean removeDistributor(Long distributorId);
 	
 	List<Distributor> getDistributorList();
 }

@@ -37,4 +37,13 @@ public class DistributorDAOImpl
 	public List<Distributor> findAllWithOrder(Order[] orders) {
 		return findAllByCriterionList(null, null, null, orders, Restrictions.eq("isValid", Boolean.TRUE));
 	}
+	
+	@Override
+	public Distributor findByName(String name) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		conjunction.add(Restrictions.eq("name", name));
+		
+		return findUniqueResult(null, null, null, conjunction);
+	}
 }

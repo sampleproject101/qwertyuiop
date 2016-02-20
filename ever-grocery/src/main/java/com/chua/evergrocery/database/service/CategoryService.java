@@ -7,11 +7,12 @@ import com.chua.evergrocery.database.prototype.CategoryPrototype;
 
 public interface CategoryService 
 		extends Service<Category, Long>, CategoryPrototype {
-
 	/**
 	 * Find all category ordered by name.
 	 * 
 	 * @return the list of category
 	 */
 	List<Category> findAllOrderByName();
+	
+	Boolean isExistsByName(String name);
 }

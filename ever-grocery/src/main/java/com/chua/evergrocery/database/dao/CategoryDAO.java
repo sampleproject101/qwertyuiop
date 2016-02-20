@@ -17,4 +17,6 @@ public interface CategoryDAO extends DAO<Category, Long>, CategoryPrototype {
 	 * @return the list of category
 	 */
 	List<Category> findAllWithOrder(Order[] orders);
+	
+	Category findByName(String name);
 }

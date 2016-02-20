@@ -33,15 +33,8 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 	Company.prototype.create = function() {
 		var self = this;
 		
-		CompanyForm.show('Create', new Object()).then(function(response) {
-			if(response != undefined) {
-				if(response) {
-					app.showMessage('Company successfully created.');
-					self.refreshCompanyList();
-				} else {
-					app.showMessage('Failed to create company.');
-				}
-			}
+		CompanyForm.show('Create', new Object()).then(function() {
+			self.refreshCompanyList();
 		});
 	};
 	
@@ -49,15 +42,8 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 		var self = this;
 		
 		companyService.getCompany(companyId).done(function(data) {
-			CompanyForm.show('Update', data).then(function(response) {
-				if(response != undefined) {
-					if(response) {
-						app.showMessage('Company successfully updated.');
-						self.refreshCompanyList();
-					} else {
-						app.showMessage('Failed to update company.');
-					}
-				}
+			CompanyForm.show('Update', data).then(function() {
+				self.refreshCompanyList();
 			});
 		});
 	};
@@ -70,13 +56,9 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {
 			if(confirm) {
-				companyService.removeCompany(companyId).done(function(data) {
-					if(data) {
-						self.refreshCompanyList();
-						app.showMessage('Successfully removed Company "' + companyName + '".');
-					} else {
-						app.showMessage('Failed to remove Company "' + companyName + '".');
-					}
+				companyService.removeCompany(companyId).done(function(result) {
+					self.refreshCompanyList();
+					app.showMessage(result.message);
 				});
 			}
 		})

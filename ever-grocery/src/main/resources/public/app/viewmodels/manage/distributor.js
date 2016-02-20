@@ -33,15 +33,8 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 	Distributor.prototype.create = function() {
 		var self = this;
 		
-		DistributorForm.show('Create', new Object()).then(function(response) {
-			if(response != undefined) {
-				if(response) {
-					app.showMessage('Distributor successfully created.');
-					self.refreshDistributorList();
-				} else {
-					app.showMessage('Failed to create distributor.');
-				}
-			}
+		DistributorForm.show('Create', new Object()).then(function() {
+			self.refreshDistributorList();
 		});
 	};
 	
@@ -49,15 +42,8 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 		var self = this;
 		
 		distributorService.getDistributor(distributorId).done(function(data) {
-			DistributorForm.show('Update', data).then(function(response) {
-				if(response != undefined) {
-					if(response) {
-						app.showMessage('Distributor successfully updated.');
-						self.refreshDistributorList();
-					} else {
-						app.showMessage('Failed to update distributor.');
-					}
-				}
+			DistributorForm.show('Update', data).then(function() {
+				self.refreshDistributorList();
 			});
 		});
 	};
@@ -70,13 +56,9 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {
 			if(confirm) {
-				distributorService.removeDistributor(distributorId).done(function(data) {
-					if(data) {
-						self.refreshDistributorList();
-						app.showMessage('Successfully removed Distributor "' + distributorName + '".');
-					} else {
-						app.showMessage('Failed to remove Distributor "' + distributorName + '".');
-					}
+				distributorService.removeDistributor(distributorId).done(function(result) {
+					self.refreshDistributorList();
+					app.showMessage(result.message);
 				});
 			}
 		})

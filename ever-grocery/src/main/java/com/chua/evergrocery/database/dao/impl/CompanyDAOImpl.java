@@ -36,4 +36,13 @@ public class CompanyDAOImpl
 	public List<Company> findAllWithOrder(Order[] orders) {
 		return findAllByCriterionList(null, null, null, orders, Restrictions.eq("isValid", Boolean.TRUE));
 	}
+	
+	@Override
+	public Company findByName(String name) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		conjunction.add(Restrictions.eq("name", name));
+		
+		return findUniqueResult(null, null, null, conjunction);
+	}
 }

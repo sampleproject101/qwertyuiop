@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'modules/categoryservice'], function (dialog, ko, categoryService) {
+define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/categoryservice'], function (dialog, app, ko, categoryService) {
     var CategoryForm = function(preTitle, category) {
         this.preTitle = preTitle;
         this.category = category;
@@ -23,8 +23,11 @@ define(['plugins/dialog', 'knockout', 'modules/categoryservice'], function (dial
     CategoryForm.prototype.save = function() {
     	var self = this;
     	
-    	categoryService.saveCategory(ko.toJSON(self.categoryFormModel)).done(function(data) {
-        	dialog.close(self, data);
+    	categoryService.saveCategory(ko.toJSON(self.categoryFormModel)).done(function(result) {
+        	if(result.success) {
+        		dialog.close(self);	
+        	} 
+        	app.showMessage(result.message);
         });
     };
     

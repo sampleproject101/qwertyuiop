@@ -33,15 +33,8 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 	Category.prototype.create = function() {
 		var self = this;
 		
-		CategoryForm.show('Create', new Object()).then(function(response) {
-			if(response != undefined) {
-				if(response) {
-					app.showMessage('Category successfully created.');
-					self.refreshCategoryList();
-				} else {
-					app.showMessage('Failed to create category.');
-				}
-			}
+		CategoryForm.show('Create', new Object()).then(function() {
+			self.refreshCategoryList();
 		});
 	};
 	
@@ -49,15 +42,8 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 		var self = this;
 		
 		categoryService.getCategory(categoryId).done(function(data) {
-			CategoryForm.show('Update', data).then(function(response) {
-				if(response != undefined) {
-					if(response) {
-						app.showMessage('Category successfully updated.');
-						self.refreshCategoryList();
-					} else {
-						app.showMessage('Failed to update category.');
-					}
-				}
+			CategoryForm.show('Update', data).then(function() {
+				self.refreshCategoryList();
 			});
 		});
 	};
@@ -70,13 +56,9 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {
 			if(confirm) {
-				categoryService.removeCategory(categoryId).done(function(data) {
-					if(data) {
-						self.refreshCategoryList();
-						app.showMessage('Successfully removed Category "' + categoryName + '".');
-					} else {
-						app.showMessage('Failed to remove Category "' + categoryName + '".');
-					}
+				categoryService.removeCategory(categoryId).done(function(result) {
+					self.refreshCategoryList();
+					app.showMessage(result.message);
 				});
 			}
 		})

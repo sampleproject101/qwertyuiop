@@ -29,4 +29,13 @@ public class ProductDAOImpl
 		
 		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
 	}
+	
+	@Override
+	public Product findByName(String name) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		conjunction.add(Restrictions.eq("name", name));
+		
+		return findUniqueResult(null, null, null, conjunction);
+	}
 }

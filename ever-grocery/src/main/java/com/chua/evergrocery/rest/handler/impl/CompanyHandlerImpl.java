@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chua.evergrocery.Application;
 import com.chua.evergrocery.beans.CompanyFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Company;
 import com.chua.evergrocery.database.service.CompanyService;
 import com.chua.evergrocery.objects.ObjectList;
@@ -32,32 +34,73 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	}
 	
 	@Override
-	public Boolean createCompany(CompanyFormBean companyForm) {
-		final Company company = new Company();
+	public ResultBean createCompany(CompanyFormBean companyForm) {
+		final ResultBean result;
 		
-		setCompany(company, companyForm);
+		if(!companyService.isExistsByName(companyForm.getName())) {
+			final Company company = new Company();
+			setCompany(company, companyForm);
+			
+			result = new ResultBean();
+			result.setSuccess(companyService.insert(company) != null);
+			if(result.getSuccess()) {
+				result.setMessage("Company successfully created.");
+			} else {
+				result.setMessage("Failed to create company.");
+			}
+		} else {
+			result = new ResultBean(false, "Company \"" + companyForm.getName() + "\" already exists!");
+		}
 		
-		return companyService.insert(company) != null;
+		return result;
 	}
 	
 	@Override
-	public Boolean updateCompany(CompanyFormBean companyForm) {
-		final Boolean success;
+	public ResultBean updateCompany(CompanyFormBean companyForm) {
+		final ResultBean result;
 		
 		final Company company = companyService.find(companyForm.getId());
 		if(company != null) {
-			setCompany(company, companyForm);
-			success = companyService.update(company);
+			if(!(StringUtils.trimToEmpty(company.getName()).equalsIgnoreCase(companyForm.getName())) &&
+					companyService.isExistsByName(companyForm.getName())) {
+				result = new ResultBean(false, "Company \"" + companyForm.getName() + "\" already exists!");
+			} else {
+				setCompany(company, companyForm);
+				
+				result = new ResultBean();
+				result.setSuccess(companyService.update(company));
+				if(result.getSuccess()) {
+					result.setMessage("Company successfully updated.");
+				} else {
+					result.setMessage("Failed to update company.");
+				}
+			}
 		} else {
-			success = Boolean.FALSE;
+			result = new ResultBean(false, "Company not found.");
 		}
 		
-		return success;
+		return result;
 	}
 
 	@Override
-	public Boolean removeCompany(Long companyId) {
-		return companyService.delete(companyService.find(companyId));
+	public ResultBean removeCompany(Long companyId) {
+		final ResultBean result;
+		
+		final Company company = companyService.find(companyId);
+		if(company != null) {
+			result = new ResultBean();
+			
+			result.setSuccess(companyService.delete(company));
+			if(result.getSuccess()) {
+				result.setMessage("Successfully removed Company \"" + company.getName() + "\".");
+			} else {
+				result.setMessage("Failed to remove Company \"" + company.getName() + "\".");
+			}
+		} else {
+			result = new ResultBean(false, "Company not found.");
+		}
+		
+		return result;
 	}
 	
 	@Override

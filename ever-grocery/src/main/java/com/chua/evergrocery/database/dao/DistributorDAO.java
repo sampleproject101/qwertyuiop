@@ -17,4 +17,6 @@ public interface DistributorDAO extends DAO<Distributor, Long>, DistributorProto
 	 * @return the list of distributor
 	 */
 	List<Distributor> findAllWithOrder(Order[] orders);
+	
+	Distributor findByName(String name);
 }

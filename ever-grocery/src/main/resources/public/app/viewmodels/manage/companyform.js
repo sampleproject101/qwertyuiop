@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'knockout', 'modules/companyservice'], function (dialog, ko, companyService) {
+define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/companyservice'], function (dialog, app, ko, companyService) {
     var CompanyForm = function(preTitle, company) {
         this.preTitle = preTitle;
         this.company = company;
@@ -29,8 +29,11 @@ define(['plugins/dialog', 'knockout', 'modules/companyservice'], function (dialo
     CompanyForm.prototype.save = function() {
     	var self = this;
     	
-    	companyService.saveCompany(ko.toJSON(self.companyFormModel)).done(function(data) {
-        	dialog.close(self, data);
+    	companyService.saveCompany(ko.toJSON(self.companyFormModel)).done(function(result) {
+        	if(result.success) {
+        		dialog.close(self);	
+        	} 
+        	app.showMessage(result.message);
         });
     };
     

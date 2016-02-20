@@ -17,4 +17,6 @@ public interface CompanyDAO extends DAO<Company, Long>, CompanyPrototype {
 	 * @return the list of company
 	 */
 	List<Company> findAllWithOrder(Order[] orders);
+	
+	Company findByName(String name);
 }

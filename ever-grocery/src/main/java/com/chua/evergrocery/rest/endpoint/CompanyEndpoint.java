@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chua.evergrocery.beans.CompanyFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Company;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CompanyHandler;
@@ -42,23 +43,23 @@ public class CompanyEndpoint {
 	@POST
 	@Path("/save")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveCompany(@FormParam("companyFormData") String companyFormData) throws IOException {
-		final Boolean success;
+	public ResultBean saveCompany(@FormParam("companyFormData") String companyFormData) throws IOException {
+		final ResultBean result;
 		
 		final CompanyFormBean companyForm = new ObjectMapper().readValue(companyFormData, CompanyFormBean.class);
 		if(companyForm.getId() != null) {
-			success = companyHandler.updateCompany(companyForm);
+			result = companyHandler.updateCompany(companyForm);
 		} else {
-			success = companyHandler.createCompany(companyForm);
+			result = companyHandler.createCompany(companyForm);
 		}
 		
-		return success;
+		return result;
 	}
 	
 	@POST
 	@Path("/remove")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean removeCompany(@FormParam("companyId") Long companyId) {
+	public ResultBean removeCompany(@FormParam("companyId") Long companyId) {
 		return companyHandler.removeCompany(companyId);
 	}
 	
