@@ -1,6 +1,8 @@
 package com.chua.evergrocery.rest.endpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -65,12 +67,23 @@ public class ProductEndpoint {
 	@POST
 	@Path("/savedetails")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveProductDetails(@FormParam("productDetailsFormData") String productDetailsFormData) throws IOException {
+	public Boolean saveProductDetails(
+			@FormParam("productId") Long productId,
+			@FormParam("productDetailsWholeFormData") String productDetailsWholeFormData,
+			@FormParam("productDetailsPieceFormData") String productDetailsPieceFormData,
+			@FormParam("productDetailsInnerPieceFormData") String productDetailsInnerPieceFormData,
+			@FormParam("productDetailsSecondInnerPieceFormData") String productDetailsSecondInnerPieceFormData) throws IOException {
 		final Boolean success;
 		
-		System.out.println("raw ============= " + productDetailsFormData);
-		final ProductDetailsFormBean productDetailsForm = new ObjectMapper().readValue(productDetailsFormData, ProductDetailsFormBean.class);
-		System.out.println("details =============== " + productDetailsForm);
+		final List<ProductDetailsFormBean> productDetailsFormList = new ArrayList<>();
+		final ObjectMapper objectMapper = new ObjectMapper();
+		productDetailsFormList.add(objectMapper.readValue(productDetailsWholeFormData, ProductDetailsFormBean.class));
+		productDetailsFormList.add(objectMapper.readValue(productDetailsPieceFormData, ProductDetailsFormBean.class));
+		productDetailsFormList.add(objectMapper.readValue(productDetailsInnerPieceFormData, ProductDetailsFormBean.class));
+		productDetailsFormList.add(objectMapper.readValue(productDetailsSecondInnerPieceFormData, ProductDetailsFormBean.class));
+		
+		productHandler.upsertProductDetails(productId, productDetailsFormList);
+		
 		/*if(productForm.getId() != null) {
 			success = productHandler.updateProduct(productForm);
 		} else {

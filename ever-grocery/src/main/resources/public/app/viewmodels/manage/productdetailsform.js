@@ -170,7 +170,11 @@ define(['plugins/dialog', 'knockout', 'viewmodels/manage/productdetails', 'modul
     ProductDetailsForm.prototype.save = function() {
     	var self = this;
     	
-    	productService.saveProductDetails(ko.toJSON(self.productDetailsFormModel.whole.formModel)).done(function(data) {
+    	productService.saveProductDetails(self.productDetailsFormModel.id,
+    			ko.toJSON(self.productDetailsFormModel.whole.formModel),
+    			ko.toJSON(self.productDetailsFormModel.piece.formModel),
+    			ko.toJSON(self.productDetailsFormModel.innerPiece.formModel),
+    			ko.toJSON(self.productDetailsFormModel.secondInnerPiece.formModel)).done(function(data) {
         	dialog.close(self, data);
         });
     };

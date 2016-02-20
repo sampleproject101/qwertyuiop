@@ -2,6 +2,10 @@ package com.chua.evergrocery.beans;
 
 public class ProductDetailsFormBean {
 
+	private Long productDetailId;
+	
+	private String title;
+	
 	private String barcode;
 	
 	private Integer quantity;
@@ -21,6 +25,22 @@ public class ProductDetailsFormBean {
 	private Float netProfit;
 	
 	private Integer stockCount;
+	
+	public Long getProductDetailId() {
+		return productDetailId;
+	}
+	
+	public void setProductDetailId(Long productDetailId) {
+		this.productDetailId = productDetailId;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	
 	public String getBarcode() {
 		return barcode;

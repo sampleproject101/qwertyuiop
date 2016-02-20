@@ -23,8 +23,9 @@ public class ProductDetail extends BaseObject {
 	
 	private Product product;
 	
+	private String title;
 	private String barcode;
-	private Long quantity;
+	private Integer quantity;
 	private Float beforeVatPrice;
 	private Float grossPrice;
 	private Float discount;
@@ -49,6 +50,16 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
+	@Column(name = "title")
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	@Basic
 	@Column(name = "barcode")
 	public String getBarcode() {
 		return barcode;
@@ -60,11 +71,11 @@ public class ProductDetail extends BaseObject {
 	
 	@Basic
 	@Column(name = "quantity")
-	public Long getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 	
-	public void setQuantity(Long quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 	

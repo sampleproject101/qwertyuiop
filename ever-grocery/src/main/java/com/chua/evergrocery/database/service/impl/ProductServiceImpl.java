@@ -11,8 +11,8 @@ import com.chua.evergrocery.objects.ObjectList;
 @Service
 public class ProductServiceImpl
 		extends AbstractService<Product, Long, ProductDAO>
-		implements ProductService {
-
+		implements ProductService 
+{
 	@Autowired
 	protected ProductServiceImpl(ProductDAO dao) {
 		super(dao);

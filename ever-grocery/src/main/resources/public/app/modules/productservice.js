@@ -39,12 +39,16 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	saveProductDetails: function(productDetailsFormData) {
+    	saveProductDetails: function(productId, productDetailsWholeFormData, productDetailsPieceFormData, productDetailsInnerPieceFormData, productDetailsSecondInnerPieceFormData) {
     		return $.ajax({
     			url: '/services/product/savedetails',
     			method: 'POST',
     			data: {
-    				productDetailsFormData: productDetailsFormData
+    				productId: productId,
+    				productDetailsWholeFormData: productDetailsWholeFormData,
+    				productDetailsPieceFormData: productDetailsPieceFormData,
+    				productDetailsInnerPieceFormData: productDetailsInnerPieceFormData,
+    				productDetailsSecondInnerPieceFormData: productDetailsSecondInnerPieceFormData
     			}
     		});
     	}

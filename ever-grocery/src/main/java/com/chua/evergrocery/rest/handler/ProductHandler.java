@@ -1,5 +1,7 @@
 package com.chua.evergrocery.rest.handler;
 
+import java.util.List;
+
 import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.database.entity.Product;
@@ -17,5 +19,5 @@ public interface ProductHandler {
 	
 	Boolean removeProduct(Long productId);
 	
-	Boolean createProductDetails(ProductDetailsFormBean productDetailsForm);
+	Boolean upsertProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList);
 }
