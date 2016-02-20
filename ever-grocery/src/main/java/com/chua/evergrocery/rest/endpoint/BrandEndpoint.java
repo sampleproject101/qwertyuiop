@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chua.evergrocery.beans.BrandFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.BrandHandler;
@@ -42,23 +43,23 @@ public class BrandEndpoint {
 	@POST
 	@Path("/save")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveBrand(@FormParam("brandFormData") String brandFormData) throws IOException {
-		final Boolean success;
+	public ResultBean saveBrand(@FormParam("brandFormData") String brandFormData) throws IOException {
+		final ResultBean result;
 		
 		final BrandFormBean brandForm = new ObjectMapper().readValue(brandFormData, BrandFormBean.class);
 		if(brandForm.getId() != null) {
-			success = brandHandler.updateBrand(brandForm);
+			result = brandHandler.updateBrand(brandForm);
 		} else {
-			success = brandHandler.createBrand(brandForm);
+			result = brandHandler.createBrand(brandForm);
 		}
 		
-		return success;
+		return result;
 	}
 	
 	@POST
 	@Path("/remove")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean removeBrand(@FormParam("brandId") Long brandId) {
+	public ResultBean removeBrand(@FormParam("brandId") Long brandId) {
 		return brandHandler.removeBrand(brandId);
 	}
 	

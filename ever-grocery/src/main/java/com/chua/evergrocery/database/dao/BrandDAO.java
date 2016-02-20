@@ -17,4 +17,6 @@ public interface BrandDAO extends DAO<Brand, Long>, BrandPrototype {
 	 * @return the list of brand
 	 */
 	List<Brand> findAllWithOrder(Order[] orders);
+	
+	Brand findByName(String name);
 }

@@ -13,4 +13,6 @@ public interface BrandService
 	 * @return the list of brand
 	 */
 	List<Brand> findAllOrderByName();
+	
+	Boolean isExistsByName(String name);
 }

@@ -2,12 +2,14 @@ package com.chua.evergrocery.rest.handler.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chua.evergrocery.Application;
 import com.chua.evergrocery.beans.BrandFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.database.service.BrandService;
 import com.chua.evergrocery.objects.ObjectList;
@@ -31,32 +33,73 @@ public class BrandHandlerImpl implements BrandHandler {
 	}
 	
 	@Override
-	public Boolean createBrand(BrandFormBean brandForm) {
-		final Brand brand = new Brand();
+	public ResultBean createBrand(BrandFormBean brandForm) {
+		final ResultBean result;
 		
-		setBrand(brand, brandForm);
+		if(!brandService.isExistsByName(brandForm.getName())) {
+			final Brand brand = new Brand();
+			setBrand(brand, brandForm);
+			
+			result = new ResultBean();
+			result.setSuccess(brandService.insert(brand) != null);
+			if(result.getSuccess()) {
+				result.setMessage("Brand successfully created.");
+			} else {
+				result.setMessage("Failed to create brand.");
+			}
+		} else {
+			result = new ResultBean(false, "Brand \"" + brandForm.getName() + "\" already exists!");
+		}
 		
-		return brandService.insert(brand) != null;
+		return result;
 	}
 	
 	@Override
-	public Boolean updateBrand(BrandFormBean brandForm) {
-		final Boolean success;
+	public ResultBean updateBrand(BrandFormBean brandForm) {
+		final ResultBean result;
 		
 		final Brand brand = brandService.find(brandForm.getId());
 		if(brand != null) {
-			setBrand(brand, brandForm);
-			success = brandService.update(brand);
+			if(!(StringUtils.trimToEmpty(brand.getName()).equalsIgnoreCase(brandForm.getName())) &&
+					brandService.isExistsByName(brandForm.getName())) {
+				result = new ResultBean(false, "Brand \"" + brandForm.getName() + "\" already exists!");
+			} else {
+				setBrand(brand, brandForm);
+				
+				result = new ResultBean();
+				result.setSuccess(brandService.update(brand));
+				if(result.getSuccess()) {
+					result.setMessage("Brand successfully updated.");
+				} else {
+					result.setMessage("Failed to update brand.");
+				}
+			}
 		} else {
-			success = Boolean.FALSE;
+			result = new ResultBean(false, "Brand not found.");
 		}
 		
-		return success;
+		return result;
 	}
 
 	@Override
-	public Boolean removeBrand(Long brandId) {
-		return brandService.delete(brandService.find(brandId));
+	public ResultBean removeBrand(Long brandId) {
+		final ResultBean result;
+		
+		final Brand brand = brandService.find(brandId);
+		if(brand != null) {
+			result = new ResultBean();
+			
+			result.setSuccess(brandService.delete(brand));
+			if(result.getSuccess()) {
+				result.setMessage("Successfully removed Brand \"" + brand.getName() + "\".");
+			} else {
+				result.setMessage("Failed to remove Brand \"" + brand.getName() + "\".");
+			}
+		} else {
+			result = new ResultBean(false, "Brand not found.");
+		}
+		
+		return result;
 	}
 	
 	@Override

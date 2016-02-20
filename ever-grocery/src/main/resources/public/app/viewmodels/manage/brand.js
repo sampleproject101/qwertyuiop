@@ -33,15 +33,8 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 	Brand.prototype.create = function() {
 		var self = this;
 		
-		BrandForm.show('Create', new Object()).then(function(response) {
-			if(response != undefined) {
-				if(response) {
-					app.showMessage('Brand successfully created.');
-					self.refreshBrandList();
-				} else {
-					app.showMessage('Failed to create brand.');
-				}
-			}
+		BrandForm.show('Create', new Object()).then(function() {
+			self.refreshBrandList();
 		});
 	};
 	
@@ -49,15 +42,8 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 		var self = this;
 		
 		brandService.getBrand(brandId).done(function(data) {
-			BrandForm.show('Update', data).then(function(response) {
-				if(response != undefined) {
-					if(response) {
-						app.showMessage('Brand successfully updated.');
-						self.refreshBrandList();
-					} else {
-						app.showMessage('Failed to update brand.');
-					}
-				}
+			BrandForm.show('Update', data).then(function() {
+				self.refreshBrandList();
 			});
 		});
 	};
@@ -70,13 +56,9 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {
 			if(confirm) {
-				brandService.removeBrand(brandId).done(function(data) {
-					if(data) {
-						self.refreshBrandList();
-						app.showMessage('Successfully removed Brand "' + brandName + '".');
-					} else {
-						app.showMessage('Failed to remove Brand "' + brandName + '".');
-					}
+				brandService.removeBrand(brandId).done(function(result) {
+					self.refreshBrandList();
+					app.showMessage(result.message);
 				});
 			}
 		})

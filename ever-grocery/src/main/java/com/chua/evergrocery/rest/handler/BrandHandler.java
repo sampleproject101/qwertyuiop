@@ -3,6 +3,7 @@ package com.chua.evergrocery.rest.handler;
 import java.util.List;
 
 import com.chua.evergrocery.beans.BrandFormBean;
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Brand;
 import com.chua.evergrocery.objects.ObjectList;
 
@@ -12,11 +13,11 @@ public interface BrandHandler {
 	
 	Brand getBrand(Long brandId);
 	
-	Boolean createBrand(BrandFormBean brandForm);
+	ResultBean createBrand(BrandFormBean brandForm);
 	
-	Boolean updateBrand(BrandFormBean brandForm);
+	ResultBean updateBrand(BrandFormBean brandForm);
 	
-	Boolean removeBrand(Long brandId);
+	ResultBean removeBrand(Long brandId);
 	
 	List<Brand> getBrandList();
 }
