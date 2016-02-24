@@ -39,7 +39,6 @@ public class Product extends BaseObject {
 	private Distributor distributor;
 	
 	private String name;
-	private Float totalStockCount;
 	
 	@ManyToOne(targetEntity = Brand.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id")
@@ -97,15 +96,5 @@ public class Product extends BaseObject {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	@Basic
-	@Column(name = "total_stock_count")
-	public Float getTotalStockCount() {
-		return totalStockCount;
-	}
-	
-	public void setTotalStockCount(Float totalStockCount) {
-		this.totalStockCount = totalStockCount;
 	}
 }

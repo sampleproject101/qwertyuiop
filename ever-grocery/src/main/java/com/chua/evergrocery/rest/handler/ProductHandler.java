@@ -6,6 +6,7 @@ import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Product;
+import com.chua.evergrocery.database.entity.ProductDetail;
 import com.chua.evergrocery.objects.ObjectList;
 
 public interface ProductHandler {
@@ -14,11 +15,13 @@ public interface ProductHandler {
 	
 	Product getProduct(Long productId);
 	
+	List<ProductDetail> getProductDetailList(Long productId);
+	
 	ResultBean createProduct(ProductFormBean productForm);
 	
 	ResultBean updateProduct(ProductFormBean productForm);
 	
 	ResultBean removeProduct(Long productId);
 	
-	Boolean upsertProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList);
+	ResultBean saveProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList);
 }

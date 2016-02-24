@@ -1,4 +1,4 @@
-<h3 align="center"><span data-bind="text: title"></span></h3>
+<h3 align="center"><span data-bind="text: formModel.title"></span></h3>
 <form>
 	<div class="form-group">
 		<label for="inputBarcode" class="control-label">Barcode</label>
@@ -10,7 +10,7 @@
 	</div>
 	<div class="form-group">
 		<label for="inputUnit">Unit</label>
-		<select data-bind="value: formModel.unit, options: unitList, optionsCaption: 'Choose...'" class="form-control" id="inputUnit"></select>
+		<select data-bind="value: formModel.unitType, options: unitList, optionsCaption: '-- Select Unit --'" class="form-control" id="inputUnit"></select>
 	</div>
 	<div class="form-group">
 		<label for="inputGrossPrice" class="control-label">Gross Price</label>

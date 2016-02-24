@@ -1,7 +1,5 @@
 define(['knockout'], function (ko) {
-    var ProductDetails = function(title, productDetails, unitList, enableConfig) {
-    	this.title = title;
-    	
+    var ProductDetails = function(productDetails, unitList, enableConfig) {
     	this.productDetails = productDetails;
 
     	this.unitList = unitList;
@@ -9,11 +7,15 @@ define(['knockout'], function (ko) {
     	this.enableConfig = enableConfig;
     	
     	this.formModel = {
+    		id: ko.observable(),	
+    		
+    		title: ko.observable(),
+    		
     		barcode: ko.observable(),
     		
     		quantity: ko.observable(),
     		
-    		unit: ko.observable(),
+    		unitType: ko.observable(),
     		
     		grossPrice: ko.observable(),
     		
@@ -50,9 +52,11 @@ define(['knockout'], function (ko) {
     ProductDetails.prototype.activate = function() {
     	var self = this;
     	
+    	self.formModel.id(self.productDetails.id);
+    	self.formModel.title(self.productDetails.title);
     	self.formModel.barcode(self.productDetails.barcode);
     	self.formModel.quantity(self.productDetails.quantity);
-    	self.formModel.unit(self.productDetails.unit);
+    	self.formModel.unitType(self.productDetails.unitType);
     	self.formModel.grossPrice(self.productDetails.grossPrice);
     	self.formModel.discount(self.productDetails.discount);
     	self.formModel.netPrice(self.productDetails.netPrice);

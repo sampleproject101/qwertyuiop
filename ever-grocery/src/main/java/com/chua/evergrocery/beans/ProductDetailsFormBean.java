@@ -1,16 +1,14 @@
 package com.chua.evergrocery.beans;
 
-public class ProductDetailsFormBean {
+public class ProductDetailsFormBean extends FormBean {
 
-	private Long productDetailId;
-	
 	private String title;
 	
 	private String barcode;
 	
 	private Integer quantity;
 	
-	private String unit;
+	private String unitType;
 	
 	private Float grossPrice;
 	
@@ -25,14 +23,6 @@ public class ProductDetailsFormBean {
 	private Float netProfit;
 	
 	private Integer stockCount;
-	
-	public Long getProductDetailId() {
-		return productDetailId;
-	}
-	
-	public void setProductDetailId(Long productDetailId) {
-		this.productDetailId = productDetailId;
-	}
 	
 	public String getTitle() {
 		return title;
@@ -58,12 +48,12 @@ public class ProductDetailsFormBean {
 		this.quantity = quantity;
 	}
 	
-	public String getUnit() {
-		return unit;
+	public String getUnitType() {
+		return unitType;
 	}
 	
-	public void setUnit(String unit) {
-		this.unit = unit;
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
 	}
 	
 	public Float getGrossPrice() {

@@ -56,6 +56,11 @@ public class ProductHandlerImpl implements ProductHandler {
 	}
 	
 	@Override
+	public List<ProductDetail> getProductDetailList(Long productId) {
+		return productDetailService.findAllByProductId(productId);
+	}
+	
+	@Override
 	public ResultBean createProduct(ProductFormBean productForm) {
 		final ResultBean result;
 		
@@ -126,29 +131,30 @@ public class ProductHandlerImpl implements ProductHandler {
 	}
 	
 	@Override
-	public Boolean upsertProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList) {
+	public ResultBean saveProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList) {
+		final ResultBean result;
+		
 		final Product product = productService.find(productId);
 		if(product != null) {
-			ProductDetail productDetail;
+			result = new ResultBean();
+			
 			for(ProductDetailsFormBean productDetailsForm : productDetailsFormList) {
-				productDetail = productDetailService.find(productDetailsForm.getProductDetailId());
-				if(productDetail == null) {
-					productDetail = new ProductDetail();
-				}
-				setProductDetail(productDetail, productDetailsForm);
-				
-				if(productDetail.getId() == null) {
-					productDetail.setProduct(product);
-					productDetailService.insert(productDetail);
-				} else {
-					productDetailService.update(productDetail);
+				result.setSuccess(upsertProductDetails(product, productDetailsForm));
+				if(!result.getSuccess()) {
+					break;
 				}
 			}
-		} else {
 			
+			if(result.getSuccess()) {
+				result.setMessage("Product details successfully saved.");
+			} else {
+				result.setMessage("Failed to save product details.");
+			}
+		} else {
+			result = new ResultBean(false, "Product not found.");
 		}
 		
-		return true;
+		return result;
 	}
 	
 	private void setProduct(Product product, ProductFormBean productForm) {
@@ -163,12 +169,33 @@ public class ProductHandlerImpl implements ProductHandler {
 		productDetail.setTitle(productDetailsForm.getTitle());
 		productDetail.setBarcode(productDetailsForm.getBarcode());
 		productDetail.setQuantity(productDetailsForm.getQuantity());
-		productDetail.setUnitType(productDetailsForm.getUnit());
+		productDetail.setUnitType(productDetailsForm.getUnitType());
 		productDetail.setGrossPrice(productDetailsForm.getGrossPrice());
 		productDetail.setDiscount(productDetailsForm.getDiscount());
 		productDetail.setNetPrice(productDetailsForm.getNetPrice());
 		productDetail.setPercentProfit(productDetailsForm.getPercentProfit());
 		productDetail.setSellingPrice(productDetailsForm.getSellingPrice());
 		productDetail.setNetProfit(productDetailsForm.getNetProfit());
+		productDetail.setStockCount(productDetailsForm.getStockCount());
+	}
+	
+	private Boolean upsertProductDetails(Product product, ProductDetailsFormBean productDetailsForm) {
+		final Boolean success;
+		
+		ProductDetail productDetail = productDetailService.find(productDetailsForm.getId());
+		if(productDetail == null) {
+			productDetail = new ProductDetail();
+		}
+		
+		setProductDetail(productDetail, productDetailsForm);
+		
+		if(productDetail.getId() == null) {
+			productDetail.setProduct(product);
+			success = productDetailService.insert(productDetail) != null;
+		} else {
+			success = productDetailService.update(productDetail);
+		}
+		
+		return success;
 	}
 }

@@ -68,15 +68,10 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 		var self = this;
 		
 		productService.getProduct(productId).done(function(data) {
-			ProductDetailsForm.show(data).then(function(response) {
-				if(response != undefined) {
-					if(response) {
-						app.showMessage('Product details successfully managed.');
-						self.refreshProductList();
-					} else {
-						app.showMessage('Failed to manage product.');
-					}
-				}
+			productService.getProductDetailList(productId).done(function(data2) {
+				ProductDetailsForm.show(data, data2).then(function() {
+					self.refreshProductList();
+				});	
 			});
 		});
 	};

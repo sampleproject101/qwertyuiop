@@ -18,6 +18,7 @@ import com.chua.evergrocery.beans.ProductDetailsFormBean;
 import com.chua.evergrocery.beans.ProductFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Product;
+import com.chua.evergrocery.database.entity.ProductDetail;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,13 @@ public class ProductEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Product getProduct(@QueryParam("productId") Long productId) {
 		return productHandler.getProduct(productId);
+	}
+	
+	@GET
+	@Path("/getdetails")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<ProductDetail> getProductDetailList(@QueryParam("productId") Long productId) {
+		return productHandler.getProductDetailList(productId);
 	}
 	
 	@POST
@@ -68,14 +76,12 @@ public class ProductEndpoint {
 	@POST
 	@Path("/savedetails")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Boolean saveProductDetails(
+	public ResultBean saveProductDetails(
 			@FormParam("productId") Long productId,
 			@FormParam("productDetailsWholeFormData") String productDetailsWholeFormData,
 			@FormParam("productDetailsPieceFormData") String productDetailsPieceFormData,
 			@FormParam("productDetailsInnerPieceFormData") String productDetailsInnerPieceFormData,
 			@FormParam("productDetailsSecondInnerPieceFormData") String productDetailsSecondInnerPieceFormData) throws IOException {
-		final Boolean success;
-		
 		final List<ProductDetailsFormBean> productDetailsFormList = new ArrayList<>();
 		final ObjectMapper objectMapper = new ObjectMapper();
 		productDetailsFormList.add(objectMapper.readValue(productDetailsWholeFormData, ProductDetailsFormBean.class));
@@ -83,14 +89,6 @@ public class ProductEndpoint {
 		productDetailsFormList.add(objectMapper.readValue(productDetailsInnerPieceFormData, ProductDetailsFormBean.class));
 		productDetailsFormList.add(objectMapper.readValue(productDetailsSecondInnerPieceFormData, ProductDetailsFormBean.class));
 		
-		productHandler.upsertProductDetails(productId, productDetailsFormList);
-		
-		/*if(productForm.getId() != null) {
-			success = productHandler.updateProduct(productForm);
-		} else {
-			success = productHandler.createProduct(productForm);
-		}*/
-		
-		return true;
+		return productHandler.saveProductDetails(productId, productDetailsFormList);
 	}
 }

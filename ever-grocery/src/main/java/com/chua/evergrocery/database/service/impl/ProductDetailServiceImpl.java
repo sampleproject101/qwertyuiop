@@ -1,5 +1,7 @@
 package com.chua.evergrocery.database.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,10 @@ public class ProductDetailServiceImpl
 	@Autowired
 	protected ProductDetailServiceImpl(ProductDetailDAO dao) {
 		super(dao);
+	}
+
+	@Override
+	public List<ProductDetail> findAllByProductId(Long productId) {
+		return dao.findAllByProductId(productId);
 	}
 }

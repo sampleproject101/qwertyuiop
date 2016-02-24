@@ -33,6 +33,7 @@ public class ProductDetail extends BaseObject {
 	private Float percentProfit;
 	private Float sellingPrice;
 	private Float netProfit;
+	private Integer stockCount;
 	
 	private String unitType;
 	private Integer typeDepth;
@@ -147,6 +148,16 @@ public class ProductDetail extends BaseObject {
 	
 	public void setNetProfit(Float netProfit) {
 		this.netProfit = netProfit;
+	}
+	
+	@Basic
+	@Column(name = "stock_count")
+	public Integer getStockCount() {
+		return stockCount;
+	}
+	
+	public void setStockCount(Integer stockCount) {
+		this.stockCount = stockCount;
 	}
 	
 	@Basic

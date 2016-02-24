@@ -51,6 +51,15 @@ define(['jquery'], function ($) {
     				productDetailsSecondInnerPieceFormData: productDetailsSecondInnerPieceFormData
     			}
     		});
+    	},
+    	
+    	getProductDetailList: function(productId) {
+    		return $.ajax({
+    			url: '/services/product/getdetails',
+    			data: {
+    				productId: productId
+    			}
+    		});
     	}
     };
 });
