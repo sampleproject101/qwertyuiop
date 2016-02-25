@@ -18,8 +18,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     ProductDetailsForm.prototype.activate = function() {
     	var self = this;
     	
-    	var unitList1 = ko.observableArray([ 'Case', 'Bundle' ]);
-    	var unitList2 = ko.observableArray([ 'Piece', 'Bag', 'Can' ]);
+    	var unitList1 = ko.observableArray([ 'Box', 'Bundle', 'Case', 'Sack' ]);
+    	var unitList2 = ko.observableArray([ 'Bag', 'Box', 'Can', 'Dozen', 'Jar', 'Pack', 'Piece', 'Tie', 'Tin' ]);
     	
     	var wholeEnableConfig = { enableQuantity : false, enableGrossPrice : false, enableDiscount : false, enableNetPrice : false, 
     			enablePercentProfit : true, enableSellingPrice : false, enableNetProfit : false, enableStockCount : true }
