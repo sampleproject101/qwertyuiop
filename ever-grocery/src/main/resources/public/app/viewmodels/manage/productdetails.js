@@ -32,21 +32,21 @@ define(['knockout'], function (ko) {
     		stockCount: ko.observable()
     	};
     	
-        this.enableQuantity = ko.observable();
+        this.enableQuantity = null;
         
-        this.enableGrossPrice = ko.observable();
+        this.enableGrossPrice = null;
         
-        this.enableDiscount = ko.observable();
+        this.enableDiscount = null;
 
-        this.enableNetPrice = ko.observable();
+        this.enableNetPrice = null;
         
-        this.enablePercentProfit = ko.observable();
+        this.enablePercentProfit = null;
         
-        this.enableSellingPrice = ko.observable();
+        this.enableSellingPrice = null;
         
-        this.enableNetProfit = ko.observable();
+        this.enableNetProfit = null;
         
-        this.enableStockCount = ko.observable();
+        this.enableStockCount = null;
     };
     
     ProductDetails.prototype.activate = function() {
@@ -65,14 +65,15 @@ define(['knockout'], function (ko) {
     	self.formModel.netProfit(self.productDetails.netProfit);
     	self.formModel.stockCount(self.productDetails.stockCount);
     	
-    	self.enableQuantity(self.enableConfig.enableQuantity);
-    	self.enableGrossPrice(self.enableConfig.enableGrossPrice);
-    	self.enableDiscount(self.enableConfig.enableDiscount);
-    	self.enableNetPrice(self.enableConfig.enableNetPrice);
-    	self.enablePercentProfit(self.enableConfig.enablePercentProfit);
-    	self.enableSellingPrice(self.enableConfig.enableSellingPrice);
-    	self.enableNetProfit(self.enableConfig.enableNetProfit);
-    	self.enableStockCount(self.enableConfig.enableStockCount);
+    	// Set to the passed observable to control enable
+    	self.enableQuantity = self.enableConfig.enableQuantity;
+    	self.enableGrossPrice = self.enableConfig.enableGrossPrice;
+    	self.enableDiscount = self.enableConfig.enableDiscount;
+    	self.enableNetPrice = self.enableConfig.enableNetPrice;
+    	self.enablePercentProfit = self.enableConfig.enablePercentProfit;
+    	self.enableSellingPrice = self.enableConfig.enableSellingPrice;
+    	self.enableNetProfit = self.enableConfig.enableNetProfit;
+    	self.enableStockCount = self.enableConfig.enableStockCount;
     };
  
     return ProductDetails;
