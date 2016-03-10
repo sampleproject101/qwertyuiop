@@ -27,7 +27,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	var self = this;
     	
     	var unitList1 = ko.observableArray([ 'Box', 'Bundle', 'Case', 'Sack' ]);
-    	var unitList2 = ko.observableArray([ 'Bag', 'Box', 'Can', 'Dozen', 'Jar', 'Pack', 'Piece', 'Tie', 'Tin' ]);
+    	var unitList2 = ko.observableArray([ '6s', '8s', 'Bag', 'Bar', 'Bottle', 'Box', 'Can', 'Dozen', 'Jar', 'Pack', 'Pair', 'Piece', 'Pouch', 'Ream', 'Tie', 'Tin' ]);
     	
     	self.productDetailsFormModel.id(self.product.id);
     	if(!self.hasProductDetail) { 

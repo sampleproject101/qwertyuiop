@@ -26,7 +26,6 @@ public class ProductDetail extends BaseObject {
 	private String title;
 	private String barcode;
 	private Integer quantity;
-	private Float beforeVatPrice;
 	private Float grossPrice;
 	private Float discount;
 	private Float netPrice;
@@ -78,16 +77,6 @@ public class ProductDetail extends BaseObject {
 	
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}
-	
-	@Basic
-	@Column(name = "before_vat_price")
-	public Float getBeforeVatPrice() {
-		return beforeVatPrice;
-	}
-	
-	public void setBeforeVatPrice(Float beforeVatPrice) {
-		this.beforeVatPrice = beforeVatPrice;
 	}
 	
 	@Basic
