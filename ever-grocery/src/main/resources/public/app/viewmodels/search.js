@@ -30,13 +30,5 @@ define(['durandal/app', 'knockout', 'modules/productservice'], function (app, ko
 		});
 	};
 	
-	Product.prototype.create = function() {
-		var self = this;
-		
-		ProductForm.show('Create', new Object()).then(function() {
-			self.refreshProductList();
-		});
-	};
-	
     return Product;
 });
