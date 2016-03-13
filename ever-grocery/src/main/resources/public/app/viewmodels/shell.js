@@ -9,7 +9,8 @@
 	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributor', nav: true, hash: 'distributor' },
 	      		{ route: 'product', moduleId: 'product', title: 'Product', nav: true, hash: 'product' }
 	  		]
-	  	}
+	  	},
+	  	{ route: 'search', moduleId: 'viewmodels/search', title: '', nav: true, hash: '#search' }
 	];
 	
     return {
