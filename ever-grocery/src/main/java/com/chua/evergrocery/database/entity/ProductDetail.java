@@ -32,9 +32,7 @@ public class ProductDetail extends BaseObject {
 	private Float percentProfit;
 	private Float sellingPrice;
 	private Float netProfit;
-	
 	private String unitType;
-	private Integer typeDepth;
 	
 	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
@@ -146,15 +144,5 @@ public class ProductDetail extends BaseObject {
 	
 	public void setUnitType(String unitType) {
 		this.unitType = unitType;
-	}
-	
-	@Basic
-	@Column(name = "type_depth")
-	public Integer getTypeDepth() {
-		return typeDepth;
-	}
-	
-	public void setTypeDepth(Integer typeDepth) {
-		this.typeDepth = typeDepth;
 	}
 }
