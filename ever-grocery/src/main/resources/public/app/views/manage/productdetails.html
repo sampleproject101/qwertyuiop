@@ -2,7 +2,7 @@
 <form>
 	<div class="form-group">
 		<label for="inputBarcode" class="control-label">Barcode</label>
-		<input data-bind="textInput: formModel.barcode" type="text" class="form-control" id="inputBarcode">
+		<input data-bind="textInput: formModel.barcode, enable: enableBarcode()" type="text" class="form-control" id="inputBarcode">
 	</div>
 	<div class="form-group">
 		<label for="inputQuantity" class="control-label">Quantity</label>
@@ -10,7 +10,7 @@
 	</div>
 	<div class="form-group">
 		<label for="inputUnit">Unit</label>
-		<select data-bind="value: formModel.unitType, options: unitList, optionsCaption: '-- Select Unit --'" class="form-control" id="inputUnit"></select>
+		<select data-bind="value: formModel.unitType, options: unitList, optionsCaption: '-- Select Unit --', enable: enableUnitType()" class="form-control" id="inputUnit"></select>
 	</div>
 	<div class="form-group">
 		<label for="inputGrossPrice" class="control-label">Gross Price</label>
@@ -35,9 +35,5 @@
 	<div class="form-group">
 		<label for="inputNetProfit" class="control-label">Net Profit</label>
 		<input data-bind="textInput: formModel.netProfit, enable: enableNetProfit()" type="text" class="form-control" id="inputNetProfit">
-	</div>
-	<div class="form-group">
-		<label for="inputStockCount" class="control-label">Stock Count</label>
-		<input data-bind="textInput: formModel.stockCount, enable: enableStockCount()" type="number" step="1" class="form-control" id="inputStockCount">
 	</div>
 </form>

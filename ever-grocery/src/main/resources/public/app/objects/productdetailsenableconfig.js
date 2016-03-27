@@ -1,6 +1,10 @@
 define(['knockout'], function (ko) {
-    var ProductDetailsEnableConfig = function(enableQuantity, enableGrossPrice, enableDiscount, enableNetPrice, enablePercentProfit, enableSellingPrice, enableNetProfit, enableStockCount) {
-        this.enableQuantity = ko.observable(enableQuantity);
+    var ProductDetailsEnableConfig = function(enableBarcode, enableQuantity, enableUnitType, enableGrossPrice, enableDiscount, enableNetPrice, enablePercentProfit, enableSellingPrice, enableNetProfit) {
+        this.enableBarcode = ko.observable(enableBarcode);
+    	
+    	this.enableQuantity = ko.observable(enableQuantity);
+    	
+    	this.enableUnitType = ko.observable(enableUnitType);
         
         this.enableGrossPrice = ko.observable(enableGrossPrice);
         
@@ -13,11 +17,9 @@ define(['knockout'], function (ko) {
         this.enableSellingPrice = ko.observable(enableSellingPrice);
         
         this.enableNetProfit = ko.observable(enableNetProfit);
-        
-        this.enableStockCount = ko.observable(enableStockCount);
     };
     
-    ProductDetailsEnableConfig.prototype.update = function(enableQuantity, enableGrossPrice, enableDiscount, enableNetPrice, enablePercentProfit, enableSellingPrice, enableNetProfit, enableStockCount) {
+    /*ProductDetailsEnableConfig.prototype.update = function(enableQuantity, enableGrossPrice, enableDiscount, enableNetPrice, enablePercentProfit, enableSellingPrice, enableNetProfit) {
     	var self = this;
     	
     	self.enableQuantity(enableQuantity);
@@ -27,7 +29,6 @@ define(['knockout'], function (ko) {
     	self.enablePercentProfit(enablePercentProfit);
     	self.enableSellingPrice(enableSellingPrice);
     	self.enableNetProfit(enableNetProfit);
-    	self.enableStockCount(enableStockCount);
     };
     
     ProductDetailsEnableConfig.prototype.updateAll = function(enableDisable) {
@@ -40,14 +41,13 @@ define(['knockout'], function (ko) {
     	self.enablePercentProfit(enableDisable);
     	self.enableSellingPrice(enableDisable);
     	self.enableNetProfit(enableDisable);
-    	self.enableStockCount(enableDisable);
     };
     
     ProductDetailsEnableConfig.prototype.updateAllExQuantity = function(enableDisable) {
     	var self = this;
     	
-    	self.update(self.enableQuantity(), enableDisable, enableDisable, enableDisable, enableDisable, enableDisable, enableDisable, enableDisable);
-    };
+    	self.update(self.enableQuantity(), enableDisable, enableDisable, enableDisable, enableDisable, enableDisable, enableDisable);
+    };*/
     
     return ProductDetailsEnableConfig;
 });
