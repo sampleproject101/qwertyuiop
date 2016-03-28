@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chua.evergrocery.database.entity.User;
 import com.chua.evergrocery.database.service.UserService;
+import com.chua.evergrocery.utility.EncryptionUtil;
 
 @Transactional
 @Component
@@ -28,7 +29,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		final String username = authentication.getName();
         final String password = authentication.getCredentials().toString();
         
-        final User user = userService.findByUsernameAndPassword(username, password);
+        final User user = userService.findByUsernameAndPassword(username, EncryptionUtil.getMd5(password));
         if(user != null) {
         	final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority(user.getUserType().name()));
