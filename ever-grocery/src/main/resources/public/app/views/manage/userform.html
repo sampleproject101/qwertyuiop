@@ -4,25 +4,22 @@
     </div>
     
     <div class="modal-body">
-        <div class="form-group">
-			<label for="inputFirstName" class="control-label">First Name</label>
+        <div class="form-inline">
 			<input data-bind="value: userFormModel.firstName" type="text" class="form-control autofocus" id="inputFirstName" placeholder="First Name">
+			<input data-bind="value: userFormModel.lastName" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
 		</div>
-		<div class="form-group">
-			<label for="inputLastName" class="control-label">Last Name</label>
-			<input data-bind="value: userFormModel.lastName" type="text" class="form-control autofocus" id="inputLastName" placeholder="Last Name">
-		</div>
-		<div class="form-group">
-			<label for="inputItemsPerPage" class="control-label">Items per Page</label>
-			<input data-bind="value: userFormModel.itemsPerPage" type="text" class="form-control autofocus" id="inputItemsPerPage" placeholder="Items per Page">
-		</div>
+		<br/>
 		<div class="form-group">
 			<label for="inputUsername" class="control-label">Username</label>
-			<input data-bind="value: userFormModel.username" type="text" class="form-control autofocus" id="inputUserName" placeholder="Username">
+			<input data-bind="value: userFormModel.username" type="text" class="form-control" id="inputUserName" placeholder="Username">
 		</div>
 		<div class="form-group">
 			<label for="inputPassword" class="control-label">Password</label>
-			<input data-bind="value: userFormModel.password" type="password" class="form-control autofocus" id="inputPassword" placeholder="Password">
+			<input data-bind="value: userFormModel.password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+		</div>
+		<div class="form-group">
+			<label for="inputItemsPerPage" class="control-label">Items per Page</label>
+			<input data-bind="value: userFormModel.itemsPerPage" type="text" class="form-control" id="inputItemsPerPage" placeholder="Items per Page">
 		</div>
 		<div class="form-group">
 			<label for="inputUserType">User Type</label>
