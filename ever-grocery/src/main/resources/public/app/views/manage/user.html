@@ -2,15 +2,15 @@
 	<br /><br /><br />
 	<div class="row">
 		<div class="col-md-4 col-xs-4">
-			<button type="button" class="btn btn-success">Add New User</button>
+			<button data-bind="click: create" type="button" class="btn btn-success">Add New User</button>
 		</div>
 		<form class="form-inline" role="form">
 			<div class="input-group col-md-4 col-xs-4 pull-right">
 				<div class="form-group">
-					<input size="45" type="text" class="form-control" placeholder="Search User">
+					<input data-bind="value: searchKey" size="45" type="text" class="form-control" placeholder="Search User">
 				</div>
 				<div class="form-group">
-					<button class="btn btn-default glyphicon glyphicon-search"></button>
+					<button data-bind="click: refreshUserList" class="btn btn-default glyphicon glyphicon-search"></button>
 				</div>
 			</div>
 		</form>
@@ -28,19 +28,21 @@
     				<tr>
     					<th>First Name</th>
     					<th>Last Name</th>
-    					<th>User Type</th>
+    					<th>Items per Page</th>
+    					<th>username</th>
     				</tr>
     			</thead>
     		
-    			<tbody>
+    			<tbody data-bind="foreach: { data: userList, as: 'user' }">
     				<tr>
-    					<td></td>
-    					<td></td>
-    					<td></td>
+    					<td data-bind="text: user.firstName"></td>
+    					<td data-bind="text: user.lastName"></td>
+    					<td data-bind="text: user.itemsPerPage"></td>
+    					<td data-bind="text: user.username"></td>
     					<td>
     						<div class="pull-right">
-    							<button class="btn btn-warning btn-sm">Edit</button>
-    							<button type="button" class="btn btn-danger btn-sm">Remove</button>
+    							<button data-bind="click: function() { $parent.edit(user.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>
+    							<button data-bind="click: function() { $parent.remove(user.id, user.name) }" type="button" class="btn btn-danger btn-sm">Remove</button>
     						</div>
     					</td>
     				</tr>

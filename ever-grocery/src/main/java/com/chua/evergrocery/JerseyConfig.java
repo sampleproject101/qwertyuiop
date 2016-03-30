@@ -11,6 +11,7 @@ import com.chua.evergrocery.rest.endpoint.CompanyEndpoint;
 import com.chua.evergrocery.rest.endpoint.DistributorEndpoint;
 import com.chua.evergrocery.rest.endpoint.ProductEndpoint;
 import com.chua.evergrocery.rest.endpoint.SettingsEndpoint;
+import com.chua.evergrocery.rest.endpoint.UserEndpoint;
 
 @Component
 @ApplicationPath("services")
@@ -26,5 +27,6 @@ public class JerseyConfig extends ResourceConfig {
 		register(CompanyEndpoint.class);
 		register(DistributorEndpoint.class);
 		register(SettingsEndpoint.class);
+		register(UserEndpoint.class);
 	}
 }
