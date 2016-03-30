@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -16,16 +18,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private @Qualifier("userAuthenticationProvider") AuthenticationProvider authenticationProvider;
 	
+	@Autowired
+	private @Qualifier("userAuthenticationSuccessHandler") AuthenticationSuccessHandler authenticationSuccessHandler;
+	
+	@Autowired
+	private @Qualifier("userAuthenticationFailureHandler") AuthenticationFailureHandler authenticationFailureHandler;
+	
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 			.authorizeRequests()
+				.antMatchers("/", 
+							 "/index.html", 
+							 "/app/**", 
+							 "/lib/**", 
+							 "/favicon.ico",
+							 "/services/security/user",
+							 "/login").permitAll()
 				.anyRequest().authenticated()
-				.and()
-			.formLogin()
-				.and()
-			.logout()
-				.permitAll();
+					.and()
+				.formLogin()
+						.successHandler(authenticationSuccessHandler)
+						.failureHandler(authenticationFailureHandler)
+					.and()
+				.csrf().disable();
 	}
 	
 	@Override

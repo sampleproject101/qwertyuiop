@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chua.evergrocery.beans.UserBean;
 import com.chua.evergrocery.database.entity.User;
 import com.chua.evergrocery.database.service.UserService;
 import com.chua.evergrocery.utility.EncryptionUtil;
@@ -33,7 +34,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         if(user != null) {
         	final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority(user.getUserType().name()));
-        	return new UsernamePasswordAuthenticationToken(username, password, grantedAuths);
+        	return new UsernamePasswordAuthenticationToken(new UserBean(username, password, grantedAuths, user), password, grantedAuths);
         } else {
         	return null;
         }

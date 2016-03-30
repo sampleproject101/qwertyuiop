@@ -19,7 +19,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'modules/settingsservice', 'bootstrap', 'modules/kocustombindings'],  function (system, app, viewLocator, settingsService) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'modules/securityservice', 'bootstrap', 'modules/kocustombindings'],  function (system, app, viewLocator, securityService) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -32,16 +32,19 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'modules/sett
         widget: true
     });
 
-    settingsService.getItemsPerPage().done(function(itemsPerPage) {
-    	app.itemsPerPage = itemsPerPage;
-    });
-    
     app.start().then(function() {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
         //Look for partial views in a 'views' folder in the root.
         viewLocator.useConvention();
 
-        //Show the app by setting the root view model for our application with a transition.
-        app.setRoot('viewmodels/shell');
+        securityService.getUser().done(function(user) {
+        	if(user == null) {
+        		app.setRoot('viewmodels/security/login');
+        	} else {
+        		app.itemsPerPage = user.itemsPerPage;
+        		//Show the app by setting the root view model for our application with a transition.
+                app.setRoot('viewmodels/shell');
+        	}
+        });
     });
 });
