@@ -14,9 +14,9 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
         	secondInnerPiece: null
         };
         
-        this.wholeEnableConfig = new ProductDetailsEnableConfig(true, false, true, false, false, false, true, false, false);
+        this.wholeEnableConfig = new ProductDetailsEnableConfig(true, false, true, true, true, false, true, false, false);
         
-        this.pieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, true, true, false, true, false, false);
+        this.pieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false);
         
         this.innerPieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false);
         
@@ -31,8 +31,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	
     	self.productDetailsFormModel.id(self.product.id);
     	if(!self.hasProductDetail) { 
-    		self.productDetailsFormModel.whole = new ProductDetails({ title: 'Whole', grossPrice: 0, discount: 0, netPrice: 0, 
-    			percentProfit: 3.75, sellingPrice: 0, netProfit: 0}, unitList1, self.wholeEnableConfig);
+    		self.productDetailsFormModel.whole = new ProductDetails({ title: 'Whole', quantity: 1, grossPrice: 0, discount: 0,
+    			netPrice: 0, percentProfit: 3.75, sellingPrice: 0, netProfit: 0}, unitList1, self.wholeEnableConfig);
     		self.productDetailsFormModel.piece = new ProductDetails({ title: 'Piece', quantity: 0, grossPrice: 0, discount: 0, 
     			netPrice: 0, percentProfit: 5, sellingPrice: 0, netProfit: 0}, unitList2, self.pieceEnableConfig);
     		self.productDetailsFormModel.innerPiece = new ProductDetails({ title: 'Inner Piece', quantity: 0, grossPrice: 0, discount: 0, 
@@ -55,34 +55,22 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     ProductDetailsForm.prototype.compositionComplete = function() {
     	var self = this;
     	
-    	self.enableConfigByPieceQuantity(self.productDetailsFormModel.piece.formModel.quantity());
-		self.productDetailsFormModel.piece.formModel.quantity.subscribe(function(newValue) {
-    		if(newValue > 1) {
-    			self.productDetailsFormModel.whole.formModel.quantity(1);
-    		} else {
-    			self.productDetailsFormModel.whole.formModel.quantity(0);
-    		}
-    		
-    		if(self.productDetailsFormModel.whole.formModel.quantity() > 0) {
-    			self.productDetailsFormModel.whole.formModel.grossPrice(self.productDetailsFormModel.piece.formModel.grossPrice() * newValue);
-    		} else {
-    			self.productDetailsFormModel.whole.formModel.grossPrice(0);
-    		}
-    		
-    		self.enableConfigByPieceQuantity(newValue);
-    	});
-		
-		self.enableConfigByWholeQuantity(self.productDetailsFormModel.whole.formModel.quantity());
-		self.productDetailsFormModel.whole.formModel.quantity.subscribe(function(newValue) {
-			self.enableConfigByWholeQuantity(newValue);
-    	});
-		
     	self.productDetailsFormModel.whole.formModel.grossPrice.subscribe(function(newValue) {
     		self.productDetailsFormModel.whole.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.whole.formModel.discount()));
+    	
+    		if(self.productDetailsFormModel.piece.formModel.quantity() > 1) {
+    			self.productDetailsFormModel.piece.formModel.grossPrice(newValue / self.productDetailsFormModel.piece.formModel.quantity());
+    		} else {
+    			self.productDetailsFormModel.piece.formModel.grossPrice(0);
+    		}
     	});
     	
     	self.productDetailsFormModel.whole.formModel.discount.subscribe(function(newValue) {
     		self.productDetailsFormModel.whole.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.whole.formModel.grossPrice(), newValue));
+    	
+    		self.productDetailsFormModel.piece.formModel.discount(newValue);
+    		self.productDetailsFormModel.innerPiece.formModel.discount(newValue);
+    		self.productDetailsFormModel.secondInnerPiece.formModel.discount(newValue);
     	});
     	
     	self.productDetailsFormModel.whole.formModel.percentProfit.subscribe(function(newValue) {
@@ -95,11 +83,21 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     		self.productDetailsFormModel.whole.formModel.netProfit(utility.computeNetProfit(newValue, self.productDetailsFormModel.whole.formModel.sellingPrice()));
     	});
     	
+    	self.enableConfigByPieceQuantity(self.productDetailsFormModel.piece.formModel.quantity());
+		self.productDetailsFormModel.piece.formModel.quantity.subscribe(function(newValue) {
+    		if(newValue > 1) {
+    			self.productDetailsFormModel.piece.formModel.grossPrice(self.productDetailsFormModel.whole.formModel.grossPrice() / newValue);
+    		} else {
+    			self.productDetailsFormModel.piece.formModel.grossPrice(0);
+    		}
+    		
+    		self.enableConfigByPieceQuantity(newValue);
+    	});
+    	
     	self.productDetailsFormModel.piece.formModel.grossPrice.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.formModel.grossPrice(newValue * self.productDetailsFormModel.piece.formModel.quantity());
     		self.productDetailsFormModel.piece.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.piece.formModel.discount()));
     		
-    		if(self.productDetailsFormModel.innerPiece.formModel.quantity() > 0) {
+    		if(self.productDetailsFormModel.innerPiece.formModel.quantity() > 1) {
     			self.productDetailsFormModel.innerPiece.formModel.grossPrice(newValue / self.productDetailsFormModel.innerPiece.formModel.quantity());
     		} else {
     			self.productDetailsFormModel.innerPiece.formModel.grossPrice(0);
@@ -107,10 +105,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	});
     	
     	self.productDetailsFormModel.piece.formModel.discount.subscribe(function(newValue) {
-    		self.productDetailsFormModel.whole.formModel.discount(newValue);
     		self.productDetailsFormModel.piece.formModel.netPrice(utility.computeNetPrice(self.productDetailsFormModel.piece.formModel.grossPrice(), newValue));
-    		self.productDetailsFormModel.innerPiece.formModel.discount(newValue);
-    		self.productDetailsFormModel.secondInnerPiece.formModel.discount(newValue);
     	});
     	
     	self.productDetailsFormModel.piece.formModel.percentProfit.subscribe(function(newValue) {
@@ -125,7 +120,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	
     	self.enableConfigByInnerPieceQuantity(self.productDetailsFormModel.innerPiece.formModel.quantity());
     	self.productDetailsFormModel.innerPiece.formModel.quantity.subscribe(function(newValue) {
-    		if(newValue > 0) {
+    		if(newValue > 1) {
     			self.productDetailsFormModel.innerPiece.formModel.grossPrice(self.productDetailsFormModel.piece.formModel.grossPrice() / newValue);
     		} else {
     			self.productDetailsFormModel.innerPiece.formModel.grossPrice(0);
@@ -137,7 +132,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	self.productDetailsFormModel.innerPiece.formModel.grossPrice.subscribe(function(newValue) {
     		self.productDetailsFormModel.innerPiece.formModel.netPrice(utility.computeNetPrice(newValue, self.productDetailsFormModel.innerPiece.formModel.discount()));
     		
-    		if(self.productDetailsFormModel.secondInnerPiece.formModel.quantity() > 0) {
+    		if(self.productDetailsFormModel.secondInnerPiece.formModel.quantity() > 1) {
     			self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(newValue / self.productDetailsFormModel.secondInnerPiece.formModel.quantity());
     		} else {
     			self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(0);
@@ -160,7 +155,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	
     	self.enableConfigBySecondInnerPieceQuantity(self.productDetailsFormModel.secondInnerPiece.formModel.quantity());
     	self.productDetailsFormModel.secondInnerPiece.formModel.quantity.subscribe(function(newValue) {
-    		if(newValue > 0) {
+    		if(newValue > 1) {
     			self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(self.productDetailsFormModel.innerPiece.formModel.grossPrice() / newValue);
     		} else {
     			self.productDetailsFormModel.secondInnerPiece.formModel.grossPrice(0);
@@ -215,37 +210,27 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     ProductDetailsForm.prototype.enableConfigByPieceQuantity = function(value) {
     	var self = this;
     	
-    	self.pieceEnableConfig.enableBarcode(value > 0);
-    	self.pieceEnableConfig.enableUnitType(value > 0);
-    	self.pieceEnableConfig.enableGrossPrice(value > 0);
-		self.pieceEnableConfig.enableDiscount(value > 0);
-		self.pieceEnableConfig.enablePercentProfit(value > 0);
-    	self.innerPieceEnableConfig.enableQuantity(value > 0);
-    };
-    
-    ProductDetailsForm.prototype.enableConfigByWholeQuantity = function(value) {
-    	var self = this;
-    	
-    	self.wholeEnableConfig.enableBarcode(value > 0);
-    	self.wholeEnableConfig.enableUnitType(value > 0);
-    	self.wholeEnableConfig.enablePercentProfit(value > 0);
+    	self.pieceEnableConfig.enableBarcode(value > 1);
+    	self.pieceEnableConfig.enableUnitType(value > 1);
+		self.pieceEnableConfig.enablePercentProfit(value > 1);
+    	self.innerPieceEnableConfig.enableQuantity(value > 1);
     };
     
     ProductDetailsForm.prototype.enableConfigByInnerPieceQuantity = function(value) {
     	var self = this;
     	
-    	self.innerPieceEnableConfig.enableBarcode(value > 0);
-    	self.innerPieceEnableConfig.enableUnitType(value > 0);
-    	self.innerPieceEnableConfig.enablePercentProfit(value > 0);
-    	self.secondInnerPieceEnableConfig.enableQuantity(value > 0);
+    	self.innerPieceEnableConfig.enableBarcode(value > 1);
+    	self.innerPieceEnableConfig.enableUnitType(value > 1);
+    	self.innerPieceEnableConfig.enablePercentProfit(value > 1);
+    	self.secondInnerPieceEnableConfig.enableQuantity(value > 1);
     };
     
     ProductDetailsForm.prototype.enableConfigBySecondInnerPieceQuantity = function(value) {
     	var self = this;
     	
-    	self.secondInnerPieceEnableConfig.enableBarcode(value > 0);
-    	self.secondInnerPieceEnableConfig.enableUnitType(value > 0);
-    	self.secondInnerPieceEnableConfig.enablePercentProfit(value > 0);
+    	self.secondInnerPieceEnableConfig.enableBarcode(value > 1);
+    	self.secondInnerPieceEnableConfig.enableUnitType(value > 1);
+    	self.secondInnerPieceEnableConfig.enablePercentProfit(value > 1);
     };
     
     return ProductDetailsForm;
