@@ -18,5 +18,5 @@ public interface UserDAO extends DAO<User, Long>, UserPrototype {
 	 */
 	List<User> findAllWithOrder(Order[] orders);
 	
-	User findByFirstName(String firstName);
+	User findByUsername(String username);
 }

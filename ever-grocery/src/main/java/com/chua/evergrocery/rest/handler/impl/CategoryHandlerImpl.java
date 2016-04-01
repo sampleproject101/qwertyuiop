@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chua.evergrocery.Application;
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.CategoryFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Category;
@@ -24,7 +24,7 @@ public class CategoryHandlerImpl implements CategoryHandler {
 
 	@Override
 	public ObjectList<Category> getCategoryObjectList(Integer pageNumber, String searchKey) {
-		return categoryService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
+		return categoryService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
 	}
 	
 	@Override

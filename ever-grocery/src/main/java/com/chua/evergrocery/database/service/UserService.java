@@ -15,5 +15,5 @@ public interface UserService
 	 */
 	List<User> findAllOrderByFirstName();
 	
-	Boolean isExistsByFirstName(String firstName);
+	Boolean isExistsByUsername(String username);
 }

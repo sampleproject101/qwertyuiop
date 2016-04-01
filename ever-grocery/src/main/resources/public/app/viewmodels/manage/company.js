@@ -4,7 +4,7 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 		
 		this.searchKey = ko.observable();
 		
-		this.itemsPerPage = ko.observable(app.itemsPerPage);
+		this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;

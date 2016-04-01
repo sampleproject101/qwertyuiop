@@ -38,7 +38,7 @@ public class UserServiceImpl
 	}
 
 	@Override
-	public Boolean isExistsByFirstName(String name) {
-		return dao.findByFirstName(StringUtils.trimToEmpty(name)) != null;
+	public Boolean isExistsByUsername(String username) {
+		return dao.findByUsername(StringUtils.trimToEmpty(username)) != null;
 	}
 }

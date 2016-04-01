@@ -3,13 +3,13 @@ package com.chua.evergrocery.rest.handler.impl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.UserBean;
 import com.chua.evergrocery.rest.handler.SecurityHandler;
 
@@ -27,15 +27,6 @@ public class SecurityHandlerImpl implements SecurityHandler {
 
 	@Override
 	public UserBean getUser() {
-		final UserBean user;
-		
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication != null && authentication instanceof UsernamePasswordAuthenticationToken) {
-			user = (UserBean) authentication.getPrincipal();
-		} else {
-			user = null;
-		}
-		
-		return user;
+		return UserContextHolder.getUser();
 	}
 }

@@ -20,4 +20,6 @@ public interface UserHandler {
 	ResultBean removeUser(Long userId);
 	
 	List<User> getUserList();
+	
+	List<String> getUserTypeList();
 }

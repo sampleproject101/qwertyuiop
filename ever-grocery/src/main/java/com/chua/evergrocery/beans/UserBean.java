@@ -11,10 +11,14 @@ public class UserBean extends org.springframework.security.core.userdetails.User
 
 	private static final long serialVersionUID = -1653103404363381254L;
 	
-	private final User user;
+	private User user;
 	
 	public UserBean(String username, String password, Collection<? extends GrantedAuthority> authorities, User user) {
 		super(username, password, authorities);
+		setUser(user);
+	}
+	
+	public void setUser(User user) {
 		this.user = user;
 	}
 	

@@ -29,7 +29,8 @@
     					<th>First Name</th>
     					<th>Last Name</th>
     					<th>Items per Page</th>
-    					<th>username</th>
+    					<th>Username</th>
+    					<th>User Type</th>
     				</tr>
     			</thead>
     		
@@ -39,6 +40,7 @@
     					<td data-bind="text: user.lastName"></td>
     					<td data-bind="text: user.itemsPerPage"></td>
     					<td data-bind="text: user.username"></td>
+    					<td data-bind="text: user.userType"></td>
     					<td>
     						<div class="pull-right">
     							<button data-bind="click: function() { $parent.edit(user.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>

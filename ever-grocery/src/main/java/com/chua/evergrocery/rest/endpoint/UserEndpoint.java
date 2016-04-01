@@ -69,4 +69,11 @@ public class UserEndpoint {
 	public List<User> getUserList() {
 		return userHandler.getUserList();
 	}
+	
+	@GET
+	@Path("/listusertype")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<String> getUserTypeList() {
+		return userHandler.getUserTypeList();
+	}
 }

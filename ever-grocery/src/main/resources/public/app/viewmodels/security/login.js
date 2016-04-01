@@ -12,7 +12,11 @@ define(['durandal/app', 'knockout', 'modules/securityservice'], function (app, k
 		
 		securityService.login(self.username(), self.password()).done(function(data) {
 			if(data == 'SUCCESS') {
-				app.setRoot('viewmodels/shell');
+				securityService.getUser().done(function(user) {
+	        		app.user = user;
+	        		//Show the app by setting the root view model for our application with a transition.
+	                app.setRoot('viewmodels/shell');
+		        });
 			} else { // FAILURE
 				self.errorMessage('Invalid Username / Password!');
 			}

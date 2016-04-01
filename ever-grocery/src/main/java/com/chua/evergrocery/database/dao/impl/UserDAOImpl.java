@@ -48,10 +48,10 @@ public class UserDAOImpl
 	}
 
 	@Override
-	public User findByFirstName(String firstName) {
+	public User findByUsername(String username) {
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
-		conjunction.add(Restrictions.eq("name", firstName));
+		conjunction.add(Restrictions.eq("username", username));
 		
 		return findUniqueResult(null, null, null, conjunction);
 	}

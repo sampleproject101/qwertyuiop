@@ -38,13 +38,11 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'modules/secu
         viewLocator.useConvention();
 
         securityService.getUser().done(function(user) {
-        	if(user == null) {
-        		app.setRoot('viewmodels/security/login');
-        	} else {
-        		app.itemsPerPage = user.itemsPerPage;
-        		//Show the app by setting the root view model for our application with a transition.
-                app.setRoot('viewmodels/shell');
-        	}
+    		app.user = user;
+    		//Show the app by setting the root view model for our application with a transition.
+            app.setRoot('viewmodels/shell');
+        }).error(function() {
+        	app.setRoot('viewmodels/security/login');
         });
     });
 });

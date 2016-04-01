@@ -1,19 +1,23 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chua.evergrocery.Application;
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.beans.UserFormBean;
 import com.chua.evergrocery.database.entity.User;
 import com.chua.evergrocery.database.service.UserService;
+import com.chua.evergrocery.enums.UserType;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.UserHandler;
+import com.chua.evergrocery.utility.EncryptionUtil;
 
 @Transactional
 @Component
@@ -24,7 +28,7 @@ public class UserHandlerImpl implements UserHandler {
 
 	@Override
 	public ObjectList<User> getUserObjectList(Integer pageNumber, String searchKey) {
-		return userService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
+		return userService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
 	}
 	
 	@Override
@@ -36,8 +40,9 @@ public class UserHandlerImpl implements UserHandler {
 	public ResultBean createUser(UserFormBean userForm) {
 		final ResultBean result;
 		
-		if(!userService.isExistsByFirstName(userForm.getFirstName())) {
+		if(!userService.isExistsByUsername(userForm.getUsername())) {
 			final User user = new User();
+			user.setPassword(EncryptionUtil.getMd5(userForm.getPassword()));
 			setUser(user, userForm);
 			
 			result = new ResultBean();
@@ -48,7 +53,7 @@ public class UserHandlerImpl implements UserHandler {
 				result.setMessage("Failed to create user.");
 			}
 		} else {
-			result = new ResultBean(false, "User \"" + userForm.getFirstName() + "\" already exists!");
+			result = new ResultBean(false, "Username \"" + userForm.getUsername() + "\" already exists!");
 		}
 		
 		return result;
@@ -60,15 +65,16 @@ public class UserHandlerImpl implements UserHandler {
 		
 		final User user = userService.find(userForm.getId());
 		if(user != null) {
-			if(!(StringUtils.trimToEmpty(user.getFirstName()).equalsIgnoreCase(userForm.getFirstName())) &&
-					userService.isExistsByFirstName(userForm.getFirstName())) {
-				result = new ResultBean(false, "User \"" + userForm.getFirstName() + "\" already exists!");
+			if(!(StringUtils.trimToEmpty(user.getFirstName()).equalsIgnoreCase(userForm.getUsername())) &&
+					userService.isExistsByUsername(userForm.getUsername())) {
+				result = new ResultBean(false, "Username \"" + userForm.getUsername() + "\" already exists!");
 			} else {
 				setUser(user, userForm);
 				
 				result = new ResultBean();
 				result.setSuccess(userService.update(user));
 				if(result.getSuccess()) {
+					UserContextHolder.refreshUser(user);
 					result.setMessage("User successfully updated.");
 				} else {
 					result.setMessage("Failed to update user.");
@@ -91,9 +97,9 @@ public class UserHandlerImpl implements UserHandler {
 			
 			result.setSuccess(userService.delete(user));
 			if(result.getSuccess()) {
-				result.setMessage("Successfully removed User \"" + user.getFirstName() + "\".");
+				result.setMessage("Successfully removed User \"" + user.getUsername() + "\".");
 			} else {
-				result.setMessage("Failed to remove User \"" + user.getFirstName() + "\".");
+				result.setMessage("Failed to remove User \"" + user.getUsername() + "\".");
 			}
 		} else {
 			result = new ResultBean(false, "User not found.");
@@ -109,5 +115,14 @@ public class UserHandlerImpl implements UserHandler {
 	
 	private void setUser(User user, UserFormBean userForm) {
 		user.setFirstName(userForm.getFirstName());
+		user.setLastName(userForm.getLastName());
+		user.setItemsPerPage(userForm.getItemsPerPage());
+		user.setUserType(userForm.getUserType());
+		user.setUsername(userForm.getUsername());
+	}
+
+	@Override
+	public List<String> getUserTypeList() {
+		return Arrays.asList(UserType.values()).stream().map(UserType::name).collect(Collectors.toList());
 	}
 }

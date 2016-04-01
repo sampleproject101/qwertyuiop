@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chua.evergrocery.Application;
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.BrandFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Brand;
@@ -24,7 +24,7 @@ public class BrandHandlerImpl implements BrandHandler {
 
 	@Override
 	public ObjectList<Brand> getBrandObjectList(Integer pageNumber, String searchKey) {
-		return brandService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
+		return brandService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
 	}
 	
 	@Override

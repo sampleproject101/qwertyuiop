@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.chua.evergrocery.Application;
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.CompanyFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Company;
@@ -25,7 +25,7 @@ public class CompanyHandlerImpl implements CompanyHandler {
 
 	@Override
 	public ObjectList<Company> getCompanyObjectList(Integer pageNumber, String searchKey) {
-		return companyService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
+		return companyService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
 	}
 	
 	@Override

@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.chua.evergrocery.Application;
+import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.DistributorFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Distributor;
@@ -25,7 +25,7 @@ public class DistributorHandlerImpl implements DistributorHandler {
 
 	@Override
 	public ObjectList<Distributor> getDistributorObjectList(Integer pageNumber, String searchKey) {
-		return distributorService.findAllWithPaging(pageNumber, Application.ITEMS_PER_PAGE, searchKey);
+		return distributorService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
 	}
 	
 	@Override
