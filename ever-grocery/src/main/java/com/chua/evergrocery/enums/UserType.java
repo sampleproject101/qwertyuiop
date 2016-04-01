@@ -8,6 +8,8 @@ public enum UserType {
 	
 	ASSISTANT_MANAGER ("Assistant Manager"),
 	
+	STORAGE_MANAGER ("Storage Manager"),
+	
 	CASHIER ("Cashier"),
 	
 	SENIOR_STAFF ("Senior Staff"),
