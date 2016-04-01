@@ -26,29 +26,28 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     ProductDetailsForm.prototype.activate = function() {
     	var self = this;
     	
-    	var unitList1 = ko.observableArray([ 'Box', 'Bundle', 'Case', 'Sack' ]);
-    	var unitList2 = ko.observableArray([ '6s', '8s', 'Bag', 'Bar', 'Bottle', 'Box', 'Can', 'Dozen', 'Jar', 'Pack', 'Pair', 'Piece', 'Pouch', 'Ream', 'Tie', 'Tin' ]);
+    	var unitList = ko.observableArray([ '6s', '8s', 'Bag', 'Bar', 'Bottle', 'Box', 'Bundle', 'Can', 'Case', 'Dozen', 'Jar', 'Pack', 'Pair', 'Piece', 'Pouch', 'Ream', 'Sack', 'Tie', 'Tin' ]);
     	
     	self.productDetailsFormModel.id(self.product.id);
     	if(!self.hasProductDetail) { 
     		self.productDetailsFormModel.whole = new ProductDetails({ title: 'Whole', quantity: 1, grossPrice: 0, discount: 0,
-    			netPrice: 0, percentProfit: 3.75, sellingPrice: 0, netProfit: 0}, unitList1, self.wholeEnableConfig);
+    			netPrice: 0, percentProfit: 3.75, sellingPrice: 0, netProfit: 0}, unitList, self.wholeEnableConfig);
     		self.productDetailsFormModel.piece = new ProductDetails({ title: 'Piece', quantity: 0, grossPrice: 0, discount: 0, 
-    			netPrice: 0, percentProfit: 5, sellingPrice: 0, netProfit: 0}, unitList2, self.pieceEnableConfig);
+    			netPrice: 0, percentProfit: 5, sellingPrice: 0, netProfit: 0}, unitList, self.pieceEnableConfig);
     		self.productDetailsFormModel.innerPiece = new ProductDetails({ title: 'Inner Piece', quantity: 0, grossPrice: 0, discount: 0, 
-    			netPrice: 0, percentProfit: 7.5, sellingPrice: 0, netProfit: 0}, unitList2, self.innerPieceEnableConfig);
+    			netPrice: 0, percentProfit: 7.5, sellingPrice: 0, netProfit: 0}, unitList, self.innerPieceEnableConfig);
     		self.productDetailsFormModel.secondInnerPiece = new ProductDetails({ title: '2nd Inner Piece', quantity: 0, grossPrice: 0, discount: 0, 
-    			netPrice: 0, percentProfit: 11.25, sellingPrice: 0, netProfit: 0}, unitList2, self.secondInnerPieceEnableConfig);
+    			netPrice: 0, percentProfit: 11.25, sellingPrice: 0, netProfit: 0}, unitList, self.secondInnerPieceEnableConfig);
     	} else {
     		var productDetailMap = new Array();
     		for(var c = 0; c < self.productDetailList.length; c++) {
     			productDetailMap[self.productDetailList[c].title] = self.productDetailList[c];
     		}
     		
-    		self.productDetailsFormModel.whole = new ProductDetails(productDetailMap['Whole'], unitList1, self.wholeEnableConfig);
-    		self.productDetailsFormModel.piece = new ProductDetails(productDetailMap['Piece'], unitList2, self.pieceEnableConfig);
-    		self.productDetailsFormModel.innerPiece = new ProductDetails(productDetailMap['Inner Piece'], unitList2, self.innerPieceEnableConfig);
-    		self.productDetailsFormModel.secondInnerPiece = new ProductDetails(productDetailMap['2nd Inner Piece'], unitList2, self.secondInnerPieceEnableConfig);
+    		self.productDetailsFormModel.whole = new ProductDetails(productDetailMap['Whole'], unitList, self.wholeEnableConfig);
+    		self.productDetailsFormModel.piece = new ProductDetails(productDetailMap['Piece'], unitList, self.pieceEnableConfig);
+    		self.productDetailsFormModel.innerPiece = new ProductDetails(productDetailMap['Inner Piece'], unitList, self.innerPieceEnableConfig);
+    		self.productDetailsFormModel.secondInnerPiece = new ProductDetails(productDetailMap['2nd Inner Piece'], unitList, self.secondInnerPieceEnableConfig);
     	}
     };
  
