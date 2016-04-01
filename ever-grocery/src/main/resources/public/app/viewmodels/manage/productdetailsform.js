@@ -14,13 +14,13 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
         	secondInnerPiece: null
         };
         
-        this.wholeEnableConfig = new ProductDetailsEnableConfig(true, false, true, true, true, false, true, false, false);
+        this.wholeEnableConfig = new ProductDetailsEnableConfig(true, false, true, true, true, false, true, false, false, true, true);
         
-        this.pieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false);
+        this.pieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false, true, true);
         
-        this.innerPieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false);
+        this.innerPieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false, true, true);
         
-        this.secondInnerPieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false);
+        this.secondInnerPieceEnableConfig = new ProductDetailsEnableConfig(true, true, true, false, false, false, true, false, false, true, true);
     };
     
     ProductDetailsForm.prototype.activate = function() {
@@ -213,6 +213,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	self.pieceEnableConfig.enableBarcode(value > 1);
     	self.pieceEnableConfig.enableUnitType(value > 1);
 		self.pieceEnableConfig.enablePercentProfit(value > 1);
+		self.pieceEnableConfig.enableStorageStockCount(value > 1);
+		self.pieceEnableConfig.enableStoreStockCount(value > 1);
     	self.innerPieceEnableConfig.enableQuantity(value > 1);
     };
     
@@ -222,6 +224,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	self.innerPieceEnableConfig.enableBarcode(value > 1);
     	self.innerPieceEnableConfig.enableUnitType(value > 1);
     	self.innerPieceEnableConfig.enablePercentProfit(value > 1);
+    	self.innerPieceEnableConfig.enableStorageStockCount(value > 1);
+		self.innerPieceEnableConfig.enableStoreStockCount(value > 1);
     	self.secondInnerPieceEnableConfig.enableQuantity(value > 1);
     };
     
@@ -231,6 +235,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     	self.secondInnerPieceEnableConfig.enableBarcode(value > 1);
     	self.secondInnerPieceEnableConfig.enableUnitType(value > 1);
     	self.secondInnerPieceEnableConfig.enablePercentProfit(value > 1);
+    	self.secondInnerPieceEnableConfig.enableStorageStockCount(value > 1);
+		self.secondInnerPieceEnableConfig.enableStoreStockCount(value > 1);
     };
     
     return ProductDetailsForm;

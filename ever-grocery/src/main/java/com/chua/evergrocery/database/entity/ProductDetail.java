@@ -26,13 +26,15 @@ public class ProductDetail extends BaseObject {
 	private String title;
 	private String barcode;
 	private Integer quantity;
+	private String unitType;
 	private Float grossPrice;
 	private Float discount;
 	private Float netPrice;
 	private Float percentProfit;
 	private Float sellingPrice;
 	private Float netProfit;
-	private String unitType;
+	private Float storageStockCount;
+	private Float storeStockCount;
 	
 	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
@@ -144,5 +146,25 @@ public class ProductDetail extends BaseObject {
 	
 	public void setUnitType(String unitType) {
 		this.unitType = unitType;
+	}
+	
+	@Basic
+	@Column(name = "storage_stock_count")
+	public Float getStorageStockCount() {
+		return storageStockCount;
+	}
+	
+	public void setStorageStockCount(Float storageStockCount) {
+		this.storageStockCount = storageStockCount;
+	}
+	
+	@Basic
+	@Column(name = "store_stock_count")
+	public Float getStoreStockCount() {
+		return storeStockCount;
+	}
+	
+	public void setStoreStockCount(Float storeStockCount) {
+		this.storeStockCount = storeStockCount;
 	}
 }

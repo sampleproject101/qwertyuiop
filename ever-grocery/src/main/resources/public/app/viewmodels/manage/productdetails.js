@@ -28,6 +28,10 @@ define(['knockout'], function (ko) {
     		sellingPrice: ko.observable(),
     		
     		netProfit: ko.observable(),
+    		
+    		storageStockCount: ko.observable(),
+    		
+    		storeStockCount: ko.observable()
     	};
     	
     	this.enableBarcode = null;
@@ -47,6 +51,10 @@ define(['knockout'], function (ko) {
         this.enableSellingPrice = null;
         
         this.enableNetProfit = null;
+        
+        this.enableStorageStockCount = null;
+        
+        this.enableStoreStockCount = null;
     };
     
     ProductDetails.prototype.activate = function() {
@@ -63,6 +71,8 @@ define(['knockout'], function (ko) {
     	self.formModel.percentProfit(self.productDetails.percentProfit);
     	self.formModel.sellingPrice(self.productDetails.sellingPrice);
     	self.formModel.netProfit(self.productDetails.netProfit);
+    	self.formModel.storageStockCount(self.productDetails.storageStockCount);
+    	self.formModel.storeStockCount(self.productDetails.storeStockCount);
     	
     	// Set to the passed observable to control enable
     	self.enableBarcode = self.enableConfig.enableBarcode;
@@ -74,6 +84,8 @@ define(['knockout'], function (ko) {
     	self.enablePercentProfit = self.enableConfig.enablePercentProfit;
     	self.enableSellingPrice = self.enableConfig.enableSellingPrice;
     	self.enableNetProfit = self.enableConfig.enableNetProfit;
+    	self.enableStorageStockCount = self.enableConfig.enableStorageStockCount;
+    	self.enableStoreStockCount = self.enableConfig.enableStoreStockCount;
     };
  
     return ProductDetails;

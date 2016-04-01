@@ -176,6 +176,8 @@ public class ProductHandlerImpl implements ProductHandler {
 		productDetail.setPercentProfit(productDetailsForm.getPercentProfit());
 		productDetail.setSellingPrice(productDetailsForm.getSellingPrice());
 		productDetail.setNetProfit(productDetailsForm.getNetProfit());
+		productDetail.setStorageStockCount(productDetailsForm.getStorageStockCount());
+		productDetail.setStoreStockCount(productDetailsForm.getStoreStockCount());
 	}
 	
 	private Boolean upsertProductDetails(Product product, ProductDetailsFormBean productDetailsForm) {
