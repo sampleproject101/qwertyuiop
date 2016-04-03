@@ -33,8 +33,8 @@ public class ProductDetail extends BaseObject {
 	private Float percentProfit;
 	private Float sellingPrice;
 	private Float netProfit;
-	private Float storageStockCount;
-	private Float storeStockCount;
+	private Integer storageStockCount;
+	private Integer storeStockCount;
 	
 	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
@@ -150,21 +150,21 @@ public class ProductDetail extends BaseObject {
 	
 	@Basic
 	@Column(name = "storage_stock_count")
-	public Float getStorageStockCount() {
+	public Integer getStorageStockCount() {
 		return storageStockCount;
 	}
 	
-	public void setStorageStockCount(Float storageStockCount) {
+	public void setStorageStockCount(Integer storageStockCount) {
 		this.storageStockCount = storageStockCount;
 	}
 	
 	@Basic
 	@Column(name = "store_stock_count")
-	public Float getStoreStockCount() {
+	public Integer getStoreStockCount() {
 		return storeStockCount;
 	}
 	
-	public void setStoreStockCount(Float storeStockCount) {
+	public void setStoreStockCount(Integer storeStockCount) {
 		this.storeStockCount = storeStockCount;
 	}
 }

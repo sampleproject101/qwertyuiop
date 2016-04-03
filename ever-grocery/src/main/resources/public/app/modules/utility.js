@@ -14,6 +14,10 @@ define(['knockout'], function (ko) {
     	
     	round: function(number) {
     		return (Math.ceil(number * 4)) / 4;
+    	},
+    	
+    	mod: function(dividend, divisor) {
+    		return (((dividend % divisor) + divisor) % divisor);
     	}
     };
 });
