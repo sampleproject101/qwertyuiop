@@ -65,7 +65,7 @@ public class UserHandlerImpl implements UserHandler {
 		
 		final User user = userService.find(userForm.getId());
 		if(user != null) {
-			if(!(StringUtils.trimToEmpty(user.getFirstName()).equalsIgnoreCase(userForm.getUsername())) &&
+			if(!(StringUtils.trimToEmpty(user.getUsername()).equalsIgnoreCase(userForm.getUsername())) &&
 					userService.isExistsByUsername(userForm.getUsername())) {
 				result = new ResultBean(false, "Username \"" + userForm.getUsername() + "\" already exists!");
 			} else {
