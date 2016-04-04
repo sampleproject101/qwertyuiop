@@ -20,8 +20,8 @@ public class ProductServiceImpl
 	}
 	
 	@Override
-	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey, Long companyId) {
+		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey, companyId);
 	}
 	
 	@Override

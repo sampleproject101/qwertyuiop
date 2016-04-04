@@ -32,8 +32,9 @@ public class ProductEndpoint {
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ObjectList<Product> getProductList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
-		return productHandler.getProductList(pageNumber, searchKey);
+	public ObjectList<Product> getProductList(@QueryParam("pageNumber") Integer pageNumber, 
+			@QueryParam("searchKey") String searchKey, @QueryParam("companyId") Long companyId) {
+		return productHandler.getProductList(pageNumber, searchKey, companyId);
 	}
 	
 	@GET

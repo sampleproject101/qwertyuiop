@@ -46,8 +46,8 @@ public class ProductHandlerImpl implements ProductHandler {
 	private ProductDetailService productDetailService;
 
 	@Override
-	public ObjectList<Product> getProductList(Integer pageNumber, String searchKey) {
-		return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
+	public ObjectList<Product> getProductList(Integer pageNumber, String searchKey, Long companyId) {
+		return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);
 	}
 	
 	@Override

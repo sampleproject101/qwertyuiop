@@ -16,7 +16,7 @@ public class ProductDAOImpl
 		implements ProductDAO {
 
 	@Override
-	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey)
+	public ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey, Long companyId)
 	{
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
@@ -25,6 +25,10 @@ public class ProductDAOImpl
 		{
 			conjunction.add(Restrictions.disjunction()
 					.add(Restrictions.ilike("name", searchKey, MatchMode.ANYWHERE)));
+		}
+		
+		if(companyId != null) {
+			conjunction.add(Restrictions.eq("company.id", companyId));
 		}
 		
 		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);

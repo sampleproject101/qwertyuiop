@@ -11,8 +11,9 @@ public interface ProductPrototype {
 	 * @param pageNumber the page number
 	 * @param resultsPerPage the results per page
 	 * @param searchKey the search key
+	 * @param companyId the company id
 	 * 
 	 * @return the object list of product
 	 */
-	ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	ObjectList<Product> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey, Long companyId);
 }

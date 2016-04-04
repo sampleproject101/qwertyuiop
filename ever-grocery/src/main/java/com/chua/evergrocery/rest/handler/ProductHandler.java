@@ -11,7 +11,7 @@ import com.chua.evergrocery.objects.ObjectList;
 
 public interface ProductHandler {
 
-	ObjectList<Product> getProductList(Integer pageNumber, String searchKey);
+	ObjectList<Product> getProductList(Integer pageNumber, String searchKey, Long companyId);
 	
 	Product getProduct(Long productId);
 	
