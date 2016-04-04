@@ -36,7 +36,8 @@ public class UserDAOImpl
 		if(StringUtils.isNotBlank(searchKey))
 		{
 			conjunction.add(Restrictions.disjunction()
-					.add(Restrictions.ilike("name", searchKey, MatchMode.ANYWHERE)));
+					.add(Restrictions.ilike("firstName", searchKey, MatchMode.ANYWHERE))
+					.add(Restrictions.ilike("lastName", searchKey, MatchMode.ANYWHERE)));
 		}
 		
 		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
