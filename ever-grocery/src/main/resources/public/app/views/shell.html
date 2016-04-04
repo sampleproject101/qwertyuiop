@@ -33,10 +33,18 @@
 					<!-- /ko -->
 	           	</ul>
 			</div>
-			<div class="nav navbar-nav navbar-right">
-				<a data-bind="click: logout" class="navbar-brand" href="javascript:void(0)">
-		        	<span>LOGOUT ~</span>
-		        </a>
+			
+			<div class="nav navbar-nav navbar-right" style="padding-right:25px">
+				<div>
+					<a href="javascript:void(0)">
+						<i class="fam-user-suit"></i>
+						<span data-bind="text: user.fullName"></span>
+					</a> | 
+					<span data-bind="text: user.userType"></span> | 
+					<a data-bind="click: logout" href="javascript:void(0)">
+			        	<span>Logout</span>
+			        </a>
+				</div>				
 	        </div>
         </div>
     </nav>

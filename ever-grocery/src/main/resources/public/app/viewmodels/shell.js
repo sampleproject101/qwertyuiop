@@ -17,6 +17,8 @@
     return {
         router: router,
         
+        user: app.user,
+        
         activate: function () {
         	$.each(routes, function(index, route) {
                 if (route.childRoutes === undefined)
