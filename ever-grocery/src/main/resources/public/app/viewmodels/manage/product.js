@@ -1,8 +1,10 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage/productform', 'viewmodels/manage/productdetailsform'], function (app, ko, productService, ProductForm, ProductDetailsForm) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'modules/companyservice', 'viewmodels/manage/productform', 'viewmodels/manage/productdetailsform'], function (app, ko, productService, companyService, ProductForm, ProductDetailsForm) {
 	var Product = function() {
 		this.productList = ko.observable();
+		this.companyList = ko.observable();
 		
 		this.searchKey = ko.observable();
+		this.companyId = ko.observable();
 		
 		this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
@@ -12,6 +14,10 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 	
 	Product.prototype.activate = function() {
 		var self = this;
+		
+		companyService.getCompanyListByName().done(function(companyList) {
+    		self.companyList(companyList);
+    	});
 		
 		self.currentPage(1);
 		self.currentPageSubscription = self.currentPage.subscribe(function() {
@@ -24,7 +30,7 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/manage
 	Product.prototype.refreshProductList = function() {
 		var self = this;
 		
-		productService.getProductList(self.currentPage(), self.searchKey()).done(function(data) {
+		productService.getProductList(self.currentPage(), self.searchKey(), self.companyId()).done(function(data) {
 			self.productList(data.list);
 			self.totalItems(data.total);
 		});

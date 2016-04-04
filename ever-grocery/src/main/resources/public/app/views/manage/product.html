@@ -5,9 +5,12 @@
 			<button data-bind="click: create" type="button" class="btn btn-success">Add New Product</button>
 		</div>
 		<form class="form-inline" role="form">
-			<div class="input-group col-md-4 col-xs-4 pull-right">
+			<div class="input-group col-md-5 col-xs-5 pull-right">
 				<div class="form-group">
-					<input data-bind="value: searchKey" size="45" type="text" class="form-control" placeholder="Search Product">
+					<select data-bind="options: companyList, optionsValue: 'id', optionsText: 'name', optionsCaption: '-- All Company --', value: companyId" class="form-control" id="inputCompany"></select>
+				</div>
+				<div class="form-group">
+					<input data-bind="value: searchKey" size="40" type="text" class="form-control" placeholder="Search Product">
 				</div>
 				<div class="form-group">
 					<button data-bind="click: refreshProductList" class="btn btn-default glyphicon glyphicon-search"></button>
