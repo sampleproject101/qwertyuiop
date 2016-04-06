@@ -24,7 +24,7 @@ define(['durandal/app', 'knockout', 'modules/productservice'], function (app, ko
 	Product.prototype.refreshProductList = function() {
 		var self = this;
 		
-		productService.getProductList(self.currentPage(), self.searchKey()).done(function(data) {
+		productService.getProductList(self.currentPage(), self.searchKey(), null).done(function(data) {
 			self.productList(data.list);
 			self.totalItems(data.total);
 		});
