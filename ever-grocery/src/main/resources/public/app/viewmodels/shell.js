@@ -1,4 +1,4 @@
-﻿define(['plugins/router', 'durandal/app', 'modules/securityservice', 'viewmodels/usersettings'], function (router, app, securityService, userSettings) {
+﻿define(['plugins/router', 'durandal/app', 'modules/securityservice', 'modules/userservice', 'viewmodels/usersettings'], function (router, app, securityService, userService, UserSettings) {
 	var routes = [
 	  	{ route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true },
 	  	{ route: 'manage', moduleRootId: 'viewmodels/manage', title: '', nav: true, hash: '#manage',
@@ -45,7 +45,9 @@
         },
         
         userSettings: function() {
-        	userSettings.show(new Object());
+        	var self = this;
+        	
+        	UserSettings.show(self.user);
         }
     };
 });
