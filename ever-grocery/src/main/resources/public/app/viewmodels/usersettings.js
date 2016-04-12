@@ -9,6 +9,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/userservice'], fu
         	firstName: ko.observable(),
         	lastName: ko.observable(),
         	itemsPerPage: ko.observable(),
+        	username: ko.observable(),
         	password: ko.observable()
         };
     };
@@ -20,6 +21,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/userservice'], fu
     	self.formModel.firstName(self.user.firstName);
     	self.formModel.lastName(self.user.lastName);
     	self.formModel.itemsPerPage(self.user.itemsPerPage);
+    	self.formModel.username(self.user.username);
     };
  
     UserSettings.show = function(user) {

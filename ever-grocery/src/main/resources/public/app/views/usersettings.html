@@ -10,13 +10,31 @@
 		</div>
 		<br/>
 		<div class="form-group">
+			<label for="inputUsername" class="control-label">Username</label>
+			<input data-bind="value: formModel.username" type="text" class="form-control" disabled="disabled" id="inputUserName" placeholder="Username">
+		</div>
+		<div class="form-group">
 			<label for="inputItemsPerPage" class="control-label">Items per Page</label>
 			<select data-bind="options: itemsPerPageList, optionsCaption: '-- Select Items per Page --', value: formModel.itemsPerPage" class="form-control" id="inputItemsPerPage"></select>
+		</div>
+		<hr/>
+		<h4 align="center">Change Password</h4>
+		<div class="form-group">
+			<label for="inputCurrentPassword" class="control-label">Current Password</label>
+			<input type="password" class="form-control" id="inputCurrentPassword" placeholder="Current Password">
+		</div>
+		<div class="form-group">
+			<label for="inputNewPassword" class="control-label">New Password</label>
+			<input type="password" class="form-control" id="inputNewPassword" placeholder="New Password">
+		</div>
+		<div class="form-group">
+			<label for="inputReEnterPassword" class="control-label">Re-enter Password</label>
+			<input type="password" class="form-control" id="inputReEnterPassword" placeholder="Re-enter Password">
 		</div>
     </div>
     
     <div class="modal-footer">
-    	<button data-bind="click: save" class="btn btn-primary">Save</button>
+    	<button class="btn btn-primary">Save</button>
         <button data-bind="click: cancel" class="btn btn-warning">Cancel</button>
     </div>
 </div>
