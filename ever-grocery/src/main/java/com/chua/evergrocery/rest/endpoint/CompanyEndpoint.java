@@ -69,4 +69,11 @@ public class CompanyEndpoint {
 	public List<Company> getCompanyList() {
 		return companyHandler.getCompanyList();
 	}
+	
+	@GET
+	@Path("/listreceipttype")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<String> getReceiptTypeList() {
+		return companyHandler.getReceiptTypeList();
+	}
 }

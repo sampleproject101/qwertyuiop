@@ -20,4 +20,6 @@ public interface CompanyHandler {
 	ResultBean removeCompany(Long companyId);
 	
 	List<Company> getCompanyList();
+	
+	List<String> getReceiptTypeList();
 }

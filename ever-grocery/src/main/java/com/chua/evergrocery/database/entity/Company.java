@@ -3,9 +3,12 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
+import com.chua.evergrocery.enums.ReceiptType;
 
 @Entity(name = "Company")
 @Table(name = Company.TABLE_NAME)
@@ -18,6 +21,8 @@ public class Company extends BaseObject {
 	private String address;
 	private String agent;
 	private String phoneNumber;
+	
+	private ReceiptType receiptType;
 	
 	@Basic
 	@Column(name = "name")
@@ -57,5 +62,15 @@ public class Company extends BaseObject {
 	
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "receipt_type", length = 50)
+	public ReceiptType getReceiptType() {
+		return receiptType;
+	}
+
+	public void setReceiptType(ReceiptType receiptType) {
+		this.receiptType = receiptType;
 	}
 }

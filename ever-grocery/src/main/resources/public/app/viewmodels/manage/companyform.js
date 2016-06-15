@@ -3,12 +3,15 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/companyservice'],
         this.preTitle = preTitle;
         this.company = company;
         
+        this.receiptTypeList = ko.observable();
+        
         this.companyFormModel = {
         	id: ko.observable(),
         	name: ko.observable(),
         	address: ko.observable(),
         	agent: ko.observable(),
-        	phoneNumber: ko.observable()
+        	phoneNumber: ko.observable(),
+        	receiptType: ko.observable()
         };
     };
     
@@ -20,6 +23,12 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/companyservice'],
     	self.companyFormModel.address(self.company.address);
     	self.companyFormModel.agent(self.company.agent);
     	self.companyFormModel.phoneNumber(self.company.phoneNumber);
+    	self.companyFormModel.receiptType(self.company.receiptType);
+    	
+    	companyService.getReceiptTypeList().done(function(receiptTypeList) {
+    		self.receiptTypeList(receiptTypeList);
+    		self.companyFormModel.receiptType(self.company.receiptType);
+    	});
     };
  
     CompanyForm.show = function(preTitle, company) {

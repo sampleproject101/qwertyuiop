@@ -1,11 +1,15 @@
 package com.chua.evergrocery.beans;
 
+import com.chua.evergrocery.enums.ReceiptType;
+
 public class CompanyFormBean extends FormBean {
 
 	private String name;
 	private String address;
 	private String agent;
 	private String phoneNumber;
+	
+	private ReceiptType receiptType;
 	
 	public String getName() {
 		return name;
@@ -37,5 +41,13 @@ public class CompanyFormBean extends FormBean {
 	
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public ReceiptType getReceiptType() {
+		return receiptType;
+	}
+
+	public void setReceiptType(ReceiptType receiptType) {
+		this.receiptType = receiptType;
 	}
 }

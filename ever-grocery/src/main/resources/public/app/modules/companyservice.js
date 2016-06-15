@@ -43,6 +43,12 @@ define(['jquery'], function ($) {
     		return $.ajax({
     			url: '/services/company/listbyname'
     		});
+    	},
+    	
+    	getReceiptTypeList: function() {
+    		return $.ajax({
+    			url: '/services/company/listreceipttype'
+    		});
     	}
     };
 });

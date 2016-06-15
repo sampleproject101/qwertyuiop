@@ -1,6 +1,8 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,6 +15,7 @@ import com.chua.evergrocery.beans.CompanyFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.Company;
 import com.chua.evergrocery.database.service.CompanyService;
+import com.chua.evergrocery.enums.ReceiptType;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CompanyHandler;
 
@@ -113,5 +116,11 @@ public class CompanyHandlerImpl implements CompanyHandler {
 		company.setAddress(companyForm.getAddress());
 		company.setAgent(companyForm.getAgent());
 		company.setPhoneNumber(companyForm.getPhoneNumber());
+		company.setReceiptType(companyForm.getReceiptType());
+	}
+	
+	@Override
+	public List<String> getReceiptTypeList() {
+		return Arrays.asList(ReceiptType.values()).stream().map(ReceiptType::name).collect(Collectors.toList());
 	}
 }
