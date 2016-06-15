@@ -9,8 +9,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/userservice'], fu
         	firstName: ko.observable(),
         	lastName: ko.observable(),
         	itemsPerPage: ko.observable(),
-        	username: ko.observable(),
-        	password: ko.observable()
+        	username: ko.observable()
         };
     };
     
@@ -28,16 +27,16 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/userservice'], fu
         return dialog.show(new UserSettings(user));
     };
     
-    /*UserSettings.prototype.save = function() {
+    UserSettings.prototype.save = function() {
     	var self = this;
-    	
-        userService.saveUser(ko.toJSON(self.formModel)).done(function(result) {
+		userService.saveUser(ko.toJSON(self.formModel)).done(function(result) {
         	if(result.success) {
-        		dialog.close(self);	
+        		alert("success");
+        		dialog.close(self);
         	} 
         	app.showMessage(result.message);
         });
-    };*/
+    };
     
     UserSettings.prototype.cancel = function() {
         dialog.close(this);

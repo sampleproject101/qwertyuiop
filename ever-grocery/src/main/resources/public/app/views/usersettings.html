@@ -11,30 +11,30 @@
 		<br/>
 		<div class="form-group">
 			<label for="inputUsername" class="control-label">Username</label>
-			<input data-bind="value: formModel.username" type="text" class="form-control" disabled="disabled" id="inputUserName" placeholder="Username">
+			<input data-bind="value: formModel.username" type="text" class="form-control" id="inputUserName" placeholder="Username">
 		</div>
 		<div class="form-group">
 			<label for="inputItemsPerPage" class="control-label">Items per Page</label>
 			<select data-bind="options: itemsPerPageList, optionsCaption: '-- Select Items per Page --', value: formModel.itemsPerPage" class="form-control" id="inputItemsPerPage"></select>
 		</div>
-		<hr/>
+		<!-- <hr/>
 		<h4 align="center">Change Password</h4>
 		<div class="form-group">
 			<label for="inputCurrentPassword" class="control-label">Current Password</label>
-			<input type="password" class="form-control" id="inputCurrentPassword" placeholder="Current Password">
+			<input data-bind="textInput: formModel.oldPassword" type="password" class="form-control" id="inputCurrentPassword" placeholder="Current Password">
 		</div>
 		<div class="form-group">
 			<label for="inputNewPassword" class="control-label">New Password</label>
-			<input type="password" class="form-control" id="inputNewPassword" placeholder="New Password">
+			<input data-bind="textInput: formModel.password" type="password" class="form-control" id="inputNewPassword" placeholder="New Password">
 		</div>
 		<div class="form-group">
 			<label for="inputReEnterPassword" class="control-label">Re-enter Password</label>
-			<input type="password" class="form-control" id="inputReEnterPassword" placeholder="Re-enter Password">
-		</div>
+			<input data-bind="textInput: formModel.reEnterPassword" type="password" class="form-control" id="inputReEnterPassword" placeholder="Re-enter Password">
+		</div> -->
     </div>
     
     <div class="modal-footer">
-    	<button class="btn btn-primary">Save</button>
+    	<button data-bind="click: save" class="btn btn-primary">Save</button>
         <button data-bind="click: cancel" class="btn btn-warning">Cancel</button>
     </div>
 </div>
