@@ -1,11 +1,14 @@
 package com.chua.evergrocery.database.entity;
 
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
@@ -37,6 +40,8 @@ public class Product extends BaseObject {
 	
 	@JsonSerialize(using = DistributorSerializer.class)
 	private Distributor distributor;
+	
+	private List<ProductDetail> productDetails;
 	
 	private String name;
 	
@@ -88,6 +93,17 @@ public class Product extends BaseObject {
 		this.distributor = distributor;
 	}
 	
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@Where(clause = "valid = 1")
+	@NotFound(action = NotFoundAction.IGNORE)
+	public List<ProductDetail> getProductDetails() {
+		return productDetails;
+	}
+
+	public void setProductDetails(List<ProductDetail> productDetails) {
+		this.productDetails = productDetails;
+	}
+
 	@Basic
 	@Column(name = "name") // length = 255
 	public String getName() {
