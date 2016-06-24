@@ -110,7 +110,7 @@ public class UserHandlerImpl implements UserHandler {
 	
 	@Override
 	public List<User> getUserList() {
-		return userService.findAllOrderByFirstName();
+		return userService.findAllOrderByUsername();
 	}
 	
 	private void setUser(User user, UserFormBean userForm) {

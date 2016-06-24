@@ -39,9 +39,9 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	getUserListByName: function() {
+    	getUserListByUsername: function() {
     		return $.ajax({
-    			url: '/services/user/listbyname'
+    			url: '/services/user/listbyusername'
     		});
     	},
     	

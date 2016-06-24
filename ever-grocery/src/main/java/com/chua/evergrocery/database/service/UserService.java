@@ -13,7 +13,7 @@ public interface UserService
 	 * 
 	 * @return the list of user
 	 */
-	List<User> findAllOrderByFirstName();
+	List<User> findAllOrderByUsername();
 	
 	Boolean isExistsByUsername(String username);
 }

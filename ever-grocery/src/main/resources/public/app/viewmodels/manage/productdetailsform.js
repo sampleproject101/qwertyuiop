@@ -189,23 +189,35 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'viewmodels/manage/product
     ProductDetailsForm.prototype.save = function() {
     	var self = this;
     	
-    	self.productDetailsFormModel.innerPiece.formModel.storageStockCount(Number(self.productDetailsFormModel.innerPiece.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount() / self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
-    	self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount(), self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+    	if(self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount() > 0) {
+    		self.productDetailsFormModel.innerPiece.formModel.storageStockCount(Number(self.productDetailsFormModel.innerPiece.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount() / self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+        	self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.secondInnerPiece.formModel.storageStockCount(), self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+    	}
     	
-    	self.productDetailsFormModel.piece.formModel.storageStockCount(Number(self.productDetailsFormModel.piece.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.innerPiece.formModel.storageStockCount() / self.productDetailsFormModel.innerPiece.formModel.quantity()));
-    	self.productDetailsFormModel.innerPiece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.innerPiece.formModel.storageStockCount(), self.productDetailsFormModel.innerPiece.formModel.quantity()));
+    	if(self.productDetailsFormModel.innerPiece.formModel.storageStockCount() > 0) {
+	    	self.productDetailsFormModel.piece.formModel.storageStockCount(Number(self.productDetailsFormModel.piece.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.innerPiece.formModel.storageStockCount() / self.productDetailsFormModel.innerPiece.formModel.quantity()));
+	    	self.productDetailsFormModel.innerPiece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.innerPiece.formModel.storageStockCount(), self.productDetailsFormModel.innerPiece.formModel.quantity()));
+    	}
     	
-		self.productDetailsFormModel.whole.formModel.storageStockCount(Number(self.productDetailsFormModel.whole.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.piece.formModel.storageStockCount() / self.productDetailsFormModel.piece.formModel.quantity()));
-    	self.productDetailsFormModel.piece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.piece.formModel.storageStockCount(), self.productDetailsFormModel.piece.formModel.quantity()));
+    	if(self.productDetailsFormModel.piece.formModel.storageStockCount() > 0) {
+			self.productDetailsFormModel.whole.formModel.storageStockCount(Number(self.productDetailsFormModel.whole.formModel.storageStockCount()) + Math.floor(self.productDetailsFormModel.piece.formModel.storageStockCount() / self.productDetailsFormModel.piece.formModel.quantity()));
+	    	self.productDetailsFormModel.piece.formModel.storageStockCount(utility.mod(self.productDetailsFormModel.piece.formModel.storageStockCount(), self.productDetailsFormModel.piece.formModel.quantity()));
+    	}
     	
-    	self.productDetailsFormModel.innerPiece.formModel.storeStockCount(Number(self.productDetailsFormModel.innerPiece.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount() / self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
-    	self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount(), self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+    	if(self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount() > 0) {
+	    	self.productDetailsFormModel.innerPiece.formModel.storeStockCount(Number(self.productDetailsFormModel.innerPiece.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount() / self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+	    	self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.secondInnerPiece.formModel.storeStockCount(), self.productDetailsFormModel.secondInnerPiece.formModel.quantity()));
+    	}
     	
-    	self.productDetailsFormModel.piece.formModel.storeStockCount(Number(self.productDetailsFormModel.piece.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.innerPiece.formModel.storeStockCount() / self.productDetailsFormModel.innerPiece.formModel.quantity()));
-    	self.productDetailsFormModel.innerPiece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.innerPiece.formModel.storeStockCount(), self.productDetailsFormModel.innerPiece.formModel.quantity()));
+    	if(self.productDetailsFormModel.innerPiece.formModel.storeStockCount() > 0) {
+	    	self.productDetailsFormModel.piece.formModel.storeStockCount(Number(self.productDetailsFormModel.piece.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.innerPiece.formModel.storeStockCount() / self.productDetailsFormModel.innerPiece.formModel.quantity()));
+	    	self.productDetailsFormModel.innerPiece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.innerPiece.formModel.storeStockCount(), self.productDetailsFormModel.innerPiece.formModel.quantity()));
+    	}
     	
-		self.productDetailsFormModel.whole.formModel.storeStockCount(Number(self.productDetailsFormModel.whole.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.piece.formModel.storeStockCount() / self.productDetailsFormModel.piece.formModel.quantity()));
-    	self.productDetailsFormModel.piece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.piece.formModel.storeStockCount(), self.productDetailsFormModel.piece.formModel.quantity()));
+    	if(self.productDetailsFormModel.piece.formModel.storeStockCount() > 0) {
+			self.productDetailsFormModel.whole.formModel.storeStockCount(Number(self.productDetailsFormModel.whole.formModel.storeStockCount()) + Math.floor(self.productDetailsFormModel.piece.formModel.storeStockCount() / self.productDetailsFormModel.piece.formModel.quantity()));
+	    	self.productDetailsFormModel.piece.formModel.storeStockCount(utility.mod(self.productDetailsFormModel.piece.formModel.storeStockCount(), self.productDetailsFormModel.piece.formModel.quantity()));
+    	}
     	
     	productService.saveProductDetails(self.productDetailsFormModel.id,
     			ko.toJSON(self.productDetailsFormModel.whole.formModel),

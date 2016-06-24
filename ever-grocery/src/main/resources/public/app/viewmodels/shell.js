@@ -6,11 +6,13 @@
 	  		    { route: 'brand', moduleId: 'brand', title: 'Brand', nav: true, hash: 'brand' },
 	  		    { route: 'category', moduleId: 'category', title: 'Category', nav: true, hash: 'category' },
 	  		    { route: 'company', moduleId: 'company', title: 'Company', nav: true, hash: 'company' },
+	  		    { route: 'customer', moduleId: 'customer', title: 'Customer', nav: true, hash: 'customer' },
 	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributor', nav: true, hash: 'distributor' },
 	      		{ route: 'product', moduleId: 'product', title: 'Product', nav: true, hash: 'product' },
 	      		{ route: 'user', moduleId: 'user', title: 'User', nav: true, hash: 'user' }
 	  		]
 	  	},
+	  	{ route: 'customerorder', moduleId: 'viewmodels/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
 	  	{ route: 'search', moduleId: 'viewmodels/search', title: '', nav: true, hash: '#search' }
 	];
 	

@@ -64,7 +64,7 @@ public class UserEndpoint {
 	}
 	
 	@GET
-	@Path("/listbyname")
+	@Path("/listbyusername")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<User> getUserList() {
 		return userHandler.getUserList();
