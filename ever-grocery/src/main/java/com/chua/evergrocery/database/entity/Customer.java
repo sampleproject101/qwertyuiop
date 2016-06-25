@@ -20,8 +20,6 @@ public class Customer extends BaseObject {
 	private String lastName;
 	
 	private String address;
-	
-	private Float totalPurchases;
 
 	@Basic
 	@Column(name = "first_name")
@@ -52,15 +50,4 @@ public class Customer extends BaseObject {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	@Basic
-	@Column(name = "total_purchases")
-	public Float getTotalPurchases() {
-		return totalPurchases;
-	}
-
-	public void setTotalPurchases(Float totalPurchases) {
-		this.totalPurchases = totalPurchases;
-	}
-	
 }

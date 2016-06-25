@@ -48,10 +48,10 @@ define(['durandal/app', 'knockout', 'modules/customerservice', 'viewmodels/manag
 		});
 	};
 	
-	Customer.prototype.remove = function(customerId, customerName) {
+	Customer.prototype.remove = function(customerId, customerFirstName, customerLastName) {
 		var self = this;
 		
-		app.showMessage('Are you sure you want to remove Customer "' + customerName + '"?',
+		app.showMessage('Are you sure you want to remove Customer "' + customerLastName + ", " + customerFirstName + '"?',
 				'Confirm Remove',
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {

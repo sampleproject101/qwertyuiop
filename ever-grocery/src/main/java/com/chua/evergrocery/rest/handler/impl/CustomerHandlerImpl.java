@@ -112,6 +112,5 @@ public class CustomerHandlerImpl implements CustomerHandler {
 		customer.setFirstName(customerForm.getFirstName());
 		customer.setLastName(customerForm.getLastName());
 		customer.setAddress(customerForm.getAddress());
-		customer.setTotalPurchases(customerForm.getTotalPurchases());
 	}
 }

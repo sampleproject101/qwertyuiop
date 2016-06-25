@@ -7,8 +7,6 @@ public class CustomerFormBean extends FormBean {
 	private String lastName;
 	
 	private String address;
-	
-	private Float totalPurchases;
 
 	public String getFirstName() {
 		return firstName;
@@ -32,13 +30,5 @@ public class CustomerFormBean extends FormBean {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public Float getTotalPurchases() {
-		return totalPurchases;
-	}
-
-	public void setTotalPurchases(Float totalPurchases) {
-		this.totalPurchases = totalPurchases;
 	}
 }

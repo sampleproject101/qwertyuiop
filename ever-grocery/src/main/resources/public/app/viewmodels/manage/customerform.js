@@ -7,8 +7,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerservice']
         	id: ko.observable(),
         	firstName: ko.observable(),
         	lastName: ko.observable(),
-        	address: ko.observable(),
-        	totalPurchases: ko.observable()
+        	address: ko.observable()
         };
     };
     
@@ -19,7 +18,6 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerservice']
     	self.customerFormModel.firstName(self.customer.firstName);
     	self.customerFormModel.lastName(self.customer.lastName);
     	self.customerFormModel.address(self.customer.address);
-    	self.customerFormModel.totalPurchases(self.customer.totalPurchases);
     };
  
     CustomerForm.show = function(preTitle, customer) {
