@@ -48,7 +48,7 @@ public class CustomerHandlerImpl implements CustomerHandler {
 				result.setMessage("Failed to create customer.");
 			}
 		} else {
-			result = new ResultBean(false, "Customer \"" + customerForm.getLastName() + "\", \"" + customerForm.getFirstName() + "\" already exists!");
+			result = new ResultBean(false, "Customer \"" + customerForm.getLastName() + ", " + customerForm.getFirstName() + "\" already exists!");
 		}
 		
 		return result;
@@ -63,7 +63,7 @@ public class CustomerHandlerImpl implements CustomerHandler {
 			if(!(StringUtils.trimToEmpty(customer.getFirstName()).equalsIgnoreCase(customerForm.getFirstName()) &&
 					StringUtils.trimToEmpty(customer.getLastName()).equalsIgnoreCase(customerForm.getLastName())) &&
 					customerService.isExistsByFullName(customerForm.getFirstName(), customerForm.getLastName())) {
-				result = new ResultBean(false, "Customer \"" + customerForm.getLastName() + "\", \"" + customerForm.getFirstName() + "\" already exists!");
+				result = new ResultBean(false, "Customer \"" + customerForm.getLastName() + ", " + customerForm.getFirstName() + "\" already exists!");
 			} else {
 				setCustomer(customer, customerForm);
 				
@@ -92,9 +92,9 @@ public class CustomerHandlerImpl implements CustomerHandler {
 			
 			result.setSuccess(customerService.delete(customer));
 			if(result.getSuccess()) {
-				result.setMessage("Successfully removed Customer \"" + customer.getLastName() + "\", \"" + customer.getFirstName() + "\".");
+				result.setMessage("Successfully removed Customer \"" + customer.getLastName() + ", " + customer.getFirstName() + "\".");
 			} else {
-				result.setMessage("Failed to remove Customer \"" + customer.getLastName() + "\", \"" + customer.getFirstName() + "\".");
+				result.setMessage("Failed to remove Customer \"" + customer.getLastName() + ", " + customer.getFirstName() + "\".");
 			}
 		} else {
 			result = new ResultBean(false, "Customer not found.");

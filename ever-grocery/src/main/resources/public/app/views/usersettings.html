@@ -5,36 +5,45 @@
     
     <div class="modal-body">
         <div class="form-inline">
-			<input data-bind="value: formModel.firstName" type="text" class="form-control autofocus" id="inputFirstName" placeholder="First Name">
-			<input data-bind="value: formModel.lastName" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+			<input data-bind="value: userSettingsFormModel.firstName" type="text" class="form-control autofocus" id="inputFirstName" placeholder="First Name">
+			<input data-bind="value: userSettingsFormModel.lastName" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
 		</div>
 		<br/>
 		<div class="form-group">
 			<label for="inputUsername" class="control-label">Username</label>
-			<input data-bind="value: formModel.username" type="text" class="form-control" id="inputUserName" placeholder="Username">
+			<input data-bind="value: userSettingsFormModel.username" disabled type="text" class="form-control" id="inputUserName" placeholder="Username">
 		</div>
 		<div class="form-group">
 			<label for="inputItemsPerPage" class="control-label">Items per Page</label>
-			<select data-bind="options: itemsPerPageList, optionsCaption: '-- Select Items per Page --', value: formModel.itemsPerPage" class="form-control" id="inputItemsPerPage"></select>
+			<select data-bind="options: itemsPerPageList, optionsCaption: '-- Select Items per Page --', value: userSettingsFormModel.itemsPerPage" class="form-control" id="inputItemsPerPage"></select>
 		</div>
-		<!-- <hr/>
+		<div class="form-group">
+			<button data-bind="click: save" class="btn btn-primary pull-right">Save</button>
+		</div> 
+		
+		<br>
+		<hr>
+		<br>
+		
 		<h4 align="center">Change Password</h4>
 		<div class="form-group">
 			<label for="inputCurrentPassword" class="control-label">Current Password</label>
-			<input data-bind="textInput: formModel.oldPassword" type="password" class="form-control" id="inputCurrentPassword" placeholder="Current Password">
+			<input data-bind="textInput: changePasswordModel.currentPassword" type="password" class="form-control" id="inputCurrentPassword" placeholder="Current Password">
 		</div>
 		<div class="form-group">
 			<label for="inputNewPassword" class="control-label">New Password</label>
-			<input data-bind="textInput: formModel.password" type="password" class="form-control" id="inputNewPassword" placeholder="New Password">
+			<input data-bind="textInput: changePasswordModel.newPassword" type="password" class="form-control" id="inputNewPassword" placeholder="New Password">
 		</div>
 		<div class="form-group">
-			<label for="inputReEnterPassword" class="control-label">Re-enter Password</label>
-			<input data-bind="textInput: formModel.reEnterPassword" type="password" class="form-control" id="inputReEnterPassword" placeholder="Re-enter Password">
-		</div> -->
+			<label for="inputRePassword" class="control-label">Re-enter Password</label>
+			<input data-bind="textInput: changePasswordModel.rePassword" type="password" class="form-control" id="inputRePassword" placeholder="Re-enter Password">
+		</div>
+		<div class="form-group">
+			<button data-bind="click: changePassword" class="btn btn-primary pull-right">Change Password</button>
+		</div> 
     </div>
     
     <div class="modal-footer">
-    	<button data-bind="click: save" class="btn btn-primary">Save</button>
-        <button data-bind="click: cancel" class="btn btn-warning">Cancel</button>
+    	<button data-bind="click: cancel" class="btn btn-warning">Cancel</button>
     </div>
 </div>

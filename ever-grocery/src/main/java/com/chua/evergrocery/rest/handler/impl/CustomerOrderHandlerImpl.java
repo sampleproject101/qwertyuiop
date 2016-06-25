@@ -46,7 +46,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			final CustomerOrder customerOrder = new CustomerOrder();
 			setCustomerOrder(customerOrder, customerOrderForm);
 			
-			//creator id
+			customerOrder.setCreator(userService.find(1l)); // change to user context holder id
 			
 			result = new ResultBean();
 			result.setSuccess(customerOrderService.insert(customerOrder) != null);
@@ -113,7 +113,6 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	private void setCustomerOrder(CustomerOrder customerOrder, CustomerOrderFormBean customerOrderForm) {
 		customerOrder.setName(customerOrderForm.getName());
 		customerOrder.setCustomer(customerService.find(customerOrderForm.getCustomerId()));
-		customerOrder.setCashier(userService.find(customerOrderForm.getCashierId()));
 		customerOrder.setTotalAmount(customerOrderForm.getTotalAmount());
 	}
 }

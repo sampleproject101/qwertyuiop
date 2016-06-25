@@ -7,8 +7,6 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerOrderserv
         	id: ko.observable(),
         	name: ko.observable(),
         	customerId: ko.observable(),
-        	creatorId: ko.observable(),
-        	cashierId: ko.observable(),
         	totalAmount: ko.observable()
         };
         
