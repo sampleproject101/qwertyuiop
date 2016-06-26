@@ -46,7 +46,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			final CustomerOrder customerOrder = new CustomerOrder();
 			setCustomerOrder(customerOrder, customerOrderForm);
 			
-			customerOrder.setCreator(userService.find(1l)); // change to user context holder id
+			customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
 			
 			result = new ResultBean();
 			result.setSuccess(customerOrderService.insert(customerOrder) != null);

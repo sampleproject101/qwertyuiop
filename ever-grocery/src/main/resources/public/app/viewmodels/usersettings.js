@@ -12,6 +12,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/settingsservice']
         };
         
         this.changePasswordModel = {
+        	
         	currentPassword: ko.observable(),
         	newPassword: ko.observable(),
         	rePassword: ko.observable()

@@ -1,17 +1,17 @@
 package com.chua.evergrocery.beans;
 
 public class PasswordBean {
-
+	
 	private String currentPassword;
 	
 	private String newPassword;
 	
 	private String rePassword;
-
+	
 	public String getCurrentPassword() {
 		return currentPassword;
 	}
-
+	
 	public void setCurrentPassword(String currentPassword) {
 		this.currentPassword = currentPassword;
 	}

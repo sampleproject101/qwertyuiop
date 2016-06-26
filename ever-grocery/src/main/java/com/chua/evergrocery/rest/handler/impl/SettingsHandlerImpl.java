@@ -24,7 +24,7 @@ public class SettingsHandlerImpl implements SettingsHandler {
 	public ResultBean updateSettings(UserFormBean userForm) {
 		final ResultBean result;
 		
-		final User user = userService.find(1l);  //id from user context holder
+		final User user = userService.find(UserContextHolder.getUser().getUserId());
 		
 		if(user != null) {
 			user.setFirstName(userForm.getFirstName());
@@ -37,7 +37,7 @@ public class SettingsHandlerImpl implements SettingsHandler {
 				UserContextHolder.refreshUser(user);
 				result.setMessage("Your profile has been updated.");
 			} else {
-				result.setMessage("Failed to update your profile.");
+				result.setMessage("Failed to update profile.");
 			}
 		} else {
 			result = new ResultBean(false, "Internal Error: User not found!");
@@ -50,19 +50,19 @@ public class SettingsHandlerImpl implements SettingsHandler {
 	public ResultBean changePassword(PasswordBean passwordBean) {
 		final ResultBean result;
 		
-		final User user = userService.find(1l); // find by id from user context holder
+		final User user = userService.find(UserContextHolder.getUser().getUserId());
 		
 		if(user != null) {
-			if(EncryptionUtil.getMd5(passwordBean.getCurrentPassword()).equals(UserContextHolder.getUser().getPassword())) {
+			if(EncryptionUtil.getMd5(passwordBean.getCurrentPassword()).equals(user.getPassword())) {
 				if(passwordBean.getNewPassword().equals(passwordBean.getRePassword())) {
 					user.setPassword(EncryptionUtil.getMd5(passwordBean.getNewPassword()));
 					
 					result = new ResultBean();
 					result.setSuccess(userService.insert(user) != null);
 					if(result.getSuccess()) {
-						result.setMessage("User successfully created.");
+						result.setMessage("Your password has been changed.");
 					} else {
-						result.setMessage("Failed to create user.");
+						result.setMessage("Failed to change password.");
 					}
 				} else {
 					result = new ResultBean(false, "Password mismatch.");
