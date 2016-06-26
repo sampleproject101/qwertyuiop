@@ -44,12 +44,15 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/settingsservice']
     
     UserSettings.prototype.changePassword = function() {
     	var self = this;
-    	settingsService.changePassword(ko.toJSON(self.changePasswordModel)).done(function(result) {
-    		if(result.success) {
-    			dialog.close(self);
-    		}
-    		app.showMessage(result.message);
-    	});
+    	
+    	if(self.changePasswordModel.currentPassword() && self.changePasswordModel.newPassword() && self.changePasswordModel.rePassword()) {
+	    	settingsService.changePassword(ko.toJSON(self.changePasswordModel)).done(function(result) {
+	    		if(result.success) {
+	    			dialog.close(self);
+	    		}
+	    		app.showMessage(result.message);
+	    	});
+    	}
     };
     
     UserSettings.prototype.cancel = function() {

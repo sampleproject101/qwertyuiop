@@ -7,7 +7,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerOrderserv
         	id: ko.observable(),
         	name: ko.observable(),
         	customerId: ko.observable(),
-        	totalAmount: ko.observable()
+        	status: ko.observable()
         };
         
         this.customerList = ko.observable();
@@ -23,6 +23,8 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerOrderserv
     		self.customerList(customerList);
     		self.customerOrderFormModel.customerId(self.customerOrder.customer.id);
     	});
+    	
+    	self.customerOrderFormModel.status(self.customerOrder.status);
     };
     
     CustomerOrderForm.show = function(preTitle, customerOrder) {

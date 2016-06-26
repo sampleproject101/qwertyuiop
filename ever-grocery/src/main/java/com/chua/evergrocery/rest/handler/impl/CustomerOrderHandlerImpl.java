@@ -12,6 +12,7 @@ import com.chua.evergrocery.database.entity.CustomerOrder;
 import com.chua.evergrocery.database.service.CustomerOrderService;
 import com.chua.evergrocery.database.service.CustomerService;
 import com.chua.evergrocery.database.service.UserService;
+import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CustomerOrderHandler;
 
@@ -47,6 +48,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			setCustomerOrder(customerOrder, customerOrderForm);
 			
 			customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
+			customerOrder.setStatus(Status.LISTING);
 			
 			result = new ResultBean();
 			result.setSuccess(customerOrderService.insert(customerOrder) != null);
@@ -97,6 +99,8 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		if(customerOrder != null) {
 			result = new ResultBean();
 			
+			customerOrder.setStatus(Status.CANCELLED);
+			
 			result.setSuccess(customerOrderService.delete(customerOrder));
 			if(result.getSuccess()) {
 				result.setMessage("Successfully removed CustomerOrder \"" + customerOrder.getName() + "\".");
@@ -113,6 +117,5 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	private void setCustomerOrder(CustomerOrder customerOrder, CustomerOrderFormBean customerOrderForm) {
 		customerOrder.setName(customerOrderForm.getName());
 		customerOrder.setCustomer(customerService.find(customerOrderForm.getCustomerId()));
-		customerOrder.setTotalAmount(customerOrderForm.getTotalAmount());
 	}
 }

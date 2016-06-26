@@ -3,6 +3,8 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
+import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.serializer.json.CustomerSerializer;
 import com.chua.evergrocery.serializer.json.UserSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -37,6 +40,8 @@ public class CustomerOrder extends BaseObject {
 	private User cashier;
 	
 	private Float totalAmount;
+	
+	private Status status;
 
 	@Basic
 	@Column(name = "name")
@@ -92,5 +97,15 @@ public class CustomerOrder extends BaseObject {
 
 	public void setTotalAmount(Float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", length = 50)
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

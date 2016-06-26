@@ -7,11 +7,11 @@ public class PasswordBean {
 	private String newPassword;
 	
 	private String rePassword;
-	
+
 	public String getCurrentPassword() {
 		return currentPassword;
 	}
-	
+
 	public void setCurrentPassword(String currentPassword) {
 		this.currentPassword = currentPassword;
 	}

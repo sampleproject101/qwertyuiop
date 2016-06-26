@@ -60,6 +60,7 @@ public class SettingsHandlerImpl implements SettingsHandler {
 					result = new ResultBean();
 					result.setSuccess(userService.insert(user) != null);
 					if(result.getSuccess()) {
+						UserContextHolder.refreshUser(user);
 						result.setMessage("Your password has been changed.");
 					} else {
 						result.setMessage("Failed to change password.");

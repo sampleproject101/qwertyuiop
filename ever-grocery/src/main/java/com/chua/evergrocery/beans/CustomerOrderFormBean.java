@@ -1,5 +1,7 @@
 package com.chua.evergrocery.beans;
 
+import com.chua.evergrocery.enums.Status;
+
 public class CustomerOrderFormBean extends FormBean {
 
 	private String name;
@@ -11,6 +13,8 @@ public class CustomerOrderFormBean extends FormBean {
 	private Long cashierId;
 	
 	private Float totalAmount;
+	
+	private Status status;
 	
 	public String getName() {
 		return name;
@@ -50,5 +54,13 @@ public class CustomerOrderFormBean extends FormBean {
 
 	public void setTotalAmount(Float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }
