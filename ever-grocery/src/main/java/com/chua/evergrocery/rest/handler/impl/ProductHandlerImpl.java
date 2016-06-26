@@ -1,5 +1,6 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -47,7 +48,17 @@ public class ProductHandlerImpl implements ProductHandler {
 
 	@Override
 	public ObjectList<Product> getProductList(Integer pageNumber, String searchKey, Long companyId) {
-		return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);
+		if(searchKey != null && searchKey.matches("[0-9]+") && searchKey.length() > 2) {
+			List<Product> products = new ArrayList<Product>();
+			Product product = productDetailService.findProductByBarcode(searchKey);
+			if(product != null) products.add(product);
+			
+			ObjectList<Product> productList = new ObjectList<Product>();
+			productList.setList(products);
+			return productList;
+		} else {
+			return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);
+		}
 	}
 	
 	@Override

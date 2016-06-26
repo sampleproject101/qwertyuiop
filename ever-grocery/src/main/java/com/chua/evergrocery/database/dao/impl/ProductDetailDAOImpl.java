@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.chua.evergrocery.database.dao.ProductDetailDAO;
+import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.database.entity.ProductDetail;
 
 @Repository
@@ -23,4 +24,14 @@ public class ProductDetailDAOImpl
 		return findAllByCriterionList(null, null, null, null, conjunction);
 	}
 
+	@Override
+	public Product findProductByBarcode(String searchKey) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		conjunction.add(Restrictions.eq("barcode", searchKey));
+		
+		List<ProductDetail> productDetails =  findAllByCriterionList(null, null, null, null, conjunction);
+		
+		return productDetails.isEmpty() ? null : productDetails.get(0).getProduct();
+	}
 }

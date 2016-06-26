@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chua.evergrocery.database.dao.ProductDetailDAO;
+import com.chua.evergrocery.database.entity.Product;
 import com.chua.evergrocery.database.entity.ProductDetail;
 import com.chua.evergrocery.database.service.ProductDetailService;
 
@@ -22,5 +23,9 @@ public class ProductDetailServiceImpl
 	@Override
 	public List<ProductDetail> findAllByProductId(Long productId) {
 		return dao.findAllByProductId(productId);
+	}
+
+	public Product findProductByBarcode(String searchKey) {
+		return dao.findProductByBarcode(searchKey);
 	}
 }
