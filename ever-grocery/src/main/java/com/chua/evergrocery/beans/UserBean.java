@@ -18,8 +18,16 @@ public class UserBean extends org.springframework.security.core.userdetails.User
 		setUser(user);
 	}
 	
+	public User getUserEntity() {
+		return user;
+	}
+	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Long getUserId() {
+		return user.getId();
 	}
 	
 	public String getFirstName() {
