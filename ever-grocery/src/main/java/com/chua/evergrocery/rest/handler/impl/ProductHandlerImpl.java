@@ -50,8 +50,8 @@ public class ProductHandlerImpl implements ProductHandler {
 	public ObjectList<Product> getProductList(Integer pageNumber, String searchKey, Long companyId) {
 		if(searchKey != null && searchKey.matches("[0-9]+") && searchKey.length() > 2) {
 			List<Product> products = new ArrayList<Product>();
-			Product product = productDetailService.findProductByBarcode(searchKey);
-			if(product != null) products.add(product);
+			ProductDetail productDetail = productDetailService.findByBarcode(searchKey);
+			if(productDetail != null) products.add(productDetail.getProduct());
 			
 			ObjectList<Product> productList = new ObjectList<Product>();
 			productList.setList(products);

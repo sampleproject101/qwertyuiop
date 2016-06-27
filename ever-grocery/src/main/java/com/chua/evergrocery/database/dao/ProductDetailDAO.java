@@ -5,4 +5,5 @@ import com.chua.evergrocery.database.prototype.ProductDetailPrototype;
 
 public interface ProductDetailDAO extends DAO<ProductDetail, Long>, ProductDetailPrototype {
 
+	public ProductDetail findByBarcode(String barcode);
 }

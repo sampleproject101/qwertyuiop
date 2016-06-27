@@ -53,12 +53,12 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			result = new ResultBean();
 			result.setSuccess(customerOrderService.insert(customerOrder) != null);
 			if(result.getSuccess()) {
-				result.setMessage("CustomerOrder successfully created.");
+				result.setMessage("Customer order successfully created.");
 			} else {
-				result.setMessage("Failed to create customerOrder.");
+				result.setMessage("Failed to create customer order.");
 			}
 		} else {
-			result = new ResultBean(false, "CustomerOrder \"" + customerOrderForm.getName() + "\" already exists!");
+			result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
 		}
 		
 		return result;
@@ -70,22 +70,26 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderForm.getId());
 		if(customerOrder != null) {
-			if(!(StringUtils.trimToEmpty(customerOrder.getName()).equalsIgnoreCase(customerOrderForm.getName())) &&
-					customerOrderService.isExistsByName(customerOrderForm.getName())) {
-				result = new ResultBean(false, "CustomerOrder \"" + customerOrderForm.getName() + "\" already exists!");
-			} else {
-				setCustomerOrder(customerOrder, customerOrderForm);
-				
-				result = new ResultBean();
-				result.setSuccess(customerOrderService.update(customerOrder));
-				if(result.getSuccess()) {
-					result.setMessage("CustomerOrder successfully updated.");
+			if(customerOrder.getStatus() == Status.LISTING) {
+				if(!(StringUtils.trimToEmpty(customerOrder.getName()).equalsIgnoreCase(customerOrderForm.getName())) &&
+						customerOrderService.isExistsByName(customerOrderForm.getName())) {
+					result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
 				} else {
-					result.setMessage("Failed to update customerOrder.");
+					setCustomerOrder(customerOrder, customerOrderForm);
+					
+					result = new ResultBean();
+					result.setSuccess(customerOrderService.update(customerOrder));
+					if(result.getSuccess()) {
+						result.setMessage("Customer order successfully updated.");
+					} else {
+						result.setMessage("Failed to update customer order.");
+					}
 				}
+			} else {
+				result = new ResultBean(false, "Customer order cannot be edited right now.");
 			}
 		} else {
-			result = new ResultBean(false, "CustomerOrder not found.");
+			result = new ResultBean(false, "Customer order not found.");
 		}
 		
 		return result;
@@ -97,18 +101,22 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		if(customerOrder != null) {
-			result = new ResultBean();
-			
-			customerOrder.setStatus(Status.CANCELLED);
-			
-			result.setSuccess(customerOrderService.delete(customerOrder));
-			if(result.getSuccess()) {
-				result.setMessage("Successfully removed CustomerOrder \"" + customerOrder.getName() + "\".");
+			if(customerOrder.getStatus() == Status.LISTING) {
+				result = new ResultBean();
+				
+				customerOrder.setStatus(Status.CANCELLED);
+				
+				result.setSuccess(customerOrderService.delete(customerOrder));
+				if(result.getSuccess()) {
+					result.setMessage("Successfully removed Customer order \"" + customerOrder.getName() + "\".");
+				} else {
+					result.setMessage("Failed to remove Customer order \"" + customerOrder.getName() + "\".");
+				}
 			} else {
-				result.setMessage("Failed to remove CustomerOrder \"" + customerOrder.getName() + "\".");
+				result = new ResultBean(false, "Customer order cannot be removed right now.");
 			}
 		} else {
-			result = new ResultBean(false, "CustomerOrder not found.");
+			result = new ResultBean(false, "Customer order not found.");
 		}
 		
 		return result;
