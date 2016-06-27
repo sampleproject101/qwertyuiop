@@ -92,4 +92,11 @@ public class ProductEndpoint {
 		
 		return productHandler.saveProductDetails(productId, productDetailsFormList);
 	}
+	
+	@GET
+	@Path("/listunittype")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<String> getUnitTypeList() {
+		return productHandler.getUnitTypeList();
+	}
 }

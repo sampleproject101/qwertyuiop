@@ -1,8 +1,8 @@
-define(['knockout'], function (ko) {
-    var ProductDetails = function(productDetails, unitList, enableConfig) {
+define(['knockout', 'modules/productservice'], function (ko, productService) {
+    var ProductDetails = function(productDetails, enableConfig) {
     	this.productDetails = productDetails;
 
-    	this.unitList = unitList;
+    	this.unitTypeList = ko.observable();
     	
     	this.enableConfig = enableConfig;
     	
@@ -73,6 +73,11 @@ define(['knockout'], function (ko) {
     	self.formModel.netProfit(self.productDetails.netProfit);
     	self.formModel.storageStockCount(self.productDetails.storageStockCount);
     	self.formModel.storeStockCount(self.productDetails.storeStockCount);
+    	
+    	productService.getUnitTypeList().done(function(unitTypeList) {
+    		self.unitTypeList(unitTypeList);
+    		self.formModel.unitType(self.productDetails.unitType);
+    	});
     	
     	// Set to the passed observable to control enable
     	self.enableBarcode = self.enableConfig.enableBarcode;

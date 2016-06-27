@@ -61,6 +61,12 @@ define(['jquery'], function ($) {
     				productId: productId
     			}
     		});
+    	},
+    	
+    	getUnitTypeList: function() {
+    		return $.ajax({
+    			url: '/services/product/listunittype'
+    		});
     	}
     };
 });

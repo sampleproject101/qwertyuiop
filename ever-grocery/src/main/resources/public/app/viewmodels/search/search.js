@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/productservice'], function (app, ko, productService) {
+define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/search/more'], function (app, ko, productService, More) {
 	var Product = function() {
 		this.productList = ko.observable();
 		
@@ -29,6 +29,14 @@ define(['durandal/app', 'knockout', 'modules/productservice'], function (app, ko
 			self.totalItems(data.total);
 		});
 	};
+	
+	Product.prototype.more = function(productId) {
+		var self = this;
+		
+		productService.getProduct(productId).done(function(data) {
+			More.show(data);
+		});
+	}
 	
     return Product;
 });

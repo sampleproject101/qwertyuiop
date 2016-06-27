@@ -10,6 +10,8 @@ public enum UnitType {
 	
 	BOX ("BOX"),
 	
+	BUCKET ("BKT"),
+	
 	BUNDLE ("BDL"),
 	
 	CAN ("CAN"),
@@ -31,6 +33,10 @@ public enum UnitType {
 	REAM ("REAM"),
 	
 	SACK ("SACK"),
+	
+	SET ("SET"),
+	
+	TAB ("TAB"),
 	
 	TIE ("TIE"),
 	

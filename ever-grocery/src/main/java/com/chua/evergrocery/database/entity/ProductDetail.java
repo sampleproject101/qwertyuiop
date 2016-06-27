@@ -3,6 +3,8 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
+import com.chua.evergrocery.enums.UnitType;
 
 @Entity(name = "ProductDetail")
 @Table(name = ProductDetail.TABLE_NAME)
@@ -26,7 +29,6 @@ public class ProductDetail extends BaseObject {
 	private String title;
 	private String barcode;
 	private Integer quantity;
-	private String unitType;
 	private Float grossPrice;
 	private Float discount;
 	private Float netPrice;
@@ -35,6 +37,8 @@ public class ProductDetail extends BaseObject {
 	private Float netProfit;
 	private Integer storageStockCount;
 	private Integer storeStockCount;
+	
+	private UnitType unitType;
 	
 	@ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
@@ -139,16 +143,6 @@ public class ProductDetail extends BaseObject {
 	}
 	
 	@Basic
-	@Column(name = "unit_type")
-	public String getUnitType() {
-		return unitType;
-	}
-	
-	public void setUnitType(String unitType) {
-		this.unitType = unitType;
-	}
-	
-	@Basic
 	@Column(name = "storage_stock_count")
 	public Integer getStorageStockCount() {
 		return storageStockCount;
@@ -166,5 +160,15 @@ public class ProductDetail extends BaseObject {
 	
 	public void setStoreStockCount(Integer storeStockCount) {
 		this.storeStockCount = storeStockCount;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "unit_type", length = 50)
+	public UnitType getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(UnitType unitType) {
+		this.unitType = unitType;
 	}
 }

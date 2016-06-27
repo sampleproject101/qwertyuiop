@@ -13,7 +13,7 @@
 	  		]
 	  	},
 	  	{ route: 'customerorder', moduleId: 'viewmodels/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
-	  	{ route: 'search', moduleId: 'viewmodels/search', title: '', nav: true, hash: '#search' }
+	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' }
 	];
 	
     return {

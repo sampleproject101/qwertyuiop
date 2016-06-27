@@ -1,7 +1,9 @@
 package com.chua.evergrocery.rest.handler.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +23,7 @@ import com.chua.evergrocery.database.service.CompanyService;
 import com.chua.evergrocery.database.service.DistributorService;
 import com.chua.evergrocery.database.service.ProductDetailService;
 import com.chua.evergrocery.database.service.ProductService;
+import com.chua.evergrocery.enums.UnitType;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.ProductHandler;
 
@@ -209,5 +212,10 @@ public class ProductHandlerImpl implements ProductHandler {
 		}
 		
 		return success;
+	}
+	
+	@Override
+	public List<String> getUnitTypeList() {
+		return Arrays.asList(UnitType.values()).stream().map(UnitType::name).collect(Collectors.toList());
 	}
 }

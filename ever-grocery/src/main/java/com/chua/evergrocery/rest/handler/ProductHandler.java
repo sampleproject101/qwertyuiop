@@ -24,4 +24,6 @@ public interface ProductHandler {
 	ResultBean removeProduct(Long productId);
 	
 	ResultBean saveProductDetails(Long productId, List<ProductDetailsFormBean> productDetailsFormList);
+	
+	List<String> getUnitTypeList();
 }
