@@ -25,6 +25,7 @@ import com.chua.evergrocery.serializer.json.BrandSerializer;
 import com.chua.evergrocery.serializer.json.CategorySerializer;
 import com.chua.evergrocery.serializer.json.CompanySerializer;
 import com.chua.evergrocery.serializer.json.DistributorSerializer;
+import com.chua.evergrocery.serializer.json.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity(name = "Product")
@@ -46,7 +47,8 @@ public class Product extends BaseObject {
 	@JsonSerialize(using = DistributorSerializer.class)
 	private Distributor distributor;
 	
-	private transient List<ProductDetail> productDetails;
+	@JsonSerialize(using = ProductDetailSerializer.class)
+	private List<ProductDetail> productDetails;
 	
 	private String name;
 	
