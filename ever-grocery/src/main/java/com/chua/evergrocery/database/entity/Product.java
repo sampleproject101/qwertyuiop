@@ -1,13 +1,20 @@
 package com.chua.evergrocery.database.entity;
 
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
@@ -38,7 +45,7 @@ public class Product extends BaseObject {
 	@JsonSerialize(using = DistributorSerializer.class)
 	private Distributor distributor;
 	
-	//private List<ProductDetail> productDetails;
+	private List<ProductDetail> productDetails;
 	
 	private String name;
 	
@@ -90,16 +97,16 @@ public class Product extends BaseObject {
 		this.distributor = distributor;
 	}
 	
-	/*@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-	@Where(clause = "valid = 1")
-	@NotFound(action = NotFoundAction.IGNORE)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = ProductDetail.class, mappedBy = "product")
+	@Fetch(value = FetchMode.SELECT)
+	@LazyCollection(value = LazyCollectionOption.EXTRA)
 	public List<ProductDetail> getProductDetails() {
 		return productDetails;
 	}
 
 	public void setProductDetails(List<ProductDetail> productDetails) {
 		this.productDetails = productDetails;
-	}*/
+	}
 
 	@Basic
 	@Column(name = "name") // length = 255
