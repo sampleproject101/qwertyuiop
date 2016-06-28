@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/search
 		});
 	};
 	
+	Product.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshProductList();
+	};
+	
 	Product.prototype.more = function(productId) {
 		var self = this;
 		

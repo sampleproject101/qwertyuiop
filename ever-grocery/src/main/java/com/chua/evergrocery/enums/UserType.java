@@ -14,9 +14,7 @@ public enum UserType {
 	
 	SENIOR_STAFF ("Senior Staff"),
 	
-	STAFF ("Staff"),
-	
-	FRESH_STAFF ("Fresh Staff");
+	STAFF ("Staff");
 	
 	private final String description;
 	
