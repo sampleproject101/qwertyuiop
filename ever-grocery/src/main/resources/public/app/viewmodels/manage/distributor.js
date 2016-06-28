@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 		});
 	};
 	
+	Distributor.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshDistributorList();
+	};
+	
 	Distributor.prototype.create = function() {
 		var self = this;
 		

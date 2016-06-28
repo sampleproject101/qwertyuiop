@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/userservice', 'viewmodels/manage/us
 		});
 	};
 	
+	User.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshUserList();
+	};
+	
 	User.prototype.create = function() {
 		var self = this;
 		

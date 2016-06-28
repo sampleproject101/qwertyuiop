@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 		});
 	};
 	
+	Brand.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshBrandList();
+	};
+	
 	Brand.prototype.create = function() {
 		var self = this;
 		

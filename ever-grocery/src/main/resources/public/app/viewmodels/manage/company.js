@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage
 		});
 	};
 	
+	Company.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshCompanyList();
+	};
+	
 	Company.prototype.create = function() {
 		var self = this;
 		

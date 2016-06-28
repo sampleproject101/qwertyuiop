@@ -30,6 +30,13 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 		});
 	};
 	
+	Category.prototype.search = function() {
+		var self = this;
+		
+		self.currentPage(1);
+		self.refreshCategoryList();
+	};
+	
 	Category.prototype.create = function() {
 		var self = this;
 		
