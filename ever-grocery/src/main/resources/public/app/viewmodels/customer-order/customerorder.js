@@ -68,7 +68,7 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 		var self = this;
 		
 		customerOrderService.getCustomerOrder(customerOrderId).done(function(data) {
-			CustomerOrderPage(data);
+			
 		});
 	};
 	
