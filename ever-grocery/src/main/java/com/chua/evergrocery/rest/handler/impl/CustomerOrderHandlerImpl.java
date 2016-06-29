@@ -56,6 +56,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		if(!customerOrderService.isExistsByName(customerOrderForm.getName())) {
 			final CustomerOrder customerOrder = new CustomerOrder();
 			setCustomerOrder(customerOrder, customerOrderForm);
+			customerOrder.setTotalAmount(0.0f);
 			
 			customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
 			customerOrder.setStatus(Status.LISTING);
@@ -145,23 +146,28 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	@Override
 	public ResultBean addItemByBarcode(String barcode, Long customerOrderId) {
 		final ResultBean result;
+		CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
-		if(productDetail != null) {
+		
+		if(barcode.length() > 4 && productDetail != null) {
 			final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrderId, productDetail.getId());
 			
 			if(customerOrderDetail == null) {
 				final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
-				setCustomerOrderDetail(newCustomerOrderDetail, customerOrderId, productDetail);
+				setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
 				setCustomerOrderDetailQuantity(newCustomerOrderDetail, 1);
 				
 				customerOrderDetailService.insert(newCustomerOrderDetail);
 			} else {
-				setCustomerOrderDetail(customerOrderDetail, customerOrderId, productDetail);
+				setCustomerOrderDetail(customerOrderDetail, customerOrder, productDetail);
 				setCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + 1);
 				
 				customerOrderDetailService.update(customerOrderDetail);
 			}
+			
+			customerOrder.setTotalAmount(customerOrder.getTotalAmount() + productDetail.getSellingPrice());
+			customerOrderService.update(customerOrder);
 			
 			result = new ResultBean(true, "");
 		} else {
@@ -171,8 +177,32 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, long customerOrderId, ProductDetail productDetail) {
-		customerOrderDetail.setCustomerOrder(customerOrderService.find(customerOrderId));
+	@Override
+	public ResultBean removeCustomerOrderDetail(Long customerOrderDetailId) {
+		final ResultBean result;
+		
+		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
+		if(customerOrderDetail != null) {
+			result = new ResultBean();
+			
+			result.setSuccess(customerOrderDetailService.delete(customerOrderDetail));
+			if(result.getSuccess()) {
+				CustomerOrder customerOrder = customerOrderService.find(customerOrderDetail.getCustomerOrder().getId());
+				customerOrder.setTotalAmount(customerOrder.getTotalAmount() - customerOrderDetail.getTotalPrice());
+				customerOrderService.update(customerOrder);
+				result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+			} else {
+				result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+			}
+		} else {
+			result = new ResultBean(false, "Item not found.");
+		}
+		
+		return result;
+	}
+	
+	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, CustomerOrder customerOrder, ProductDetail productDetail) {
+		customerOrderDetail.setCustomerOrder(customerOrder);
 		customerOrderDetail.setProductDetailId(productDetail.getId());
 		customerOrderDetail.setProductName(productDetail.getProduct().getName());
 		customerOrderDetail.setUnitType(productDetail.getUnitType());

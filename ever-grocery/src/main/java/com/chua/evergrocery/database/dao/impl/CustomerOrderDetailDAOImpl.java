@@ -27,7 +27,7 @@ public class CustomerOrderDetailDAOImpl
 	public CustomerOrderDetail findByOrderAndDetailId(long customerOrderId, long productDetailId) {
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
-		conjunction.add(Restrictions.eq("customerOrderId", customerOrderId));
+		conjunction.add(Restrictions.eq("customerOrder.id", customerOrderId));
 		conjunction.add(Restrictions.eq("productDetailId", productDetailId));
 		
 		return findUniqueResult(null, null, null, conjunction);

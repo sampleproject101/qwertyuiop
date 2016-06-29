@@ -21,4 +21,6 @@ public interface CustomerOrderHandler {
 	ObjectList<CustomerOrderDetail> getCustomerOrderDetailList(Integer pageNumber, Long customerOrderId);
 	
 	ResultBean addItemByBarcode(String barcode, Long customerOrderId);
+	
+	ResultBean removeCustomerOrderDetail(Long customerOrderDetailId);
 }

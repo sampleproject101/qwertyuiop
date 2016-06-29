@@ -58,6 +58,16 @@ define(['jquery'], function ($) {
     				customerOrderId: customerOrderId
     			}
     		});
+    	},
+    	
+    	removeCustomerOrderDetail: function(customerOrderDetailId) {
+    		return $.ajax({
+    			url: '/services/customerorder/removeitem',
+    			method: 'POST',
+    			data: {
+    				customerOrderDetailId: customerOrderDetailId
+    			}
+    		});
     	}
     };
 });

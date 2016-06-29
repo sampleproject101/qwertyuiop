@@ -76,4 +76,11 @@ public class CustomerOrderEndpoint {
 	public ResultBean addItemByBarcode(@FormParam("barcode") String barcode, @FormParam("customerOrderId") Long customerOrderId) {
 		return customerOrderHandler.addItemByBarcode(barcode, customerOrderId);
 	}
+	
+	@POST
+	@Path("/removeitem")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean removeCustomerOrderDetail(@FormParam("customerOrderDetailId") Long customerOrderDetailId) {
+		return customerOrderHandler.removeCustomerOrderDetail(customerOrderDetailId);
+	}
 }

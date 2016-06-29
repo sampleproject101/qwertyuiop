@@ -1,10 +1,8 @@
 define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice'], function (app, ko, util, customerOrderService) {
-    var CustomerOrderPage = function(customerOrder) {
-    	this.customerOrder = customerOrder;
+    var CustomerOrderPage = function() {		//function(customerOrder)
+    	this.totalAmount = ko.observable();	// this.customerOrder = customerOrder
     	
     	this.customerOrderDetailList = ko.observable();
-    	
-    	this.totalAmount = ko.observable();
     	
     	this.barcodeKey = ko.observable();
     	
@@ -17,12 +15,14 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     CustomerOrderPage.prototype.activate = function() {
     	var self = this;
     	
-    	self.totalAmount(self.customerOrder.totalAmount());
-    	
-    	self.currentPage(util.getLastPage(self.itemsPerPage, self.totalItems));
+    	self.currentPage(1);
     	self.currentPageSubscription = self.currentPage.subscribe(function() {
 			self.refreshCustomerOrderDetailList();
 		});
+    	
+    	customerOrderService.getCustomerOrder(1).done(function(data) {	//change id to self.customerOrder.id
+    		self.totalAmount(data.totalAmount);		//self.customerOrder = data;
+    	});
     	
     	self.refreshCustomerOrderDetailList();
     };
@@ -30,17 +30,41 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     CustomerOrderPage.prototype.refreshCustomerOrderDetailList = function() {
     	var self = this;
     	
-    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrder.id()).done(function(data) {
+    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), 1).done(function(data) {		//change id to self.customerOrder.id
 			self.customerOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});
+    	
+    	customerOrderService.getCustomerOrder(1).done(function(data) {
+    		self.totalAmount(data.totalAmount);
+    	});
     };
+    
+    CustomerOrderPage.prototype.remove = function(customerOrderDetailId, quantity, productName, unitType) {
+		var self = this;
+		
+		app.showMessage('Are you sure you want to remove ' + quantity + ' "' + productName + ' (' + unitType + ')"?',
+				'Confirm Remove',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				customerOrderService.removeCustomerOrderDetail(customerOrderDetailId).done(function(result) {
+					self.refreshCustomerOrderDetailList();
+					app.showMessage(result.message);
+				});
+			}
+		})
+	};
     
     CustomerOrderPage.prototype.addItemByBarcode = function() {
     	var self = this;
     	
-    	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrder.id()).done(function(result) {
-    		self.currentPage(util.getLastPage(self.itemsPerPage, self.totalItems));
+    	customerOrderService.addItemByBarcode(self.barcodeKey(), 1).done(function(result) {
+    		if(result.success) {
+    			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
+    		} else {
+    			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems()));
+    		}
     		self.refreshCustomerOrderDetailList();
     		if(!result.success) {
     			app.showMessage(result.message);
