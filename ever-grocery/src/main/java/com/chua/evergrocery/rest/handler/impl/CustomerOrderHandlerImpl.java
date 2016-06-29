@@ -9,8 +9,12 @@ import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.CustomerOrderFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.CustomerOrder;
+import com.chua.evergrocery.database.entity.CustomerOrderDetail;
+import com.chua.evergrocery.database.entity.ProductDetail;
+import com.chua.evergrocery.database.service.CustomerOrderDetailService;
 import com.chua.evergrocery.database.service.CustomerOrderService;
 import com.chua.evergrocery.database.service.CustomerService;
+import com.chua.evergrocery.database.service.ProductDetailService;
 import com.chua.evergrocery.database.service.UserService;
 import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.objects.ObjectList;
@@ -28,6 +32,12 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	@Autowired
 	private CustomerOrderService customerOrderService;
+	
+	@Autowired
+	private CustomerOrderDetailService customerOrderDetailService;
+	
+	@Autowired
+	private ProductDetailService productDetailService;
 
 	@Override
 	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey) {
@@ -125,5 +135,52 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	private void setCustomerOrder(CustomerOrder customerOrder, CustomerOrderFormBean customerOrderForm) {
 		customerOrder.setName(customerOrderForm.getName());
 		customerOrder.setCustomer(customerService.find(customerOrderForm.getCustomerId()));
+	}
+
+	@Override
+	public ObjectList<CustomerOrderDetail> getCustomerOrderDetailList(Integer pageNumber, Long customerOrderId) {
+		return customerOrderDetailService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), customerOrderId);
+	}
+
+	@Override
+	public ResultBean addItemByBarcode(String barcode, Long customerOrderId) {
+		final ResultBean result;
+		
+		final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
+		if(productDetail != null) {
+			final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrderId, productDetail.getId());
+			
+			if(customerOrderDetail == null) {
+				final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
+				setCustomerOrderDetail(newCustomerOrderDetail, customerOrderId, productDetail);
+				setCustomerOrderDetailQuantity(newCustomerOrderDetail, 1);
+				
+				customerOrderDetailService.insert(newCustomerOrderDetail);
+			} else {
+				setCustomerOrderDetail(customerOrderDetail, customerOrderId, productDetail);
+				setCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + 1);
+				
+				customerOrderDetailService.update(customerOrderDetail);
+			}
+			
+			result = new ResultBean(true, "");
+		} else {
+			result = new ResultBean(false, "Barcode not found.");
+		}
+		
+		return result;
+	}
+	
+	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, long customerOrderId, ProductDetail productDetail) {
+		customerOrderDetail.setCustomerOrder(customerOrderService.find(customerOrderId));
+		customerOrderDetail.setProductDetailId(productDetail.getId());
+		customerOrderDetail.setProductName(productDetail.getProduct().getName());
+		customerOrderDetail.setUnitType(productDetail.getUnitType());
+		customerOrderDetail.setUnitPrice(productDetail.getSellingPrice());
+	}
+	
+	private void setCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, int quantity) {
+		customerOrderDetail.setQuantity(quantity);
+		customerOrderDetail.setTotalPrice(quantity * customerOrderDetail.getUnitPrice());
 	}
 }

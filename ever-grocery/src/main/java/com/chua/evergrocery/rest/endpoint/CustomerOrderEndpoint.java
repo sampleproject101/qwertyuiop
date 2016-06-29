@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.chua.evergrocery.beans.CustomerOrderFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.CustomerOrder;
+import com.chua.evergrocery.database.entity.CustomerOrderDetail;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CustomerOrderHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,5 +61,19 @@ public class CustomerOrderEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean removeCustomerOrder(@FormParam("customerOrderId") Long customerOrderId) {
 		return customerOrderHandler.removeCustomerOrder(customerOrderId);
+	}
+	
+	@GET
+	@Path("/detaillist")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ObjectList<CustomerOrderDetail> getCustomerOrderDetailList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("customerOrderId") Long customerOrderId) {
+		return customerOrderHandler.getCustomerOrderDetailList(pageNumber, customerOrderId);
+	}
+	
+	@POST
+	@Path("/additembybarcode")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean addItemByBarcode(@FormParam("barcode") String barcode, @FormParam("customerOrderId") Long customerOrderId) {
+		return customerOrderHandler.addItemByBarcode(barcode, customerOrderId);
 	}
 }

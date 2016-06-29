@@ -6,7 +6,7 @@ public enum Status {
 	
 	LISTING("Listing"),
 	
-	CASHIER_PROCESSING("Cashier Processing"),
+	PRINTED("Printed"),
 	
 	PAID("Paid");
 	

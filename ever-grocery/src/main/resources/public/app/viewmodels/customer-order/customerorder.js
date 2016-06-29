@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/customer-order/customerorderform'], function (app, ko, customerOrderService, CustomerOrderForm) {
+define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/customer-order/customerorderform', 'viewmodels/customer-order/customerorderpage'], function (app, ko, customerOrderService, CustomerOrderForm, CustomerOrderPage) {
 	var CustomerOrder = function() {
 		this.customerOrderList = ko.observable();
 		
@@ -64,11 +64,13 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 		})
 	};
 	
-	/*CustomerOrder.prototype.details = function(customerOrderId) {
+	CustomerOrder.prototype.details = function(customerOrderId) {
 		var self = this;
 		
-		
-	};*/
+		customerOrderService.getCustomerOrder(customerOrderId).done(function(data) {
+			CustomerOrderPage(data);
+		});
+	};
 	
     return CustomerOrder;
 });

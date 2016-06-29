@@ -37,6 +37,27 @@ define(['jquery'], function ($) {
     				customerOrderId: customerOrderId
     			}
     		});
+    	},
+    	
+    	getCustomerOrderDetailList: function(pageNumber, customerOrderId) {
+    		return $.ajax({
+    			url: '/services/customerorder/detaillist',
+    			data: {
+    				pageNumber: pageNumber - 1,
+    				customerOrderId: customerOrderId
+    			}
+    		});
+    	},
+    	
+    	addItemByBarcode: function(barcode, customerOrderId) {
+    		return $.ajax({
+    			url: '/services/customerorder/additembybarcode',
+    			method: 'POST',
+    			data: {
+    				barcode: barcode,
+    				customerOrderId: customerOrderId
+    			}
+    		});
     	}
     };
 });

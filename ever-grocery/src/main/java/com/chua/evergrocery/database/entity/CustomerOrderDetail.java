@@ -27,13 +27,15 @@ public class CustomerOrderDetail extends BaseObject {
 	
 	private CustomerOrder customerOrder;
 	
+	private Long productDetailId;
+	
 	private String productName;
 	
 	private UnitType unitType;
 	
 	private Float unitPrice;
 	
-	private Float quantity;
+	private Integer quantity;
 	
 	private Float totalPrice;
 
@@ -47,6 +49,16 @@ public class CustomerOrderDetail extends BaseObject {
 
 	public void setCustomerOrder(CustomerOrder customerOrder) {
 		this.customerOrder = customerOrder;
+	}
+
+	@Basic
+	@Column(name = "product_detail_id")
+	public Long getProductDetailId() {
+		return productDetailId;
+	}
+
+	public void setProductDetailId(Long productDetailId) {
+		this.productDetailId = productDetailId;
 	}
 
 	@Basic
@@ -81,11 +93,11 @@ public class CustomerOrderDetail extends BaseObject {
 
 	@Basic
 	@Column(name = "quantity")
-	public Float getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Float quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
