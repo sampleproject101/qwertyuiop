@@ -3,6 +3,8 @@ package com.chua.evergrocery.database.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import com.chua.evergrocery.database.entity.base.BaseObject;
+import com.chua.evergrocery.enums.UnitType;
 
 @Entity(name = "CustomerOrderDetail")
 @Table(name = CustomerOrderDetail.TABLE_NAME)
@@ -24,13 +27,15 @@ public class CustomerOrderDetail extends BaseObject {
 	
 	private CustomerOrder customerOrder;
 	
-	private ProductDetail productDetail;
+	private String productName;
 	
-	private Float price;
+	private UnitType unitType;
+	
+	private Float unitPrice;
 	
 	private Float quantity;
 	
-	private Float total;
+	private Float totalPrice;
 
 	@ManyToOne(targetEntity = CustomerOrder.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_order_id")
@@ -44,26 +49,34 @@ public class CustomerOrderDetail extends BaseObject {
 		this.customerOrder = customerOrder;
 	}
 
-	@ManyToOne(targetEntity = ProductDetail.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_detail_id")
-	@Where(clause = "valid = 1")
-	@NotFound(action = NotFoundAction.IGNORE)
-	public ProductDetail getProductDetail() {
-		return productDetail;
+	@Basic
+	@Column(name = "product_name")
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setProductDetail(ProductDetail productDetail) {
-		this.productDetail = productDetail;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "unit_type", length = 50)
+	public UnitType getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(UnitType unitType) {
+		this.unitType = unitType;
 	}
 
 	@Basic
-	@Column(name = "price")
-	public Float getPrice() {
-		return price;
+	@Column(name = "unit_price")
+	public Float getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPrice(Float price) {
-		this.price = price;
+	public void setUnitPrice(Float unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
 	@Basic
@@ -77,12 +90,12 @@ public class CustomerOrderDetail extends BaseObject {
 	}
 
 	@Basic
-	@Column(name = "total")
-	public Float getTotal() {
-		return total;
+	@Column(name = "total_price")
+	public Float getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setTotal(Float total) {
-		this.total = total;
+	public void setTotalPrice(Float totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }

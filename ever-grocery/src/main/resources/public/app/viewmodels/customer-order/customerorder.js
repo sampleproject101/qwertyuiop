@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/customerorderform'], function (app, ko, customerOrderService, CustomerOrderForm) {
+define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/customer-order/customerorderform'], function (app, ko, customerOrderService, CustomerOrderForm) {
 	var CustomerOrder = function() {
 		this.customerOrderList = ko.observable();
 		
@@ -63,6 +63,12 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 			}
 		})
 	};
+	
+	/*CustomerOrder.prototype.details = function(customerOrderId) {
+		var self = this;
+		
+		
+	};*/
 	
     return CustomerOrder;
 });
