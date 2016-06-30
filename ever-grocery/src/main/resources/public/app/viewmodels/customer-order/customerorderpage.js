@@ -1,10 +1,5 @@
-define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice'], function (app, ko, util, customerOrderService) {
+define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice', 'modules/customerservice'], function (app, ko, util, customerOrderService, customerService) {
     var CustomerOrderPage = function() {		//function(customerOrder)
-    	this.customerOrderId = ko.observable(1);		// to remove
-    	this.totalAmount = ko.observable();	// this.customerOrder = customerOrder
-    	this.customerOrderName = ko.observable();		//to remove
-    	this.status = ko.observable();			// to remove
-    	
     	this.customerOrderDetailList = ko.observable();
     	
     	this.barcodeKey = ko.observable();
@@ -13,42 +8,43 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
+		
+		this.customerOrderPageModel = {
+			customerOrderId: ko.observable(),
+			totalAmount: ko.observable(),
+			customerOrderName: ko.observable(),
+			status: ko.observable()
+		};
     };
     
-    CustomerOrderPage.prototype.activate = function() {
+    CustomerOrderPage.prototype.activate = function(customerOrderId) {
     	var self = this;
+    	
+    	self.customerOrderPageModel.customerOrderId(customerOrderId);
     	
     	self.currentPage(1);
     	self.currentPageSubscription = self.currentPage.subscribe(function() {
     		self.refreshCustomerOrderDetailList();
 		});
     	
-    	customerOrderService.refreshCustomerOrder(self.customerOrderId()).done(function() {					//change id to self.customerOrder.id
-    		customerOrderService.getCustomerOrder(self.customerOrderId()).done(function(data) {				//change id to self.customerOrder.id
-        		self.totalAmount(data.totalAmount);		//self.customerOrder = data;		update html after
-        		self.customerOrderId(data.id);
-        		self.customerOrderName(data.name);
-        		self.status(data.status);				//^^ to remove
-        	});
-    	});						
-    	
-    	self.refreshCustomerOrderDetailList();
+    	customerOrderService.refreshCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function() {
+    		self.refreshCustomerOrderDetailList();
+    	});
     };
     
     CustomerOrderPage.prototype.refreshCustomerOrderDetailList = function() {
     	var self = this;
     	
-    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrderId()).done(function(data) {		//change id to self.customerOrder.id
+    	customerOrderService.getCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function(data) { 
+    		self.customerOrderPageModel.totalAmount(data.totalAmount);
+    		self.customerOrderPageModel.customerOrderName(data.name);
+    		self.customerOrderPageModel.status(data.status);
+    	});
+    	
+    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrderPageModel.customerOrderId()).done(function(data) { 
 			self.customerOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});
-    	
-    	customerOrderService.getCustomerOrder(self.customerOrderId()).done(function(data) {			// change id
-    		self.totalAmount(data.totalAmount);		//self.customerOrder = data;		update html after
-    		self.customerOrderId(data.id);
-    		self.customerOrderName(data.name);
-    		self.status(data.status);					//^^ to remove
-    	});
     };
     
     CustomerOrderPage.prototype.remove = function(customerOrderDetailId, quantity, productName, unitType) {
@@ -70,7 +66,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     CustomerOrderPage.prototype.addItemByBarcode = function() {
     	var self = this;
     	
-    	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrderId()).done(function(result) {				// id!!!!
+    	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrderPageModel.customerOrderId()).done(function(result) {	
     		if(result.success) {
     			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
     		} else {

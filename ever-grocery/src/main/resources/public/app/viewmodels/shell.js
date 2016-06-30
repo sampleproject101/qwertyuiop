@@ -13,8 +13,8 @@
 	  		]
 	  	},
 	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
-	  	{ route: 'customerorderpage', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Temp List Page', nav: true, hash: '#customerorderpage' },		//temporary
-	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' }
+	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' },
+	  	{ route: 'customerorderpage/:id', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order Page', nav: false, hash: '#customerorderpage' }
 	];
 	
     return {
