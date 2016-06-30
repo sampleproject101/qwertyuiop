@@ -1,5 +1,7 @@
 package com.chua.evergrocery.database.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,10 @@ public class CustomerOrderDetailServiceImpl
 	@Override
 	public CustomerOrderDetail findByOrderAndDetailId(long customerOrderId, long productDetailId) {
 		return dao.findByOrderAndDetailId(customerOrderId, productDetailId);
+	}
+
+	@Override
+	public List<CustomerOrderDetail> findAllByCustomerOrderId(Long customerOrderId) {
+		return dao.findAllByCustomerOrderId(customerOrderId);
 	}	
 }

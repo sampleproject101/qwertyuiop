@@ -39,6 +39,16 @@ define(['jquery'], function ($) {
     		});
     	},
     	
+    	refreshCustomerOrder: function(customerOrderId) {
+    		return $.ajax({
+    			url: '/services/customerorder/refreshcustomerorder',
+    			method: 'POST',
+    			data: {
+    				customerOrderId: customerOrderId
+    			}
+    		});
+    	},
+    	
     	getCustomerOrderDetailList: function(pageNumber, customerOrderId) {
     		return $.ajax({
     			url: '/services/customerorder/detaillist',

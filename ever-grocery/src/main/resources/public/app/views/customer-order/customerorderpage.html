@@ -1,16 +1,14 @@
 <br><br><br>
 <form class="form-inline" role="form">
 	<pre>
-<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"> DONE</span></button>		Order Name: <!-- <span data-bind="text: customerOrder.name"></span> -->						Customer Name: <!-- <span data-bind="text: customerOrder.customer.lastName">, </span><span data-bind="text: customerOrder.customer.firstName"></span> -->						Status:<!-- <span data-bind="text: customerOrder.status"></span> --></pre>
+<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"> DONE</span></button>		Order Name: <span data-bind="text: customerOrderName"></span>						Customer Name: <!-- <span data-bind="text: customerOrder.customer.lastName">, </span><span data-bind="text: customerOrder.customer.firstName"></span> -->						Status:	<span data-bind="text: status"></span></pre>
 	<br>
 	<div class="row">
 		<div class="form-group">
-			<button type="button" class="btn btn-info">Search Item</button>
+			<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> Search Item</button>
 		</div>
 		<div class="form-group">
-			<input data-bind="value: barcodeKey" type="text" class="form-control" placeholder="Input Barcode Here...">
-		</div>
-		<div class="form-group">
+			<input data-bind="value: barcodeKey" type="text" class="form-control" placeholder="Input Barcode Here.......">
 			<button data-bind="click: addItemByBarcode" class="btn btn-default glyphicon glyphicon-barcode"></button>
 		</div>
 		<div class="pull-right">
@@ -51,6 +49,13 @@
     			</tbody>
     		</table>
     	</div>
+    	<!-- temporary -->
+    	<br><br><br>
+    	<div class="form-group">
+			<input data-bind="value: customerOrderId" type="text" class="form-control" placeholder="id field (temporary)">
+			<button data-bind="click: refreshCustomerOrderDetailList" class="btn btn-default glyphicon glyphicon-refresh"></button>
+		</div>
+		<!-- ^^ -->
     </div>
 </form>
 

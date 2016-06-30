@@ -5,4 +5,5 @@ import com.chua.evergrocery.database.prototype.CustomerOrderDetailPrototype;
 
 public interface CustomerOrderDetailDAO extends DAO<CustomerOrderDetail, Long>, CustomerOrderDetailPrototype {
 
+	
 }

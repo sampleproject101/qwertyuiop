@@ -58,6 +58,7 @@ public class ProductHandlerImpl implements ProductHandler {
 			
 			ObjectList<Product> productList = new ObjectList<Product>();
 			productList.setList(products);
+			productList.setTotal(products.size());
 			return productList;
 		} else {
 			return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);

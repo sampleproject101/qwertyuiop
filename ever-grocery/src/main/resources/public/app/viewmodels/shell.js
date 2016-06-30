@@ -12,7 +12,8 @@
 	      		{ route: 'user', moduleId: 'user', title: 'User', nav: true, hash: 'user' }
 	  		]
 	  	},
-	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order', nav: true, hash: '#customerorder' },
+	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
+	  	{ route: 'customerorderpage', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Temp List Page', nav: true, hash: '#customerorderpage' },		//temporary
 	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' }
 	];
 	

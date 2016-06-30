@@ -23,4 +23,6 @@ public interface CustomerOrderHandler {
 	ResultBean addItemByBarcode(String barcode, Long customerOrderId);
 	
 	ResultBean removeCustomerOrderDetail(Long customerOrderDetailId);
+	
+	void refreshCustomerOrder(Long customerOrderId);
 }

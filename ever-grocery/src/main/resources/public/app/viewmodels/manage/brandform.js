@@ -25,7 +25,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/brandservice'], f
     	
         brandService.saveBrand(ko.toJSON(self.brandFormModel)).done(function(result) {
         	if(result.success) {
-        		dialog.close(self);	
+        		dialog.close(self);
         	} 
         	app.showMessage(result.message);
         });

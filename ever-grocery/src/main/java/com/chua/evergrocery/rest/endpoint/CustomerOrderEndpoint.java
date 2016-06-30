@@ -63,6 +63,13 @@ public class CustomerOrderEndpoint {
 		return customerOrderHandler.removeCustomerOrder(customerOrderId);
 	}
 	
+	@POST
+	@Path("/refreshcustomerorder")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public void refreshCustomerOrder(@FormParam("customerOrderId") Long customerOrderId) {
+		customerOrderHandler.refreshCustomerOrder(customerOrderId);
+	}
+	
 	@GET
 	@Path("/detaillist")
 	@Produces({ MediaType.APPLICATION_JSON })

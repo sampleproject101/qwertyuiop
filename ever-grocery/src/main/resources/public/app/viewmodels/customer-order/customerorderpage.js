@@ -1,6 +1,9 @@
 define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice'], function (app, ko, util, customerOrderService) {
     var CustomerOrderPage = function() {		//function(customerOrder)
+    	this.customerOrderId = ko.observable(1);		// to remove
     	this.totalAmount = ko.observable();	// this.customerOrder = customerOrder
+    	this.customerOrderName = ko.observable();		//to remove
+    	this.status = ko.observable();			// to remove
     	
     	this.customerOrderDetailList = ko.observable();
     	
@@ -17,12 +20,17 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	
     	self.currentPage(1);
     	self.currentPageSubscription = self.currentPage.subscribe(function() {
-			self.refreshCustomerOrderDetailList();
+    		self.refreshCustomerOrderDetailList();
 		});
     	
-    	customerOrderService.getCustomerOrder(1).done(function(data) {	//change id to self.customerOrder.id
-    		self.totalAmount(data.totalAmount);		//self.customerOrder = data;
-    	});
+    	customerOrderService.refreshCustomerOrder(self.customerOrderId()).done(function() {					//change id to self.customerOrder.id
+    		customerOrderService.getCustomerOrder(self.customerOrderId()).done(function(data) {				//change id to self.customerOrder.id
+        		self.totalAmount(data.totalAmount);		//self.customerOrder = data;		update html after
+        		self.customerOrderId(data.id);
+        		self.customerOrderName(data.name);
+        		self.status(data.status);				//^^ to remove
+        	});
+    	});						
     	
     	self.refreshCustomerOrderDetailList();
     };
@@ -30,13 +38,16 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     CustomerOrderPage.prototype.refreshCustomerOrderDetailList = function() {
     	var self = this;
     	
-    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), 1).done(function(data) {		//change id to self.customerOrder.id
+    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrderId()).done(function(data) {		//change id to self.customerOrder.id
 			self.customerOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});
     	
-    	customerOrderService.getCustomerOrder(1).done(function(data) {
-    		self.totalAmount(data.totalAmount);
+    	customerOrderService.getCustomerOrder(self.customerOrderId()).done(function(data) {			// change id
+    		self.totalAmount(data.totalAmount);		//self.customerOrder = data;		update html after
+    		self.customerOrderId(data.id);
+    		self.customerOrderName(data.name);
+    		self.status(data.status);					//^^ to remove
     	});
     };
     
@@ -59,7 +70,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     CustomerOrderPage.prototype.addItemByBarcode = function() {
     	var self = this;
     	
-    	customerOrderService.addItemByBarcode(self.barcodeKey(), 1).done(function(result) {
+    	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrderId()).done(function(result) {				// id!!!!
     		if(result.success) {
     			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
     		} else {
