@@ -20,7 +20,7 @@ public class ProductDetailDAOImpl
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
 		conjunction.add(Restrictions.eq("product.id", productId));
 		
-		return findAllByCriterionList(null, null, null, null, conjunction);
+		return findAllByCriterionList(0, 4, null, null, null, null, conjunction);
 	}
 
 	@Override

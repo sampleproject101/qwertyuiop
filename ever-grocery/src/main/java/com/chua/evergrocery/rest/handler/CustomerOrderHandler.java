@@ -24,5 +24,7 @@ public interface CustomerOrderHandler {
 	
 	ResultBean removeCustomerOrderDetail(Long customerOrderDetailId);
 	
+	ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity);
+	
 	void refreshCustomerOrder(Long customerOrderId);
 }

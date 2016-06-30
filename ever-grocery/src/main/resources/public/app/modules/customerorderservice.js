@@ -78,6 +78,17 @@ define(['jquery'], function ($) {
     				customerOrderDetailId: customerOrderDetailId
     			}
     		});
+    	},
+    	
+    	changeQuantity: function(customerOrderDetailId, quantity) {
+    		return $.ajax({
+    			url: '/services/customerorder/changequantity',
+    			method: 'POST',
+    			data: {
+    				customerOrderDetailId: customerOrderDetailId,
+    				quantity: quantity
+    			}
+    		});
     	}
     };
 });

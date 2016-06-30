@@ -214,6 +214,34 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	}
 	
 	@Override
+	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity) {
+		final ResultBean result;
+		
+		if(quantity > 0) {
+			final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
+			if(customerOrderDetail != null) {
+				result = new ResultBean();
+				
+				setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
+				result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
+				if(result.getSuccess()) {
+					result.setMessage("Quantity successfully updated.");
+				} else {
+					result.setMessage("Failed update quantity.");
+				}
+				
+				refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
+			} else {
+				result = new ResultBean(false, "Customer order detail not found.");
+			}
+			
+			return result;
+		} else {
+			return this.removeCustomerOrderDetail(customerOrderDetailId);
+		}
+	}
+	
+	@Override
 	public void refreshCustomerOrder(Long customerOrderId) {
 		refreshCustomerOrder(customerOrderService.find(customerOrderId));
 	}

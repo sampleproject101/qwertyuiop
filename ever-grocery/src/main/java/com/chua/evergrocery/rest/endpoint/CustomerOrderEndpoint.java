@@ -90,4 +90,11 @@ public class CustomerOrderEndpoint {
 	public ResultBean removeCustomerOrderDetail(@FormParam("customerOrderDetailId") Long customerOrderDetailId) {
 		return customerOrderHandler.removeCustomerOrderDetail(customerOrderDetailId);
 	}
+	
+	@POST
+	@Path("/changequantity")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean changeCustomerOrderDetailQuantity(@FormParam("customerOrderDetailId") Long customerOrderDetailId, @FormParam("quantity") Integer quantity) {
+		return customerOrderHandler.changeCustomerOrderDetailQuantity(customerOrderDetailId, quantity);
+	}
 }

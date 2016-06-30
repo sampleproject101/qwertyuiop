@@ -81,5 +81,16 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	self.barcodeKey("");
     };
     
+    CustomerOrderPage.prototype.changeQuantity = function(customerOrderDetailId, quantity) {
+    	var self = this;
+    	
+    	customerOrderService.changeQuantity(customerOrderDetailId, quantity).done(function(result) {
+    		self.refreshCustomerOrderDetailList();
+    		if(!result.success) {
+    			app.showMessage(result.message);
+    		}
+    	});
+    };
+    
     return CustomerOrderPage;
 });
