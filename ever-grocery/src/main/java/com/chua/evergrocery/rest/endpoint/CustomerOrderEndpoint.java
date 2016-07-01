@@ -85,6 +85,15 @@ public class CustomerOrderEndpoint {
 	}
 	
 	@POST
+	@Path("/additem")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean addItem(@FormParam("productDetailId") Long productDetailId,
+			@FormParam("customerOrderId") Long customerOrderId,
+			@FormParam("quantity") Integer quantity) {
+		return customerOrderHandler.addItemByProductDetailId(productDetailId, customerOrderId, quantity);
+	}
+	
+	@POST
 	@Path("/removeitem")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean removeCustomerOrderDetail(@FormParam("customerOrderDetailId") Long customerOrderDetailId) {

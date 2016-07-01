@@ -1,12 +1,12 @@
-define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice', 'modules/customerservice'], function (app, ko, util, customerOrderService, customerService) {
-    var CustomerOrderPage = function() {		//function(customerOrder)
+define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice', 'modules/customerservice', 'viewmodels/customer-order/search'], function (app, ko, util, customerOrderService, customerService, Search) {
+    var CustomerOrderPage = function() {
     	this.customerOrderDetailList = ko.observable();
     	
     	this.barcodeKey = ko.observable();
     	
     	this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
-		this.currentPage = ko.observable(1);
+		this.currentPage = ko.observable();
 		this.currentPageSubscription = null;
 		
 		this.customerOrderPageModel = {
@@ -29,6 +29,16 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	
     	customerOrderService.refreshCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function() {
     		self.refreshCustomerOrderDetailList();
+    	});
+    };
+    
+    CustomerOrderPage.prototype.search = function() {
+    	var self = this;
+    	
+    	customerOrderService.getCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function(data) { 
+    		Search.show(data).then(function() {
+        		self.refreshCustomerOrderDetailList();
+        	});
     	});
     };
     

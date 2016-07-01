@@ -43,7 +43,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 
 	@Override
 	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey) {
-		return customerOrderService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
+		return customerOrderService.findAllWithPagingWithStatus(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, new Status[] { Status.LISTING, Status.PRINTED });
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	public ResultBean createCustomerOrder(CustomerOrderFormBean customerOrderForm) {
 		final ResultBean result;
 		
-		if(!customerOrderService.isExistsByName(customerOrderForm.getName())) {
+		if(!customerOrderService.isExistsByNameAndStatus(customerOrderForm.getName(), new Status[] { Status.LISTING, Status.PRINTED })) {
 			final CustomerOrder customerOrder = new CustomerOrder();
 			setCustomerOrder(customerOrder, customerOrderForm);
 			customerOrder.setTotalAmount(0.0f);
@@ -85,7 +85,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		if(customerOrder != null) {
 			if(customerOrder.getStatus() == Status.LISTING) {
 				if(!(StringUtils.trimToEmpty(customerOrder.getName()).equalsIgnoreCase(customerOrderForm.getName())) &&
-						customerOrderService.isExistsByName(customerOrderForm.getName())) {
+						customerOrderService.isExistsByNameAndStatus(customerOrderForm.getName(), new Status[] { Status.LISTING, Status.PRINTED })) {
 					result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
 				} else {
 					setCustomerOrder(customerOrder, customerOrderForm);
@@ -148,21 +148,13 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	@Override
 	public ResultBean removeCustomerOrderDetail(Long customerOrderDetailId) {
 		final ResultBean result;
-		
 		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
+		
 		if(customerOrderDetail != null) {
 			final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
 			if(customerOrder != null) {
 				if(customerOrder.getStatus() == Status.LISTING) {
-					result = new ResultBean();
-					
-					result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
-					refreshCustomerOrder(customerOrder);
-					if(result.getSuccess()) {
-						result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
-					} else {
-						result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
-					}
+					result = this.removeCustomerOrderDetail(customerOrderDetail);
 				} else {
 					result = new ResultBean(false, "Customer order cannot be edited right now.");
 				}
@@ -175,6 +167,23 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		return result;
 	}
+	
+	private ResultBean removeCustomerOrderDetail(CustomerOrderDetail customerOrderDetail) {
+		final ResultBean result;
+		
+		final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
+		result = new ResultBean();
+		
+		result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
+		refreshCustomerOrder(customerOrder);
+		if(result.getSuccess()) {
+			result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+		} else {
+			result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+		}
+		
+		return result;
+	}
 
 	@Override
 	public ResultBean addItemByBarcode(String barcode, Long customerOrderId) {
@@ -182,7 +191,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
 		
 		if(barcode != null && barcode.length() > 4 && productDetail != null) {
-			result = addItemByProductDetailId(productDetail.getId(), customerOrderId, 1);
+			result = this.addItemByProductDetailId(productDetail.getId(), customerOrderId, 1);
 		} else {
 			result = new ResultBean(false, "Barcode not found.");
 		}
@@ -192,35 +201,15 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	@Override
 	public ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Integer quantity) {
-		return this.addItem(productDetailService.find(productDetailId), customerOrderService.find(customerOrderId), quantity);
-	}
-	
-	public ResultBean addItem(ProductDetail productDetail, CustomerOrder customerOrder, Integer quantity) {
 		final ResultBean result;
+		
+		final ProductDetail productDetail = productDetailService.find(productDetailId);
+		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
 			if(customerOrder.getStatus() == Status.LISTING) {
 				if(productDetail != null) {
-					final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrder.getId(), productDetail.getId());
-					
-					if(customerOrderDetail == null) {
-						result = new ResultBean();
-						
-						final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
-						setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
-						setCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity);
-						
-						result.setSuccess(customerOrderDetailService.insert(newCustomerOrderDetail) != null &&
-								changeCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity).getSuccess());
-						
-						if(result.getSuccess()) {
-							result.setMessage("Successfully added item.");
-						} else {
-							result.setMessage("Failed to add item.");
-						}
-					} else {
-						result = changeCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + quantity);
-					}
+					result = this.addItem(productDetail, customerOrder, quantity);
 				} else {
 					result = new ResultBean(false, "Product not found.");
 				}
@@ -234,38 +223,46 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	@Override
-	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity) {
-		return changeCustomerOrderDetailQuantity(customerOrderDetailService.find(customerOrderDetailId), quantity);
+	private ResultBean addItem(ProductDetail productDetail, CustomerOrder customerOrder, Integer quantity) {
+		final ResultBean result;
+		
+		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrder.getId(), productDetail.getId());
+		
+		if(customerOrderDetail == null) {
+			result = new ResultBean();
+			
+			final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
+			setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
+			setCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity);
+			
+			result.setSuccess(customerOrderDetailService.insert(newCustomerOrderDetail) != null &&
+					this.changeCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity).getSuccess());
+			
+			if(result.getSuccess()) {
+				result.setMessage("Successfully added item.");
+			} else {
+				result.setMessage("Failed to add item.");
+			}
+		} else {
+			result = this.changeCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + quantity);
+		}
+		
+		return result;
 	}
 	
-	public ResultBean changeCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, Integer quantity) {
+	@Override
+	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity) {
 		final ResultBean result;
+		
+		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
 		
 		if(customerOrderDetail != null) {
 			final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
 			if(customerOrder != null) {
 				if(customerOrder.getStatus() == Status.LISTING) {
-					result = new ResultBean();
-					
-					quantity = resolveCustomerOrderDetailUnitType(customerOrderDetail, quantity);
-					
-					if(quantity > 0) {
-						setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
-						result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
-						
-						refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
-					} else {
-						result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
-					}
-					
-					if(result.getSuccess()) {
-						result.setMessage("Quantity successfully updated.");
-					} else {
-						result.setMessage("Failed update quantity.");
-					}
+					result = this.changeCustomerOrderDetailQuantity(customerOrderDetail, quantity);
 				} else {
-					return new ResultBean(false, "Customer order cannot be edited right now.");
+					result =  new ResultBean(false, "Customer order cannot be edited right now.");
 				}
 			} else {
 				result = new ResultBean(false, "Customer order not found.");
@@ -277,7 +274,32 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	public int resolveCustomerOrderDetailUnitType(CustomerOrderDetail customerOrderDetail, Integer quantity) {
+	private ResultBean changeCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, Integer quantity) {
+		final ResultBean result;
+		
+		quantity = resolveCustomerOrderDetailUnitType(customerOrderDetail, quantity);
+		
+		if(quantity > 0) {
+			result = new ResultBean();
+			
+			setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
+			result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
+			
+			refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
+			
+			if(result.getSuccess()) {
+				result.setMessage("Quantity successfully updated.");
+			} else {
+				result.setMessage("Failed update quantity.");
+			}
+		} else {
+			result = this.removeCustomerOrderDetail(customerOrderDetail);
+		}
+		
+		return result;
+	}
+	
+	private int resolveCustomerOrderDetailUnitType(CustomerOrderDetail customerOrderDetail, Integer quantity) {
 		final int result;
 		final ProductDetail productDetail = customerOrderDetail.getProductDetail();
 		
@@ -288,18 +310,30 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			switch(productDetail.getTitle()) {
 			case "Piece":
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Whole");
-				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-				result = quantity % productDetail.getQuantity();
+				if(newProductDetail != null) {
+					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+					result = quantity % productDetail.getQuantity();
+				} else {
+					result = quantity;
+				}
 				break;
 			case "Inner Piece":
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Piece");
-				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-				result = quantity % productDetail.getQuantity();
+				if(newProductDetail != null) {
+					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+					result = quantity % productDetail.getQuantity();
+				} else {
+					result = quantity;
+				}
 				break;
 			case "2nd Inner Piece":
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Inner Piece");
-				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-				result = quantity % productDetail.getQuantity();
+				if(newProductDetail != null) {
+					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+					result = quantity % productDetail.getQuantity();
+				} else {
+					result = quantity;
+				}
 				break;
 			default:
 				result = quantity;

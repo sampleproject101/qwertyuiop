@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.chua.evergrocery.database.dao.CustomerOrderDAO;
 import com.chua.evergrocery.database.entity.CustomerOrder;
 import com.chua.evergrocery.database.service.CustomerOrderService;
+import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.objects.ObjectList;
 
 @Service
@@ -20,12 +21,12 @@ public class CustomerOrderServiceImpl
 	}
 	
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-	return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	public ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status) {
+	return dao.findAllWithPagingWithStatus(pageNumber, resultsPerPage, searchKey, status);
 	}
 	
 	@Override
-	public Boolean isExistsByName(String name) {
-	return dao.findByName(StringUtils.trimToEmpty(name)) != null;
+	public Boolean isExistsByNameAndStatus(String name, Status[] status) {
+	return dao.findByNameAndStatus(StringUtils.trimToEmpty(name), status) != null;
 	}
 }

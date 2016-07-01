@@ -70,6 +70,18 @@ define(['jquery'], function ($) {
     		});
     	},
     	
+    	addItem: function(productDetailId, customerOrderId, quantity) {
+    		return $.ajax({
+    			url: '/services/customerorder/additem',
+    			method: 'POST',
+    			data: {
+    				productDetailId: productDetailId,
+    				customerOrderId: customerOrderId,
+    				quantity: quantity
+    			}
+    		});
+    	},
+    	
     	removeCustomerOrderDetail: function(customerOrderDetailId) {
     		return $.ajax({
     			url: '/services/customerorder/removeitem',

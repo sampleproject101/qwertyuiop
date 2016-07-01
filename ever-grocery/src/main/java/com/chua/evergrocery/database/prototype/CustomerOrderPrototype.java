@@ -1,6 +1,7 @@
 package com.chua.evergrocery.database.prototype;
 
 import com.chua.evergrocery.database.entity.CustomerOrder;
+import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.objects.ObjectList;
 
 public interface CustomerOrderPrototype {
@@ -15,5 +16,5 @@ public interface CustomerOrderPrototype {
 	 * 
 	 * @return the object list of customerOrder
 	 */
-	ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status);
 }
