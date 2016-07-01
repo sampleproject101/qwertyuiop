@@ -6,7 +6,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	
     	this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
-		this.currentPage = ko.observable();
+		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
 		
 		this.customerOrderPageModel = {
