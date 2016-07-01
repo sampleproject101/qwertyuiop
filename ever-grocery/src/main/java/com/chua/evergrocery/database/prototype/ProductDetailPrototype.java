@@ -7,4 +7,6 @@ import com.chua.evergrocery.database.entity.ProductDetail;
 public interface ProductDetailPrototype {
 
 	List<ProductDetail> findAllByProductId(Long productId);
+	
+	ProductDetail findByProductIdAndTitle(Long productId, String title);
 }

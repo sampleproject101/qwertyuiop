@@ -144,47 +144,6 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	public ObjectList<CustomerOrderDetail> getCustomerOrderDetailList(Integer pageNumber, Long customerOrderId) {
 		return customerOrderDetailService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), customerOrderId);
 	}
-
-	@Override
-	public ResultBean addItemByBarcode(String barcode, Long customerOrderId) {
-		final ResultBean result;
-		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
-		
-		if(customerOrder != null) {
-			if(customerOrder.getStatus() == Status.LISTING) {
-				final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
-				
-				if(barcode != null && barcode.length() > 4 && productDetail != null) {
-					final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrderId, productDetail.getId());
-					
-					if(customerOrderDetail == null) {
-						final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
-						setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
-						setCustomerOrderDetailQuantity(newCustomerOrderDetail, 1);
-						
-						customerOrderDetailService.insert(newCustomerOrderDetail);
-					} else {
-						setCustomerOrderDetail(customerOrderDetail, customerOrder, productDetail);
-						setCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + 1);
-						
-						customerOrderDetailService.update(customerOrderDetail);
-					}
-					
-					result = new ResultBean(true, "");
-				} else {
-					result = new ResultBean(false, "Barcode not found.");
-				}
-			} else {
-				result = new ResultBean(false, "Customer order cannot be edited right now.");
-			}
-			
-			refreshCustomerOrder(customerOrder);
-		} else {
-			result = new ResultBean(false, "Customer order not found.");
-		}
-		
-		return result;
-	}
 	
 	@Override
 	public ResultBean removeCustomerOrderDetail(Long customerOrderDetailId) {
@@ -194,14 +153,18 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		if(customerOrderDetail != null) {
 			final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
 			if(customerOrder != null) {
-				result = new ResultBean();
-				
-				result.setSuccess(customerOrderDetailService.delete(customerOrderDetail));
-				refreshCustomerOrder(customerOrder);
-				if(result.getSuccess()) {
-					result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+				if(customerOrder.getStatus() == Status.LISTING) {
+					result = new ResultBean();
+					
+					result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
+					refreshCustomerOrder(customerOrder);
+					if(result.getSuccess()) {
+						result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+					} else {
+						result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+					}
 				} else {
-					result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
+					result = new ResultBean(false, "Customer order cannot be edited right now.");
 				}
 			} else {
 				result = new ResultBean(false, "Customer order not found.");
@@ -212,33 +175,140 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		return result;
 	}
+
+	@Override
+	public ResultBean addItemByBarcode(String barcode, Long customerOrderId) {
+		final ResultBean result;
+		final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
+		
+		if(barcode != null && barcode.length() > 4 && productDetail != null) {
+			result = addItemByProductDetailId(productDetail.getId(), customerOrderId, 1);
+		} else {
+			result = new ResultBean(false, "Barcode not found.");
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Integer quantity) {
+		return this.addItem(productDetailService.find(productDetailId), customerOrderService.find(customerOrderId), quantity);
+	}
+	
+	public ResultBean addItem(ProductDetail productDetail, CustomerOrder customerOrder, Integer quantity) {
+		final ResultBean result;
+		
+		if(customerOrder != null) {
+			if(customerOrder.getStatus() == Status.LISTING) {
+				if(productDetail != null) {
+					final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrder.getId(), productDetail.getId());
+					
+					if(customerOrderDetail == null) {
+						result = new ResultBean();
+						
+						final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
+						setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
+						setCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity);
+						
+						result.setSuccess(customerOrderDetailService.insert(newCustomerOrderDetail) != null &&
+								changeCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity).getSuccess());
+						
+						if(result.getSuccess()) {
+							result.setMessage("Successfully added item.");
+						} else {
+							result.setMessage("Failed to add item.");
+						}
+					} else {
+						result = changeCustomerOrderDetailQuantity(customerOrderDetail, customerOrderDetail.getQuantity() + quantity);
+					}
+				} else {
+					result = new ResultBean(false, "Product not found.");
+				}
+			} else {
+				result = new ResultBean(false, "Customer order cannot be edited right now.");
+			}
+		} else {
+			result = new ResultBean(false, "Customer order not found.");
+		}
+		
+		return result;
+	}
 	
 	@Override
 	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity) {
+		return changeCustomerOrderDetailQuantity(customerOrderDetailService.find(customerOrderDetailId), quantity);
+	}
+	
+	public ResultBean changeCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, Integer quantity) {
 		final ResultBean result;
 		
-		if(quantity > 0) {
-			final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
-			if(customerOrderDetail != null) {
-				result = new ResultBean();
-				
-				setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
-				result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
-				if(result.getSuccess()) {
-					result.setMessage("Quantity successfully updated.");
+		if(customerOrderDetail != null) {
+			final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
+			if(customerOrder != null) {
+				if(customerOrder.getStatus() == Status.LISTING) {
+					result = new ResultBean();
+					
+					quantity = resolveCustomerOrderDetailUnitType(customerOrderDetail, quantity);
+					
+					if(quantity > 0) {
+						setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
+						result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
+						
+						refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
+					} else {
+						result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
+					}
+					
+					if(result.getSuccess()) {
+						result.setMessage("Quantity successfully updated.");
+					} else {
+						result.setMessage("Failed update quantity.");
+					}
 				} else {
-					result.setMessage("Failed update quantity.");
+					return new ResultBean(false, "Customer order cannot be edited right now.");
 				}
-				
-				refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
 			} else {
-				result = new ResultBean(false, "Customer order detail not found.");
+				result = new ResultBean(false, "Customer order not found.");
 			}
-			
-			return result;
 		} else {
-			return this.removeCustomerOrderDetail(customerOrderDetailId);
+			result = new ResultBean(false, "Customer order detail not found.");
 		}
+		
+		return result;
+	}
+	
+	public int resolveCustomerOrderDetailUnitType(CustomerOrderDetail customerOrderDetail, Integer quantity) {
+		final int result;
+		final ProductDetail productDetail = customerOrderDetail.getProductDetail();
+		
+		if(quantity == null) quantity = 0;
+		
+		if(productDetail != null && quantity >= productDetail.getQuantity()) {
+			final ProductDetail newProductDetail;
+			switch(productDetail.getTitle()) {
+			case "Piece":
+				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Whole");
+				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+				result = quantity % productDetail.getQuantity();
+				break;
+			case "Inner Piece":
+				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Piece");
+				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+				result = quantity % productDetail.getQuantity();
+				break;
+			case "2nd Inner Piece":
+				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Inner Piece");
+				this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
+				result = quantity % productDetail.getQuantity();
+				break;
+			default:
+				result = quantity;
+			}
+		} else {
+			result = quantity;
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -261,10 +331,12 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, CustomerOrder customerOrder, ProductDetail productDetail) {
 		customerOrderDetail.setCustomerOrder(customerOrder);
-		customerOrderDetail.setProductDetailId(productDetail.getId());
+		customerOrderDetail.setProductDetail(productDetail);
 		customerOrderDetail.setProductName(productDetail.getProduct().getName());
 		customerOrderDetail.setUnitType(productDetail.getUnitType());
 		customerOrderDetail.setUnitPrice(productDetail.getSellingPrice());
+		customerOrderDetail.setQuantity(0);
+		customerOrderDetail.setTotalPrice(0.0f);
 	}
 	
 	private void setCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, int quantity) {

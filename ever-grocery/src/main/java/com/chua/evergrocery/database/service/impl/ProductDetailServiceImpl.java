@@ -28,4 +28,9 @@ public class ProductDetailServiceImpl
 	public ProductDetail findByBarcode(String barcode) {
 		return dao.findByBarcode(barcode);
 	}
+
+	@Override
+	public ProductDetail findByProductIdAndTitle(Long productId, String title) {
+		return dao.findByProductIdAndTitle(productId, title);
+	}
 }

@@ -31,4 +31,14 @@ public class ProductDetailDAOImpl
 		
 		return findUniqueResult(null, null, null, conjunction);
 	}
+
+	@Override
+	public ProductDetail findByProductIdAndTitle(Long productId, String title) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		conjunction.add(Restrictions.eq("product.id", productId));
+		conjunction.add(Restrictions.eq("title", title));
+		
+		return findUniqueResult(null, null, null, conjunction);
+	}
 }

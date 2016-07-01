@@ -27,7 +27,7 @@ public class CustomerOrderDetail extends BaseObject {
 	
 	private CustomerOrder customerOrder;
 	
-	private Long productDetailId;
+	private ProductDetail productDetail;
 	
 	private String productName;
 	
@@ -51,14 +51,16 @@ public class CustomerOrderDetail extends BaseObject {
 		this.customerOrder = customerOrder;
 	}
 
-	@Basic
-	@Column(name = "product_detail_id")
-	public Long getProductDetailId() {
-		return productDetailId;
+	@ManyToOne(targetEntity = ProductDetail.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_detail_id")
+	@Where(clause = "valid = 1")
+	@NotFound(action = NotFoundAction.IGNORE)
+	public ProductDetail getProductDetail() {
+		return productDetail;
 	}
 
-	public void setProductDetailId(Long productDetailId) {
-		this.productDetailId = productDetailId;
+	public void setProductDetail(ProductDetail productDetail) {
+		this.productDetail = productDetail;
 	}
 
 	@Basic

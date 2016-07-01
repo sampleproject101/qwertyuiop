@@ -39,7 +39,7 @@ public class CustomerOrderDetailDAOImpl
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
 		conjunction.add(Restrictions.eq("customerOrder.id", customerOrderId));
-		conjunction.add(Restrictions.eq("productDetailId", productDetailId));
+		conjunction.add(Restrictions.eq("productDetail.id", productDetailId));
 		
 		return findUniqueResult(null, null, null, conjunction);
 	}
