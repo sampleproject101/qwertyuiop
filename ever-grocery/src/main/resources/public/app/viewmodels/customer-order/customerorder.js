@@ -67,7 +67,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/customerorderserv
 	CustomerOrder.prototype.details = function(customerOrderId) {
 		var self = this;
 		
-		router.navigate('#/customerorderpage/' + customerOrderId);
+		router.navigate('#customerorderpage/' + customerOrderId);
 	};
 	
     return CustomerOrder;

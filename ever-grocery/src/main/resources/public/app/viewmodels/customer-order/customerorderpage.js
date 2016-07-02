@@ -36,7 +36,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	var self = this;
     	
     	customerOrderService.getCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function(data) { 
-    		Search.show(data).then(function() {
+    		Search.show(data).done(function() {
         		self.refreshCustomerOrderDetailList();
         	});
     	});
