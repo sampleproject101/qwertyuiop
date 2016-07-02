@@ -4,7 +4,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/productService', 
     	this.customerOrder = customerOrder;
     	
     	this.productName = ko.observable();
-    	this.quantity = ko.observable(1);
+    	this.quantity = ko.observable(1);		//setup for dynamic quantity add
     	
     	this.productDetailList = ko.observable();
     };

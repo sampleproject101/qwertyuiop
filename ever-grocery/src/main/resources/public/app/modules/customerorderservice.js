@@ -10,6 +10,17 @@ define(['jquery'], function ($) {
     		});
     	},
     	
+    	getCustomerOrderList: function(pageNumber, searchKey, showPaid) {
+    		return $.ajax({
+    			url: '/services/customerorder/completelist',
+    			data: {
+    				pageNumber: pageNumber - 1,
+    				searchKey: searchKey,
+    				showPaid: showPaid
+    			}
+    		});
+    	},
+    	
     	getCustomerOrder: function(customerOrderId) {
     		return $.ajax({
     			url: '/services/customerorder/get',
@@ -35,6 +46,17 @@ define(['jquery'], function ($) {
     			method: 'POST',
     			data: {
     				customerOrderId: customerOrderId
+    			}
+    		});
+    	},
+    	
+    	payCustomerOrder: function(customerOrderId, cash) {
+    		return $.ajax({
+    			url: '/services/customerorder/paycustomerorder',
+    			method: 'POST',
+    			data: {
+    				customerOrderId: customerOrderId,
+    				cash: cash
     			}
     		});
     	},
@@ -99,6 +121,16 @@ define(['jquery'], function ($) {
     			data: {
     				customerOrderDetailId: customerOrderDetailId,
     				quantity: quantity
+    			}
+    		});
+    	},
+    	
+    	printCustomerOrderList: function(customerOrderId) {
+    		return $.ajax({
+    			url: '/services/customerorder/printorderlist',
+    			method: 'POST',
+    			data: {
+    				customerOrderId: customerOrderId
     			}
     		});
     	}

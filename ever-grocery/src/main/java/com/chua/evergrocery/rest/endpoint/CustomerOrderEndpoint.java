@@ -34,6 +34,15 @@ public class CustomerOrderEndpoint {
 	}
 	
 	@GET
+	@Path("/completelist")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ObjectList<CustomerOrder> getAllCustomerOrderList(@QueryParam("pageNumber") Integer pageNumber,
+			@QueryParam("searchKey") String searchKey,
+			@QueryParam("showPaid") Boolean showPaid) {
+		return customerOrderHandler.getCustomerOrderList(pageNumber, searchKey, showPaid);
+	}
+	
+	@GET
 	@Path("/get")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public CustomerOrder getCustomerOrder(@QueryParam("customerOrderId") Long customerOrderId) {
@@ -61,6 +70,13 @@ public class CustomerOrderEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean removeCustomerOrder(@FormParam("customerOrderId") Long customerOrderId) {
 		return customerOrderHandler.removeCustomerOrder(customerOrderId);
+	}
+	
+	@POST
+	@Path("/paycustomerorder")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean payCustomerOrder(@FormParam("customerOrderId") Long customerOrderId, @FormParam("cash") Float cash) {
+		return customerOrderHandler.payCustomerOrder(customerOrderId, cash);
 	}
 	
 	@POST
@@ -105,5 +121,12 @@ public class CustomerOrderEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean changeCustomerOrderDetailQuantity(@FormParam("customerOrderDetailId") Long customerOrderDetailId, @FormParam("quantity") Integer quantity) {
 		return customerOrderHandler.changeCustomerOrderDetailQuantity(customerOrderDetailId, quantity);
+	}
+	
+	@POST
+	@Path("/printorderlist")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean printCustomerOrderList(@FormParam("customerOrderId") Long customerOrderId) {
+		return customerOrderHandler.printCustomerOrderList(customerOrderId);
 	}
 }

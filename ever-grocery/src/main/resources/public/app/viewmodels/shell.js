@@ -13,6 +13,7 @@
 	  		]
 	  	},
 	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
+	  	{ route: 'cashier', moduleId: 'viewmodels/cashier/cashier', title: '', nav: true, hash: '#cashier'},
 	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' },
 	  	{ route: 'customerorderpage/:id', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order Page', nav: false, hash: '#customerorderpage' }
 	];

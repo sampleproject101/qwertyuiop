@@ -16,5 +16,7 @@ public interface CustomerOrderPrototype {
 	 * 
 	 * @return the object list of customerOrder
 	 */
+	ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey);
+	
 	ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status);
 }

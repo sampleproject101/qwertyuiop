@@ -18,6 +18,24 @@ public class CustomerOrderDAOImpl
 		implements CustomerOrderDAO {
 
 	@Override
+	public ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
+		final Junction conjunction = Restrictions.conjunction();
+		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		
+		final Disjunction disjunction = Restrictions.disjunction();
+		
+		if(StringUtils.isNotBlank(searchKey))
+		{
+			
+			disjunction.add(Restrictions.ilike("name", searchKey, MatchMode.ANYWHERE));
+		}
+		
+		conjunction.add(disjunction);
+		
+		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
+	}
+	
+	@Override
 	public ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status)
 	{
 		final Junction conjunction = Restrictions.conjunction();

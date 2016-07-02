@@ -47,6 +47,15 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	}
 	
 	@Override
+	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid) {
+		if(showPaid) {
+			return customerOrderService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey);
+		} else {
+			return getCustomerOrderList(pageNumber, searchKey);
+		}
+	}
+	
+	@Override
 	public CustomerOrder getCustomerOrder(Long customerOrderId) {
 		return customerOrderService.find(customerOrderId);
 	}
@@ -59,6 +68,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			final CustomerOrder customerOrder = new CustomerOrder();
 			setCustomerOrder(customerOrder, customerOrderForm);
 			customerOrder.setTotalAmount(0.0f);
+			customerOrder.setTotalItems(0);
 			
 			customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
 			customerOrder.setStatus(Status.LISTING);
@@ -114,7 +124,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() == Status.LISTING) {
+			if(customerOrder.getStatus() == Status.LISTING || customerOrder.getStatus() == Status.PRINTED) {
 				result = new ResultBean();
 				
 				customerOrder.setStatus(Status.CANCELLED);
@@ -127,6 +137,41 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				}
 			} else {
 				result = new ResultBean(false, "Customer order cannot be removed right now.");
+			}
+		} else {
+			result = new ResultBean(false, "Customer order not found.");
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public ResultBean payCustomerOrder(Long customerOrderId, Float cash) {
+		final ResultBean result;
+		
+		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
+		
+		if(customerOrder != null) {
+			if(customerOrder.getStatus() != Status.PAID && customerOrder.getStatus() != Status.CANCELLED) {
+				if(customerOrder.getTotalAmount() <= cash) {
+					result = new ResultBean();
+					
+					customerOrder.setCashier(userService.find(UserContextHolder.getUser().getUserId()));
+					customerOrder.setStatus(Status.PAID);
+					
+					result.setSuccess(customerOrderService.update(customerOrder));
+					if(result.getSuccess()) {
+						this.printReceipt(customerOrder);
+						
+						result.setMessage("CHANGE: Php " + (cash - customerOrder.getTotalAmount()));
+					} else {
+						result.setMessage("Failed to pay Customer order \"" + customerOrder.getName() + "\".");
+					}
+				} else {
+					result = new ResultBean(false, "Insufficient cash.");
+				}
+			} else {
+				result = new ResultBean(false, "Customer order already paid or cancelled.");
 			}
 		} else {
 			result = new ResultBean(false, "Customer order not found.");
@@ -347,20 +392,55 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	@Override
 	public void refreshCustomerOrder(Long customerOrderId) {
-		refreshCustomerOrder(customerOrderService.find(customerOrderId));
+		this.refreshCustomerOrder(customerOrderService.find(customerOrderId));
 	}
 	
 	private void refreshCustomerOrder(CustomerOrder customerOrder) {
 		float totalAmount = 0l;
+		int totalItems = 0;
 		
 		List<CustomerOrderDetail> customerOrderDetails = customerOrderDetailService.findAllByCustomerOrderId(customerOrder.getId());
 		
 		for(CustomerOrderDetail customerOrderDetail : customerOrderDetails) {
 			totalAmount += customerOrderDetail.getTotalPrice();
+			totalItems += customerOrderDetail.getQuantity();
 		}
 		
 		customerOrder.setTotalAmount(totalAmount);
+		customerOrder.setTotalItems(totalItems);
 		customerOrderService.update(customerOrder);
+	}
+	
+	@Override
+	public ResultBean printCustomerOrderList(Long customerOrderId) {
+		final ResultBean result;
+		
+		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
+		
+		if(customerOrder != null) {
+			result = new ResultBean();
+			
+			if(customerOrder.getStatus() == Status.LISTING) {
+				customerOrder.setStatus(Status.PRINTED);
+			}
+			
+			result.setSuccess(customerOrderService.update(customerOrder));
+			if(result.getSuccess()) {
+				System.out.println("Printing Order List......... " + customerOrderId);
+				
+				result.setMessage("Successfully printed Customer order \"" + customerOrder.getName() + "\".");
+			} else {
+				result.setMessage("Failed to print Customer order \"" + customerOrder.getName() + "\".");
+			}
+		} else {
+			result = new ResultBean(false, "Customer order not found.");
+		}
+		
+		return result;
+	}
+	
+	private void printReceipt(CustomerOrder customerOrder) {
+		System.out.println("Printing Receipt......." + customerOrder.getId());
 	}
 	
 	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, CustomerOrder customerOrder, ProductDetail productDetail) {

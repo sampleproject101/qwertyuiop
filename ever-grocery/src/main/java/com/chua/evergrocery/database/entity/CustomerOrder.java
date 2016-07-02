@@ -41,6 +41,8 @@ public class CustomerOrder extends BaseObject {
 	
 	private Float totalAmount;
 	
+	private Integer totalItems;
+	
 	private Status status;
 
 	@Basic
@@ -97,6 +99,16 @@ public class CustomerOrder extends BaseObject {
 
 	public void setTotalAmount(Float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	@Basic
+	@Column(name = "total_items")
+	public Integer getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(Integer totalItems) {
+		this.totalItems = totalItems;
 	}
 
 	@Enumerated(EnumType.STRING)

@@ -29,7 +29,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/productservice', 
 	Search.prototype.refreshProductList = function() {
 		var self = this;
 		
-		productService.getProductList(self.currentPage(), self.searchKey(), null).done(function(data) {
+		productService.getProductList(self.currentPage(), self.searchKey(), null, false).done(function(data) {
 			self.productList(data.list);
 			self.totalItems(data.total);
 		});

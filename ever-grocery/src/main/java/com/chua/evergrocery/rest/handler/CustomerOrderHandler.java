@@ -10,6 +10,8 @@ public interface CustomerOrderHandler {
 
 	ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey);
 	
+	ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid);
+	
 	CustomerOrder getCustomerOrder(Long customerOrderId);
 	
 	ResultBean createCustomerOrder(CustomerOrderFormBean customerOrderForm);
@@ -29,4 +31,8 @@ public interface CustomerOrderHandler {
 	ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity);
 	
 	void refreshCustomerOrder(Long customerOrderId);
+	
+	ResultBean payCustomerOrder(Long customerOrderId, Float cash);
+	
+	ResultBean printCustomerOrderList(Long customerOrderId);
 }

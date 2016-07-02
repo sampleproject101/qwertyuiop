@@ -11,6 +11,18 @@ define(['jquery'], function ($) {
     		});
     	},
     	
+    	getProductList: function(pageNumber, searchKey, companyId, async) {
+    		return $.ajax({
+    			url: '/services/product/list',
+    			async: async,
+    			data: {
+    				pageNumber: pageNumber - 1,
+    				searchKey: searchKey,
+    				companyId: companyId
+    			}
+    		});
+    	},
+    	
     	getProduct: function(productId) {
     		return $.ajax({
     			url: '/services/product/get',
