@@ -30,7 +30,7 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'modules/companyse
 	Product.prototype.refreshProductList = function() {
 		var self = this;
 		
-		productService.getProductList(self.currentPage(), self.searchKey(), self.companyId()).done(function(data) {
+		productService.getProductList(self.currentPage(), self.searchKey(), self.companyId(), true).done(function(data) {
 			self.productList(data.list);
 			self.totalItems(data.total);
 		});

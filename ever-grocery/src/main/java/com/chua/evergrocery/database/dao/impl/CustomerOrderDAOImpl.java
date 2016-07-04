@@ -5,6 +5,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import com.chua.evergrocery.database.dao.CustomerOrderDAO;
@@ -18,9 +19,13 @@ public class CustomerOrderDAOImpl
 		implements CustomerOrderDAO {
 
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
+	public ObjectList<CustomerOrder> findAllWithPagingAndDayLimit(int pageNumber, int resultsPerPage, String searchKey, int daysAgo) {
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
+		
+		final DateTime date = new DateTime();
+		
+		conjunction.add(Restrictions.ge("createdOn", date.minusDays(daysAgo)));
 		
 		final Disjunction disjunction = Restrictions.disjunction();
 		
@@ -36,7 +41,7 @@ public class CustomerOrderDAOImpl
 	}
 	
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status)
+	public ObjectList<CustomerOrder> findAllWithPagingAndStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status)
 	{
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));

@@ -29,13 +29,6 @@ public class CustomerOrderEndpoint {
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ObjectList<CustomerOrder> getCustomerOrderList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("searchKey") String searchKey) {
-		return customerOrderHandler.getCustomerOrderList(pageNumber, searchKey);
-	}
-	
-	@GET
-	@Path("/completelist")
-	@Produces({ MediaType.APPLICATION_JSON })
 	public ObjectList<CustomerOrder> getAllCustomerOrderList(@QueryParam("pageNumber") Integer pageNumber,
 			@QueryParam("searchKey") String searchKey,
 			@QueryParam("showPaid") Boolean showPaid) {

@@ -28,17 +28,25 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 	Cashier.prototype.refreshCustomerOrderList = function() {
 		var self = this;
 		
-		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), self.showPaid()).done(function(data) {
+		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), self.showPaid(), true).done(function(data) {
 			self.customerOrderList(data.list);
 			self.totalItems(data.total);
 		});
 	};
 	
-	Cashier.prototype.print = function(customerOrderId) {
+	Cashier.prototype.print = function(customerOrderId, customerOrderName) {
 		var self = this;
 		
-		customerOrderService.printCustomerOrderList(customerOrderId).done(function(result) {
-			app.showMessage(result.message);
+		app.showMessage('Are you sure you want to print Customer Order "' + customerOrderName + '"?',
+				'Confirm Print',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				customerOrderService.printCustomerOrderList(customerOrderId).done(function(result) {
+					self.refreshCustomerOrderList();
+					app.showMessage(result.message);
+				});
+			}
 		});
 	};
 	

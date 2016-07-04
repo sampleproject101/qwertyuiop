@@ -3,18 +3,24 @@
 	  	{ route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true },
 	  	{ route: 'manage', moduleRootId: 'viewmodels/manage', title: '', nav: true, hash: '#manage',
 	  		childRoutes: [
-	  		    { route: 'brand', moduleId: 'brand', title: 'Brand', nav: true, hash: 'brand' },
-	  		    { route: 'category', moduleId: 'category', title: 'Category', nav: true, hash: 'category' },
-	  		    { route: 'company', moduleId: 'company', title: 'Company', nav: true, hash: 'company' },
-	  		    { route: 'customer', moduleId: 'customer', title: 'Customer', nav: true, hash: 'customer' },
-	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributor', nav: true, hash: 'distributor' },
-	      		{ route: 'product', moduleId: 'product', title: 'Product', nav: true, hash: 'product' },
-	      		{ route: 'user', moduleId: 'user', title: 'User', nav: true, hash: 'user' }
+	  		    { route: 'brand', moduleId: 'brand', title: 'Brands', nav: true, hash: 'brand' },
+	  		    { route: 'category', moduleId: 'category', title: 'Categories', nav: true, hash: 'category' },
+	  		    { route: 'company', moduleId: 'company', title: 'Companies', nav: true, hash: 'company' },
+	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributors', nav: true, hash: 'distributor' },
+	      		{ route: 'product', moduleId: 'product', title: 'Products', nav: true, hash: 'product' },
+	      		
+	      		{ route: 'user', moduleId: 'user', title: 'Users', nav: true, hash: 'user' },
+	      		
+	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' }
 	  		]
 	  	},
 	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
 	  	{ route: 'cashier', moduleId: 'viewmodels/cashier/cashier', title: '', nav: true, hash: '#cashier'},
+	  	
+	  	{ route: 'purchaseorder', moduleId: 'viewmodels/purchase-order/purchaseorder', title: 'Purchase Order', nav: true, hash: '#purchaseorder'},
+	  	
 	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' },
+	  	
 	  	{ route: 'customerorderpage/:id', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order Page', nav: false, hash: '#customerorderpage' }
 	];
 	

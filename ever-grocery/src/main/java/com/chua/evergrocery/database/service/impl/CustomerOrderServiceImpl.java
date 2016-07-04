@@ -21,13 +21,13 @@ public class CustomerOrderServiceImpl
 	}
 	
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey) {
-		return dao.findAllWithPaging(pageNumber, resultsPerPage, searchKey);
+	public ObjectList<CustomerOrder> findAllWithPagingAndDayLimit(int pageNumber, int resultsPerPage, String searchKey, int daysAgo) {
+		return dao.findAllWithPagingAndDayLimit(pageNumber, resultsPerPage, searchKey, daysAgo);
 	}
 	
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPagingWithStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status) {
-	return dao.findAllWithPagingWithStatus(pageNumber, resultsPerPage, searchKey, status);
+	public ObjectList<CustomerOrder> findAllWithPagingAndStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status) {
+	return dao.findAllWithPagingAndStatus(pageNumber, resultsPerPage, searchKey, status);
 	}
 	
 	@Override

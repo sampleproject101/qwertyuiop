@@ -8,8 +8,6 @@ import com.chua.evergrocery.objects.ObjectList;
 
 public interface CustomerOrderHandler {
 
-	ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey);
-	
 	ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid);
 	
 	CustomerOrder getCustomerOrder(Long customerOrderId);

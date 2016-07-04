@@ -1,16 +1,5 @@
 define(['jquery'], function ($) {
     return {
-    	getProductList: function(pageNumber, searchKey, companyId) {
-    		return $.ajax({
-    			url: '/services/product/list',
-    			data: {
-    				pageNumber: pageNumber - 1,
-    				searchKey: searchKey,
-    				companyId: companyId
-    			}
-    		});
-    	},
-    	
     	getProductList: function(pageNumber, searchKey, companyId, async) {
     		return $.ajax({
     			url: '/services/product/list',

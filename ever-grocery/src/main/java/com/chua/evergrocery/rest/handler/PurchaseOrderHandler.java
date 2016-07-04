@@ -1,0 +1,17 @@
+package com.chua.evergrocery.rest.handler;
+
+import com.chua.evergrocery.beans.PurchaseOrderFormBean;
+import com.chua.evergrocery.beans.ResultBean;
+import com.chua.evergrocery.database.entity.PurchaseOrder;
+import com.chua.evergrocery.objects.ObjectList;
+
+public interface PurchaseOrderHandler {
+
+	ObjectList<PurchaseOrder> getCustomerOrderList(Integer pageNumber, Long companyId, Boolean showChecked);
+	
+	PurchaseOrder getPurchaseOrder(Long purchaseOrderId);
+	
+	ResultBean createPurchaseOrder(PurchaseOrderFormBean purchaseOrderForm);
+	
+	ResultBean removePurchaseOrder(Long purchaseOrderId);
+}

@@ -8,7 +8,9 @@ public enum Status {
 	
 	PRINTED("Printed"),
 	
-	PAID("Paid");
+	PAID("Paid"),
+	
+	CHECKED("Checked");
 	
 	private final String description;
 	
