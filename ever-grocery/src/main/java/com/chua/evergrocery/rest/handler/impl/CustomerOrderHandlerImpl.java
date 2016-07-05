@@ -1,5 +1,6 @@
 package com.chua.evergrocery.rest.handler.impl;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -149,7 +150,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	@Override
 	public ResultBean payCustomerOrder(Long customerOrderId, Float cash) {
 		final ResultBean result;
-		
+		final DecimalFormat df = new DecimalFormat("#.##");
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
@@ -164,7 +165,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					if(result.getSuccess()) {
 						this.printReceipt(customerOrder);
 						
-						result.setMessage("CHANGE: Php " + (cash - customerOrder.getTotalAmount()));
+						result.setMessage("CHANGE: Php " + df.format(cash - customerOrder.getTotalAmount()));
 					} else {
 						result.setMessage("Failed to pay Customer order \"" + customerOrder.getName() + "\".");
 					}

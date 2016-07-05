@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/brandform'], function (app, ko, brandService, BrandForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/brandservice', 'viewmodels/manage/brandform'], function (app, ko, securityService, brandService, BrandForm) {
 	var Brand = function() {
 		this.brandList = ko.observable();
 		
@@ -8,6 +8,19 @@ define(['durandal/app', 'knockout', 'modules/brandservice', 'viewmodels/manage/b
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
+	};
+	
+	Brand.prototype.canActivate = function() {
+		var deferred = $.Deferred();
+	    return deferred.then(securityService.authenticatePage('manage/brand').done(function(result) {
+	        if (result.success) {
+	            deferred.resolve(result.success);
+	        } else {
+	        	app.showMessage(result.message);
+	            deferred.resolve({ 'redirect': '/' });
+	        }
+	        return deferred.promise();
+	    }));
 	};
 	
 	Brand.prototype.activate = function() {

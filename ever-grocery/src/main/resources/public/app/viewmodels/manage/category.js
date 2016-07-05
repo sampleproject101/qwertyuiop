@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manage/categoryform'], function (app, ko, categoryService, CategoryForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/categoryservice', 'viewmodels/manage/categoryform'], function (app, ko, securityService, categoryService, CategoryForm) {
 	var Category = function() {
 		this.categoryList = ko.observable();
 		
@@ -8,6 +8,19 @@ define(['durandal/app', 'knockout', 'modules/categoryservice', 'viewmodels/manag
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
+	};
+	
+	Category.prototype.canActivate = function() {
+		var deferred = $.Deferred();
+	    return deferred.then(securityService.authenticatePage('manage/category').done(function(result) {
+	        if (result.success) {
+	            deferred.resolve(result.success);
+	        } else {
+	        	app.showMessage(result.message);
+	            deferred.resolve({ 'redirect': '/' });
+	        }
+	        return deferred.promise();
+	    }));
 	};
 	
 	Category.prototype.activate = function() {

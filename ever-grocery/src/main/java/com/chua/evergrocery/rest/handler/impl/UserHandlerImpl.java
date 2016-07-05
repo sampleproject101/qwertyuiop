@@ -91,18 +91,22 @@ public class UserHandlerImpl implements UserHandler {
 	public ResultBean removeUser(Long userId) {
 		final ResultBean result;
 		
-		final User user = userService.find(userId);
-		if(user != null) {
-			result = new ResultBean();
-			
-			result.setSuccess(userService.delete(user));
-			if(result.getSuccess()) {
-				result.setMessage("Successfully removed User \"" + user.getUsername() + "\".");
+		if(!(userId == UserContextHolder.getUser().getUserId() || userId == 1l)) {
+			final User user = userService.find(userId);
+			if(user != null) {
+				result = new ResultBean();
+				
+				result.setSuccess(userService.delete(user));
+				if(result.getSuccess()) {
+					result.setMessage("Successfully removed User \"" + user.getUsername() + "\".");
+				} else {
+					result.setMessage("Failed to remove User \"" + user.getUsername() + "\".");
+				}
 			} else {
-				result.setMessage("Failed to remove User \"" + user.getUsername() + "\".");
+				result = new ResultBean(false, "User not found.");
 			}
 		} else {
-			result = new ResultBean(false, "User not found.");
+			result = new ResultBean(false, "Cannot delete this account");
 		}
 		
 		return result;

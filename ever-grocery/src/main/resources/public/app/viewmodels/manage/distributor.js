@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/manage/distributorform'], function (app, ko, distributorService, DistributorForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/distributorservice', 'viewmodels/manage/distributorform'], function (app, ko, securityService, distributorService, DistributorForm) {
 	var Distributor = function() {
 		this.distributorList = ko.observable();
 		
@@ -8,6 +8,19 @@ define(['durandal/app', 'knockout', 'modules/distributorservice', 'viewmodels/ma
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
+	};
+	
+	Distributor.prototype.canActivate = function() {
+		var deferred = $.Deferred();
+	    return deferred.then(securityService.authenticatePage('manage/distributor').done(function(result) {
+	        if (result.success) {
+	            deferred.resolve(result.success);
+	        } else {
+	        	app.showMessage(result.message);
+	            deferred.resolve({ 'redirect': '/' });
+	        }
+	        return deferred.promise();
+	    }));
 	};
 	
 	Distributor.prototype.activate = function() {

@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/productservice', 'modules/companyservice', 'viewmodels/manage/productform', 'viewmodels/manage/productdetailsform'], function (app, ko, productService, companyService, ProductForm, ProductDetailsForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/productservice', 'modules/companyservice', 'viewmodels/manage/productform', 'viewmodels/manage/productdetailsform'], function (app, ko, securityService, productService, companyService, ProductForm, ProductDetailsForm) {
 	var Product = function() {
 		this.productList = ko.observable();
 		this.companyList = ko.observable();
@@ -10,6 +10,19 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'modules/companyse
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
+	};
+	
+	Product.prototype.canActivate = function() {
+		var deferred = $.Deferred();
+	    return deferred.then(securityService.authenticatePage('manage/product').done(function(result) {
+	        if (result.success) {
+	            deferred.resolve(result.success);
+	        } else {
+	        	app.showMessage(result.message);
+	            deferred.resolve({ 'redirect': '/' });
+	        }
+	        return deferred.promise();
+	    }));
 	};
 	
 	Product.prototype.activate = function() {

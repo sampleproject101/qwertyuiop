@@ -2,6 +2,7 @@ package com.chua.evergrocery.rest.endpoint;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.beans.UserBean;
 import com.chua.evergrocery.rest.handler.SecurityHandler;
 
@@ -31,5 +33,12 @@ public class SecurityEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public UserBean getUser() {
 		return securityHandler.getUser();
+	}
+	
+	@POST
+	@Path("/authenticatepage")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean authenticatePage(@FormParam("page") String page) {
+		return securityHandler.authenticatePage(page);
 	}
 }

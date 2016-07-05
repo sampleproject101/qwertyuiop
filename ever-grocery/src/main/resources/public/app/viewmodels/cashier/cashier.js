@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/cashier/payform'], function (app, ko, customerOrderService, PayForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customerorderservice', 'viewmodels/cashier/payform'], function (app, ko, securityService, customerOrderService, PayForm) {
 	var Cashier = function() {
 		this.customerOrderList = ko.observable();
 		
@@ -11,9 +11,22 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 		this.currentPageSubscription = null;
 	};
 	
+	Cashier.prototype.canActivate = function() {
+		var deferred = $.Deferred();
+	    return deferred.then(securityService.authenticatePage('cashier').done(function(result) {
+	        if (result.success) {
+	            deferred.resolve(result.success);
+	        } else {
+	        	app.showMessage(result.message);
+	            deferred.resolve({ 'redirect': '/' });
+	        }
+	        return deferred.promise();
+	    }));
+	};
+	
 	Cashier.prototype.activate = function() {
 		var self = this;
-		
+
 		self.currentPage(1);
 		self.currentPageSubscription = self.currentPage.subscribe(function() {
 			self.refreshCustomerOrderList();
