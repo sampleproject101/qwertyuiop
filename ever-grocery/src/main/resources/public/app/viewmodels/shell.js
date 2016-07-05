@@ -1,6 +1,9 @@
 ﻿define(['plugins/router', 'durandal/app', 'modules/securityservice', 'modules/userservice', 'viewmodels/usersettings'], function (router, app, securityService, userService, UserSettings) {
-	var routes = [
-	  	{ route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true },
+	var homeroute = [
+	    { route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true }
+	];
+	
+	var manageroute = [
 	  	{ route: 'manage', moduleRootId: 'viewmodels/manage', title: '', nav: true, hash: '#manage',
 	  		childRoutes: [
 	  		    { route: 'brand', moduleId: 'brand', title: 'Brands', nav: true, hash: 'brand' },
@@ -13,15 +16,24 @@
 	      		
 	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' }
 	  		]
-	  	},
-	  	{ route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
-	  	{ route: 'cashier', moduleId: 'viewmodels/cashier/cashier', title: '', nav: true, hash: '#cashier'},
-	  	
-	  	{ route: 'purchaseorder', moduleId: 'viewmodels/purchase-order/purchaseorder', title: 'Purchase Order', nav: true, hash: '#purchaseorder'},
-	  	
-	  	{ route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' },
-	  	
-	  	{ route: 'customerorderpage/:id', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order Page', nav: false, hash: '#customerorderpage' }
+	  	}
+	];
+	
+	var customerorderroute = [
+	    { route: 'customerorder', moduleId: 'viewmodels/customer-order/customerorder', title: 'Customer Order', nav: true, hash: '#customerorder' },
+	    { route: 'customerorderpage/:id', moduleId: 'viewmodels/customer-order/customerorderpage', title: 'Customer Order Page', nav: false, hash: '#customerorderpage' }
+	];
+	
+	var cashierroute = [
+	    { route: 'cashier', moduleId: 'viewmodels/cashier/cashier', title: '', nav: true, hash: '#cashier'}
+	];
+	
+	var purchaseorderroute = [
+	    { route: 'purchaseorder', moduleId: 'viewmodels/purchase-order/purchaseorder', title: 'Purchase Order', nav: true, hash: '#purchaseorder'}
+	];
+	
+	var searchroute = [
+   	    { route: 'search', moduleId: 'viewmodels/search/search', title: '', nav: true, hash: '#search' }           
 	];
 	
     return {
@@ -30,6 +42,31 @@
         user: app.user,
         
         activate: function () {
+        	var self = this;
+        	var routes = homeroute;
+        	
+        	switch(self.user.userType) {
+	        	case 'ADMINISTRATOR':
+	        	case 'MANAGER':
+	        		routes = routes.concat(manageroute);
+	        	case 'ASSISTANT_MANAGER':
+	        		routes = routes.concat(customerorderroute);
+	        		routes = routes.concat(cashierroute);
+	        		routes = routes.concat(purchaseorderroute);
+	        		routes = routes.concat(searchroute);
+	        		break;
+	        	case 'CASHIER':
+	        		routes = routes.concat(cashierroute);
+	        		routes = routes.concat(searchroute);
+	        		break;
+	        	case 'STAFF':
+	        		routes = routes.concat(customerorderroute);
+	        		routes = routes.concat(searchroute);
+	        		break;
+	        	default:
+	        		routes = routes.concat(searchroute);
+        	}
+        	
         	$.each(routes, function(index, route) {
                 if (route.childRoutes === undefined)
                     return

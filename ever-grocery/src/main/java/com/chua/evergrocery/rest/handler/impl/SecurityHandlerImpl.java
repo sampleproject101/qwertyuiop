@@ -43,24 +43,27 @@ public class SecurityHandlerImpl implements SecurityHandler {
 		final ResultBean result = new ResultBean();
 
 		switch(currentUser.getUserType()) {
-		case STAFF:
-			if(page.equals("customerorder") || page.equals("customerorderpage")) result.setSuccess(true);
-			else result.setSuccess(false);
-			break;
-		case CASHIER:
-			if(page.equals("cashier")) result.setSuccess(true);
-			else result.setSuccess(false);
-			break;
-		case ASSISTANT_MANAGER:
-			if(page.contains(new StringBuilder("manage"))) result.setSuccess(false);
-			else result.setSuccess(true);
-			break;
-		case MANAGER:
-			if(page.equals("manage/user")) result.setSuccess(false);
-			else result.setSuccess(true);
-			break;
-		default :
-			result.setSuccess(true);
+			case ADMINISTRATOR:
+				result.setSuccess(true);
+				break;
+			case MANAGER:
+				if(page.equals("manage/user")) result.setSuccess(false);
+				else result.setSuccess(true);
+				break;
+			case ASSISTANT_MANAGER:
+				if(page.contains(new StringBuilder("manage"))) result.setSuccess(false);
+				else result.setSuccess(true);
+				break;
+			case CASHIER:
+				if(page.equals("cashier")) result.setSuccess(true);
+				else result.setSuccess(false);
+				break;
+			case STAFF:
+				if(page.equals("customerorder") || page.equals("customerorderpage")) result.setSuccess(true);
+				else result.setSuccess(false);
+				break;
+			default :
+				result.setSuccess(false);
 		}
 		
 		if(result.getSuccess()) {
