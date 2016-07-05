@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chua.evergrocery.UserContextHolder;
-import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.beans.UserBean;
-import com.chua.evergrocery.database.entity.User;
 import com.chua.evergrocery.database.service.UserService;
 import com.chua.evergrocery.rest.handler.SecurityHandler;
 
@@ -35,43 +33,5 @@ public class SecurityHandlerImpl implements SecurityHandler {
 	@Override
 	public UserBean getUser() {
 		return UserContextHolder.getUser();
-	}
-
-	@Override
-	public ResultBean authenticatePage(String page) {
-		final User currentUser = userService.find(UserContextHolder.getUser().getUserId());
-		final ResultBean result = new ResultBean();
-
-		switch(currentUser.getUserType()) {
-			case ADMINISTRATOR:
-				result.setSuccess(true);
-				break;
-			case MANAGER:
-				if(page.equals("manage/user")) result.setSuccess(false);
-				else result.setSuccess(true);
-				break;
-			case ASSISTANT_MANAGER:
-				if(page.contains(new StringBuilder("manage"))) result.setSuccess(false);
-				else result.setSuccess(true);
-				break;
-			case CASHIER:
-				if(page.equals("cashier")) result.setSuccess(true);
-				else result.setSuccess(false);
-				break;
-			case STAFF:
-				if(page.equals("customerorder") || page.equals("customerorderpage")) result.setSuccess(true);
-				else result.setSuccess(false);
-				break;
-			default :
-				result.setSuccess(false);
-		}
-		
-		if(result.getSuccess()) {
-			result.setMessage("Authentication success.");
-		} else {
-			result.setMessage("Authentication failed.");
-		}
-		
-		return result;
 	}
 }

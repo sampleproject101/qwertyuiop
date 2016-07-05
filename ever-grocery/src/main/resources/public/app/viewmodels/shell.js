@@ -3,6 +3,10 @@
 	    { route: ['', 'home'], moduleId: 'viewmodels/home', title: 'Home', nav: true }
 	];
 	
+	var userroute = [
+	    { route: 'user', moduleId: 'viewmodels/user/user', title: 'Users', nav: true, hash: '#user' }
+	];
+	
 	var manageroute = [
 	  	{ route: 'manage', moduleRootId: 'viewmodels/manage', title: '', nav: true, hash: '#manage',
 	  		childRoutes: [
@@ -11,8 +15,6 @@
 	  		    { route: 'company', moduleId: 'company', title: 'Companies', nav: true, hash: 'company' },
 	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributors', nav: true, hash: 'distributor' },
 	      		{ route: 'product', moduleId: 'product', title: 'Products', nav: true, hash: 'product' },
-	      		
-	      		{ route: 'user', moduleId: 'user', title: 'Users', nav: true, hash: 'user' },
 	      		
 	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' }
 	  		]
@@ -47,6 +49,7 @@
         	
         	switch(self.user.userType) {
 	        	case 'ADMINISTRATOR':
+	        		routes = routes.concat(userroute);
 	        	case 'MANAGER':
 	        		routes = routes.concat(manageroute);
 	        	case 'ASSISTANT_MANAGER':

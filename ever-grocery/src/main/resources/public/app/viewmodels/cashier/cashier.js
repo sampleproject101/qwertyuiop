@@ -11,19 +11,6 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customer
 		this.currentPageSubscription = null;
 	};
 	
-	Cashier.prototype.canActivate = function() {
-		var deferred = $.Deferred();
-	    return deferred.then(securityService.authenticatePage('cashier').done(function(result) {
-	        if (result.success) {
-	            deferred.resolve(result.success);
-	        } else {
-	        	app.showMessage(result.message);
-	            deferred.resolve({ 'redirect': '/' });
-	        }
-	        return deferred.promise();
-	    }));
-	};
-	
 	Cashier.prototype.activate = function() {
 		var self = this;
 

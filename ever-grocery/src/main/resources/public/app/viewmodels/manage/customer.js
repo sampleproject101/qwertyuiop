@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customerservice', 'viewmodels/manage/customerform'], function (app, ko, securityService, customerService, CustomerForm) {
+define(['durandal/app', 'knockout', 'modules/customerservice', 'viewmodels/manage/customerform'], function (app, ko, customerService, CustomerForm) {
 	var Customer = function() {
 		this.customerList = ko.observable();
 		
@@ -8,19 +8,6 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customer
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
-	};
-	
-	Customer.prototype.canActivate = function() {
-		var deferred = $.Deferred();
-	    return deferred.then(securityService.authenticatePage('manage/customer').done(function(result) {
-	        if (result.success) {
-	            deferred.resolve(result.success);
-	        } else {
-	        	app.showMessage(result.message);
-	            deferred.resolve({ 'redirect': '/' });
-	        }
-	        return deferred.promise();
-	    }));
 	};
 	
 	Customer.prototype.activate = function() {

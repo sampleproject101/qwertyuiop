@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/userservice', 'viewmodels/manage/userform'], function (app, ko, securityService, userService, UserForm) {
+define(['durandal/app', 'knockout', 'modules/userservice', 'viewmodels/user/userform'], function (app, ko, userService, UserForm) {
 	var User = function() {
 		this.userList = ko.observable();
 		
@@ -8,19 +8,6 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/userserv
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
-	};
-	
-	User.prototype.canActivate = function() {
-		var deferred = $.Deferred();
-	    return deferred.then(securityService.authenticatePage('manage/user').done(function(result) {
-	        if (result.success) {
-	            deferred.resolve(result.success);
-	        } else {
-	        	app.showMessage(result.message);
-	            deferred.resolve({ 'redirect': '/' });
-	        }
-	        return deferred.promise();
-	    }));
 	};
 	
 	User.prototype.activate = function() {

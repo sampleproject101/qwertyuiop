@@ -1,4 +1,4 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'modules/securityservice', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/purchase-order/purchaseorderform'], function (router, app, ko, securityService, purchaseOrderService, companyService, PurchaseOrderForm) {
+define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/purchase-order/purchaseorderform'], function (router, app, ko, purchaseOrderService, companyService, PurchaseOrderForm) {
 	var PurchaseOrder = function() {
 		this.purchaseOrderList = ko.observable();
 		this.companyList = ko.observable();
@@ -10,19 +10,6 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/securityservice',
 		this.totalItems = ko.observable();
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
-	};
-	
-	PurchaseOrder.prototype.canActivate = function() {
-		var deferred = $.Deferred();
-	    return deferred.then(securityService.authenticatePage('purchaseorder').done(function(result) {
-	        if (result.success) {
-	            deferred.resolve(result.success);
-	        } else {
-	        	app.showMessage(result.message);
-	            deferred.resolve({ 'redirect': '/' });
-	        }
-	        return deferred.promise();
-	    }));
 	};
 	
 	PurchaseOrder.prototype.activate = function() {

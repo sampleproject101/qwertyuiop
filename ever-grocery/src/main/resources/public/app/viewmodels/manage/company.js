@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/companyservice', 'viewmodels/manage/companyform'], function (app, ko, securityService, companyService, CompanyForm) {
+define(['durandal/app', 'knockout', 'modules/companyservice', 'viewmodels/manage/companyform'], function (app, ko, companyService, CompanyForm) {
 	var Company = function() {
 		this.companyList = ko.observable();
 		
@@ -10,18 +10,6 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/companys
 		this.currentPageSubscription = null;
 	};
 	
-	Company.prototype.canActivate = function() {
-		var deferred = $.Deferred();
-	    return deferred.then(securityService.authenticatePage('manage/company').done(function(result) {
-	        if (result.success) {
-	            deferred.resolve(result.success);
-	        } else {
-	        	app.showMessage(result.message);
-	            deferred.resolve({ 'redirect': '/' });
-	        }
-	        return deferred.promise();
-	    }));
-	};
 	
 	Company.prototype.activate = function() {
 		var self = this;

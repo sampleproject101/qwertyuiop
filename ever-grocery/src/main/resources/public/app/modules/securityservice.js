@@ -22,16 +22,6 @@ define(['jquery'], function ($) {
     			url: '/services/security/logout',
     			method: 'POST'
     		});
-    	},
-    	
-    	authenticatePage: function(page) {
-    		return $.ajax({
-    			url: '/services/security/authenticatepage',
-    			method: 'POST',
-    			data: {
-    				page: page
-    			}
-    		});
     	}
     };
 });
