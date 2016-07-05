@@ -60,6 +60,7 @@
 				<value>com.chua.evergrocery.database.entity.CustomerOrderDetail</value>
 				
 				<value>com.chua.evergrocery.database.entity.PurchaseOrder</value>
+				<value>com.chua.evergrocery.database.entity.PurchaseOrderDetail</value>
 			</list>
 		</property>
 	</bean>

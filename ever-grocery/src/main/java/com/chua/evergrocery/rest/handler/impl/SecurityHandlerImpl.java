@@ -3,7 +3,6 @@ package com.chua.evergrocery.rest.handler.impl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,15 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.UserBean;
-import com.chua.evergrocery.database.service.UserService;
 import com.chua.evergrocery.rest.handler.SecurityHandler;
 
 @Transactional
 @Component
 public class SecurityHandlerImpl implements SecurityHandler {
-	
-	@Autowired
-	private UserService userService;
 
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response) {

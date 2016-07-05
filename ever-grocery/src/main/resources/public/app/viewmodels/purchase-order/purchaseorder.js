@@ -1,4 +1,4 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/purchase-order/purchaseorderform'], function (router, app, ko, purchaseOrderService, companyService, PurchaseOrderForm) {
+define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/purchase-order/purchaseorderform', 'viewmodels/purchase-order/purchaseorderpage'], function (router, app, ko, purchaseOrderService, companyService, PurchaseOrderForm, PurchaseOrderPage) {
 	var PurchaseOrder = function() {
 		this.purchaseOrderList = ko.observable();
 		this.companyList = ko.observable();
@@ -63,7 +63,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderserv
 	PurchaseOrder.prototype.details = function(purchaseOrderId) {
 		var self = this;
 		
-		alert("details");
+		router.navigate('#purchaseorderpage/' + purchaseOrderId);
 	};
 	
     return PurchaseOrder;

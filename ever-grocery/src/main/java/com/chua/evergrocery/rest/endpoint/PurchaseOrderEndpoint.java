@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.chua.evergrocery.beans.PurchaseOrderFormBean;
 import com.chua.evergrocery.beans.ResultBean;
 import com.chua.evergrocery.database.entity.PurchaseOrder;
+import com.chua.evergrocery.database.entity.PurchaseOrderDetail;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.PurchaseOrderHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,5 +56,42 @@ public class PurchaseOrderEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean removePurchaseOrder(@FormParam("purchaseOrderId") Long purchaseOrderId) {
 		return purchaseOrderHandler.removePurchaseOrder(purchaseOrderId);
+	}
+	
+	@POST
+	@Path("/refreshpurchaseorder")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public void refreshPurchaseOrder(@FormParam("purchaseOrderId") Long purchaseOrderId) {
+		purchaseOrderHandler.refreshPurchaseOrder(purchaseOrderId);
+	}
+	
+	@GET
+	@Path("/detaillist")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ObjectList<PurchaseOrderDetail> getPurchaseOrderDetailList(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("purchaseOrderId") Long purchaseOrderId) {
+		return purchaseOrderHandler.getPurchaseOrderDetailList(pageNumber, purchaseOrderId);
+	}
+	
+	@POST
+	@Path("/additem")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean addItem(@FormParam("productDetailId") Long productDetailId,
+			@FormParam("purchaseOrderId") Long purchaseOrderId,
+			@FormParam("quantity") Integer quantity) {
+		return purchaseOrderHandler.addItemByProductDetailId(productDetailId, purchaseOrderId, quantity);
+	}
+	
+	@POST
+	@Path("/removeitem")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean removePurchaseOrderDetail(@FormParam("purchaseOrderDetailId") Long purchaseOrderDetailId) {
+		return purchaseOrderHandler.removePurchaseOrderDetail(purchaseOrderDetailId);
+	}
+	
+	@POST
+	@Path("/changequantity")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean changePurchaseOrderDetailQuantity(@FormParam("purchaseOrderDetailId") Long purchaseOrderDetailId, @FormParam("quantity") Integer quantity) {
+		return purchaseOrderHandler.changePurchaseOrderDetailQuantity(purchaseOrderDetailId, quantity);
 	}
 }

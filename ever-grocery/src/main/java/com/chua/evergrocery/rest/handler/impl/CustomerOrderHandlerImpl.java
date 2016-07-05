@@ -337,7 +337,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			if(result.getSuccess()) {
 				result.setMessage("Quantity successfully updated.");
 			} else {
-				result.setMessage("Failed update quantity.");
+				result.setMessage("Failed to update quantity.");
 			}
 		} else {
 			result = this.removeCustomerOrderDetail(customerOrderDetail);

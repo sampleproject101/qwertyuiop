@@ -31,7 +31,8 @@
 	];
 	
 	var purchaseorderroute = [
-	    { route: 'purchaseorder', moduleId: 'viewmodels/purchase-order/purchaseorder', title: 'Purchase Order', nav: true, hash: '#purchaseorder'}
+	    { route: 'purchaseorder', moduleId: 'viewmodels/purchase-order/purchaseorder', title: 'Purchase Order', nav: true, hash: '#purchaseorder'},
+	    { route: 'purchaseorderpage/:id', moduleId: 'viewmodels/purchase-order/purchaseorderpage', title: 'Purchase Order Page', nav: false, hash: '#purchaseorderpage' }
 	];
 	
 	var searchroute = [
