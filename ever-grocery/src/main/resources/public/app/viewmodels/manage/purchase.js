@@ -1,7 +1,9 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/purchase-order/purchaseorderform', 'viewmodels/purchase-order/purchaseorderpage'], function (router, app, ko, purchaseOrderService, companyService, PurchaseOrderForm, PurchaseOrderPage) {
+define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/manage/purchaseview'], function (router, app, ko, purchaseOrderService, companyService, PurchaseView) {
 	var PurchaseOrder = function() {
 		this.purchaseOrderList = ko.observable();
 		this.companyList = ko.observable();
+		
+		this.showChecked = ko.observable(false);
 		
 		this.companyId = ko.observable();
 		
@@ -29,40 +31,36 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderserv
 	PurchaseOrder.prototype.refreshPurchaseOrderList = function() {
 		var self = this;
 		
-		purchaseOrderService.getPurchaseOrderList(self.currentPage(), self.companyId(), false).done(function(data) {
+		purchaseOrderService.getPurchaseOrderList(self.currentPage(), self.companyId(), self.showChecked()).done(function(data) {
 			self.purchaseOrderList(data.list);
 			self.totalItems(data.total);
 		});
 	};
 	
-	PurchaseOrder.prototype.create = function() {
+	PurchaseOrder.prototype.view = function(purchaseOrderId) {
 		var self = this;
 		
-		PurchaseOrderForm.show('Create', new Object()).then(function() {
-			self.refreshPurchaseOrderList();
+		purchaseOrderService.getPurchaseOrder(purchaseOrderId).done(function(data) {
+			PurchaseView.show(data).done(function() {
+				self.refreshPurchaseOrderList();
+			});
 		});
 	};
 	
-	PurchaseOrder.prototype.remove = function(purchaseOrderId) {
+	PurchaseOrder.prototype.check = function(purchaseOrderId, totalAmount) {
 		var self = this;
 		
-		app.showMessage('Are you sure you want to cancel Purchase Order "' + purchaseOrderId + '"?',
-				'Confirm Remove',
+		app.showMessage('Total Amount: Php ' + totalAmount,
+				'Confirm Check',
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {
 			if(confirm) {
-				purchaseOrderService.removePurchaseOrder(purchaseOrderId).done(function(result) {
+				purchaseOrderService.checkPurchaseOrder(purchaseOrderId).done(function(result) {
 					self.refreshPurchaseOrderList();
 					app.showMessage(result.message);
 				});
 			}
 		})
-	};
-	
-	PurchaseOrder.prototype.details = function(purchaseOrderId) {
-		var self = this;
-		
-		router.navigate('#purchaseorderpage/' + purchaseOrderId);
 	};
 	
     return PurchaseOrder;

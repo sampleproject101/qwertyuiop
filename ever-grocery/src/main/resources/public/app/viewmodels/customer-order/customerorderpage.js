@@ -51,7 +51,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     		self.customerOrderPageModel.status(data.status);
     	});
     	
-    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrderPageModel.customerOrderId()).done(function(data) { 
+    	customerOrderService.getCustomerOrderDetailList(self.currentPage(), self.customerOrderPageModel.customerOrderId(), true).done(function(data) { 
 			self.customerOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});

@@ -25,4 +25,6 @@ public interface PurchaseOrderHandler {
 	ResultBean removePurchaseOrderDetail(Long purchaseOrderDetailId);
 	
 	ResultBean changePurchaseOrderDetailQuantity(Long purchaseOrderDetailId, Integer quantity);
+	
+	ResultBean checkPurchaseOrder(Long purchaseOrderId);
 }

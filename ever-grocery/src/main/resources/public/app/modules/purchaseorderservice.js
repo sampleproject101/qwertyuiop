@@ -1,9 +1,8 @@
 define(['jquery'], function ($) {
 	return {
-		getPurchaseOrderList: function(pageNumber, companyId, showChecked, async) {
+		getPurchaseOrderList: function(pageNumber, companyId, showChecked) {
     		return $.ajax({
     			url: '/services/purchaseorder/list',
-    			async: async,
     			data: {
     				pageNumber: pageNumber - 1,
     				companyId: companyId,
@@ -41,9 +40,10 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	refreshPurchaseOrder: function(purchaseOrderId) {
+    	refreshPurchaseOrder: function(purchaseOrderId, async) {
     		return $.ajax({
     			url: '/services/purchaseorder/refreshpurchaseorder',
+    			async: async,
     			method: 'POST',
     			data: {
     				purchaseOrderId: purchaseOrderId
@@ -51,9 +51,10 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	getPurchaseOrderDetailList: function(pageNumber, purchaseOrderId) {
+    	getPurchaseOrderDetailList: function(pageNumber, purchaseOrderId, async) {
     		return $.ajax({
     			url: '/services/purchaseorder/detaillist',
+    			async: async,
     			data: {
     				pageNumber: pageNumber - 1,
     				purchaseOrderId: purchaseOrderId
@@ -90,6 +91,16 @@ define(['jquery'], function ($) {
     			data: {
     				purchaseOrderDetailId: purchaseOrderDetailId,
     				quantity: quantity
+    			}
+    		});
+    	},
+    	
+    	checkPurchaseOrder: function(purchaseOrderId) {
+    		return $.ajax({
+    			url: '/services/purchaseorder/checkpurchaseorder',
+    			method: 'POST',
+    			data: {
+    				purchaseOrderId: purchaseOrderId
     			}
     		});
     	}

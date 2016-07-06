@@ -1,0 +1,43 @@
+<div id="divPurchaseViewModal" class="modal-content modal-lg">
+	<div class="modal-header">
+		<h3 align="center"><span data-bind="text: purchaseOrderPageModel.companyName"></span> - ID: <span data-bind="text: purchaseOrderPageModel.purchaseOrderId"></span></h3>
+	</div>
+	
+	<div class="modal-body">
+		<h1 class="text-center">Total Amount: <span class="label label-success">Php <span data-bind="text: purchaseOrderPageModel.totalAmount"></span></span></h1>
+		<div class="row">
+			<div data-bind="widget: { kind: 'pager', config: { numberOfPagesToShow: 5, itemsPerPage: itemsPerPage, totalItems: totalItems, currentPage: currentPage } }" class="col-md-12"></div>
+		</div>
+		
+		<div class="row">
+	    	<div class="col-md-12">
+	    		<table class="table table-hover">
+	    			<thead>
+	    				<tr>
+	    					<th class = "text-center">Quantity</th>
+	    					<th>Unit</th>
+	    					<th>Product Name</th>
+	    					<th class = "text-center">Net Price</th>
+	    					<th class = "text-center">Total Price</th>
+	    				</tr>
+	    			</thead>
+	    			
+	    			<tbody data-bind="foreach: { data: purchaseOrderDetailList, as: 'orderDetail' }">
+	    				<tr>
+	    					<td class = "text-center"><input data-bind="value: orderDetail.quantity" type="text" size="5" class="form-control" disabled></td>
+	    					<td data-bind="text: orderDetail.unitType"></td>
+	    					<td data-bind="text: orderDetail.productName"></td>
+	    					<td data-bind="text: orderDetail.netPrice" class = "text-center"></td>
+	    					<td data-bind="text: orderDetail.totalPrice" class = "text-center"></td>
+	    				</tr>
+	    			</tbody>
+	    		</table>
+	    	</div>
+	    </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button class="btn btn-success" data-bind="click: cancel">Done</button>
+    </div>
+</div>
+

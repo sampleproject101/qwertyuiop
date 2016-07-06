@@ -2,7 +2,7 @@
 	<br /><br /><br />
 	<div class="row">
 		<div class="col-md-4 col-xs-4">
-			<button data-bind="click: create" type="button" class="btn btn-success">Add New Purchase Order</button>
+			<button type="button" class="btn btn-success">Generate Report</button>
 		</div>
 		<form class="form-inline" role="form">
 			<div class="input-group col-md-4 col-xs-4 pull-right">
@@ -15,7 +15,10 @@
 	<br />
 	
 	<div class="row">
-		<div data-bind="widget: { kind: 'pager', config: { numberOfPagesToShow: 5, itemsPerPage: itemsPerPage, totalItems: totalItems, currentPage: currentPage } }" class="col-md-12"></div>
+		<label class="checkbox-inline col-xs-offset-1 col-xs-1">
+			<input data-bind="checked: showChecked" type="checkbox" name="paidcheckbox">Show Checked
+		</label>
+		<div data-bind="widget: { kind: 'pager', config: { numberOfPagesToShow: 5, itemsPerPage: itemsPerPage, totalItems: totalItems, currentPage: currentPage } }" class="col-md-10"></div>
 	</div>
 	
     <div class="row">
@@ -48,8 +51,8 @@
     					<td data-bind="text: purchaseOrder.status"></td>
     					<td>
     						<div class="pull-right">
-    							<a data-bind="click: function() { $parent.details(purchaseOrder.id) }" type="button" class="btn btn-primary btn-sm">Details</a>
-    							<button data-bind="click: function() { $parent.remove(purchaseOrder.id) }" type="button" class="btn btn-danger btn-sm">Remove</button>
+    							<button data-bind="click: function() { $parent.view(purchaseOrder.id) }" type="button" class="btn btn-primary btn-sm">View</button>
+    							<button data-bind="click: function() { $parent.check(purchaseOrder.id, purchaseOrder.totalAmount) }" type="button" class="btn btn-success btn-sm">Check</button>
     						</div>
     					</td>
     				</tr>

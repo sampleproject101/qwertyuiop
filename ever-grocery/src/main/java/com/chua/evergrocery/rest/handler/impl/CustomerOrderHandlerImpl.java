@@ -20,6 +20,7 @@ import com.chua.evergrocery.database.service.CustomerService;
 import com.chua.evergrocery.database.service.ProductDetailService;
 import com.chua.evergrocery.database.service.UserService;
 import com.chua.evergrocery.enums.Status;
+import com.chua.evergrocery.enums.UserType;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CustomerOrderHandler;
 
@@ -163,6 +164,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					
 					result.setSuccess(customerOrderService.update(customerOrder));
 					if(result.getSuccess()) {
+						//#############################################################################################		remove from stock!!!
 						this.printReceipt(customerOrder);
 						
 						result.setMessage("CHANGE: Php " + df.format(cash - customerOrder.getTotalAmount()));
@@ -280,7 +282,6 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 			
 			final CustomerOrderDetail newCustomerOrderDetail = new CustomerOrderDetail();
 			setCustomerOrderDetail(newCustomerOrderDetail, customerOrder, productDetail);
-			setCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity);
 			
 			result.setSuccess(customerOrderDetailService.insert(newCustomerOrderDetail) != null &&
 					this.changeCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity).getSuccess());
@@ -420,19 +421,26 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
-			result = new ResultBean();
-			
-			if(customerOrder.getStatus() == Status.LISTING) {
-				customerOrder.setStatus(Status.PRINTED);
-			}
-			
-			result.setSuccess(customerOrderService.update(customerOrder));
-			if(result.getSuccess()) {
-				System.out.println("Printing Order List......... " + customerOrderId);
+			if(customerOrder.getStatus() == Status.LISTING || UserContextHolder.getUser().getUserType() == UserType.ADMINISTRATOR ||
+					UserContextHolder.getUser().getUserType() == UserType.MANAGER || UserContextHolder.getUser().getUserType() == UserType.ASSISTANT_MANAGER) {
+				result = new ResultBean();
 				
-				result.setMessage("Successfully printed Customer order \"" + customerOrder.getName() + "\".");
+				if(customerOrder.getStatus() == Status.LISTING) {
+					customerOrder.setStatus(Status.PRINTED);
+					result.setSuccess(customerOrderService.update(customerOrder));
+				} else {
+					result.setSuccess(true);
+				}
+				
+				if(result.getSuccess()) {
+					System.out.println("Printing Order List......... " + customerOrderId);
+					
+					result.setMessage("Successfully printed Customer order \"" + customerOrder.getName() + "\".");
+				} else {
+					result.setMessage("Failed to print Customer order \"" + customerOrder.getName() + "\".");
+				}
 			} else {
-				result.setMessage("Failed to print Customer order \"" + customerOrder.getName() + "\".");
+				result = new ResultBean(false, "Not authorized to make a copy.");
 			}
 		} else {
 			result = new ResultBean(false, "Customer order not found.");

@@ -94,4 +94,11 @@ public class PurchaseOrderEndpoint {
 	public ResultBean changePurchaseOrderDetailQuantity(@FormParam("purchaseOrderDetailId") Long purchaseOrderDetailId, @FormParam("quantity") Integer quantity) {
 		return purchaseOrderHandler.changePurchaseOrderDetailQuantity(purchaseOrderDetailId, quantity);
 	}
+	
+	@POST
+	@Path("/checkpurchaseorder")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ResultBean checkPurchaserOrder(@FormParam("purchaseOrderId") Long purchaseOrderId) {
+		return purchaseOrderHandler.checkPurchaseOrder(purchaseOrderId);
+	}
 }

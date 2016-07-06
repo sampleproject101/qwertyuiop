@@ -30,7 +30,7 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'viewmodels/
     		self.refreshPurchaseOrderDetailList();
 		});
     	
-    	purchaseOrderService.refreshPurchaseOrder(self.purchaseOrderPageModel.purchaseOrderId()).done(function() {
+    	purchaseOrderService.refreshPurchaseOrder(self.purchaseOrderPageModel.purchaseOrderId(), true).done(function() {
     		self.refreshPurchaseOrderDetailList();
     	});
     };
@@ -67,7 +67,7 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'viewmodels/
     		}
     	});
     	
-    	purchaseOrderService.getPurchaseOrderDetailList(self.currentPage(), self.purchaseOrderPageModel.purchaseOrderId()).done(function(data) { 
+    	purchaseOrderService.getPurchaseOrderDetailList(self.currentPage(), self.purchaseOrderPageModel.purchaseOrderId(), true).done(function(data) { 
 			self.purchaseOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});

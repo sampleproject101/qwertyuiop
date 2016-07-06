@@ -63,25 +63,29 @@ public class UserHandlerImpl implements UserHandler {
 	public ResultBean updateUser(UserFormBean userForm) {
 		final ResultBean result;
 		
-		final User user = userService.find(userForm.getId());
-		if(user != null) {
-			if(!(StringUtils.trimToEmpty(user.getUsername()).equalsIgnoreCase(userForm.getUsername())) &&
-					userService.isExistsByUsername(userForm.getUsername())) {
-				result = new ResultBean(false, "Username \"" + userForm.getUsername() + "\" already exists!");
-			} else {
-				setUser(user, userForm);
-				
-				result = new ResultBean();
-				result.setSuccess(userService.update(user));
-				if(result.getSuccess()) {
-					UserContextHolder.refreshUser(user);
-					result.setMessage("User successfully updated.");
+		if(userForm.getId() != 1l || userForm.getId() == UserContextHolder.getUser().getUserId()) {
+			final User user = userService.find(userForm.getId());
+			if(user != null) {
+				if(!(StringUtils.trimToEmpty(user.getUsername()).equalsIgnoreCase(userForm.getUsername())) &&
+						userService.isExistsByUsername(userForm.getUsername())) {
+					result = new ResultBean(false, "Username \"" + userForm.getUsername() + "\" already exists!");
 				} else {
-					result.setMessage("Failed to update user.");
+					setUser(user, userForm);
+					
+					result = new ResultBean();
+					result.setSuccess(userService.update(user));
+					if(result.getSuccess()) {
+						UserContextHolder.refreshUser(user);
+						result.setMessage("User successfully updated.");
+					} else {
+						result.setMessage("Failed to update user.");
+					}
 				}
+			} else {
+				result = new ResultBean(false, "User not found.");
 			}
 		} else {
-			result = new ResultBean(false, "User not found.");
+			result = new ResultBean(false, "Cannot edit this account.");
 		}
 		
 		return result;

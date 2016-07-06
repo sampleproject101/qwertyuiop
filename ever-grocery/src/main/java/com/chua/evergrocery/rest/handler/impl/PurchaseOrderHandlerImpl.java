@@ -169,9 +169,9 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 		
 		final PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
 		setPurchaseOrderDetail(purchaseOrderDetail, purchaseOrder, productDetail);
-		setPurchaseOrderDetailQuantity(purchaseOrderDetail, quantity);
 		
-		result.setSuccess(purchaseOrderDetailService.insert(purchaseOrderDetail) != null);
+		result.setSuccess(purchaseOrderDetailService.insert(purchaseOrderDetail) != null && 
+				this.changePurchaseOrderDetailQuantity(purchaseOrderDetail, quantity).getSuccess());
 		
 		if(result.getSuccess()) {
 			result.setMessage("Successfully added item.");
@@ -264,6 +264,36 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 			}
 		} else {
 			result = this.removePurchaseOrderDetail(purchaseOrderDetail);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public ResultBean checkPurchaseOrder(Long purchaseOrderId) {
+		final ResultBean result;
+		final PurchaseOrder purchaseOrder = purchaseOrderService.find(purchaseOrderId);
+		
+		if(purchaseOrder != null) {
+			if(purchaseOrder.getStatus() != Status.CHECKED && purchaseOrder.getStatus() != Status.CANCELLED) {
+				result = new ResultBean();
+				
+				purchaseOrder.setManagerInCharge(userService.find(UserContextHolder.getUser().getUserId()));
+				purchaseOrder.setStatus(Status.CHECKED);
+				
+				result.setSuccess(purchaseOrderService.update(purchaseOrder));
+				if(result.getSuccess()) {
+					//#############################################################################################		add to stock!!!
+					
+					result.setMessage("Successfully checked Purchase order \"" + purchaseOrder.getId() + "\".");
+				} else {
+					result.setMessage("Failed to check Purchase order \"" + purchaseOrder.getId() + "\".");
+				}
+			} else {
+				result = new ResultBean(false, "Purchase order already checked or cancelled.");
+			}
+		} else {
+			result = new ResultBean(false, "Purchase order not found.");
 		}
 		
 		return result;

@@ -1,9 +1,8 @@
 define(['jquery'], function ($) {
     return {
-    	getCustomerOrderList: function(pageNumber, searchKey, showPaid, async) {
+    	getCustomerOrderList: function(pageNumber, searchKey, showPaid) {
     		return $.ajax({
     			url: '/services/customerorder/list',
-    			async: async,
     			data: {
     				pageNumber: pageNumber - 1,
     				searchKey: searchKey,
@@ -62,9 +61,10 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	getCustomerOrderDetailList: function(pageNumber, customerOrderId) {
+    	getCustomerOrderDetailList: function(pageNumber, customerOrderId, async) {
     		return $.ajax({
     			url: '/services/customerorder/detaillist',
+    			async: async,
     			data: {
     				pageNumber: pageNumber - 1,
     				customerOrderId: customerOrderId

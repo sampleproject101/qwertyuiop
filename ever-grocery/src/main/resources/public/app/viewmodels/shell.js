@@ -16,7 +16,9 @@
 	  		    { route: 'distributor', moduleId: 'distributor', title: 'Distributors', nav: true, hash: 'distributor' },
 	      		{ route: 'product', moduleId: 'product', title: 'Products', nav: true, hash: 'product' },
 	      		
-	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' }
+	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' },
+	      		
+	      		{ route: 'purchase', moduleId: 'purchase', title: 'Purchases', nav: true, hash: 'purchase'}
 	  		]
 	  	}
 	];
@@ -54,22 +56,20 @@
 	        	case 'MANAGER':
 	        		routes = routes.concat(manageroute);
 	        	case 'ASSISTANT_MANAGER':
-	        		routes = routes.concat(customerorderroute);
 	        		routes = routes.concat(cashierroute);
+	        	case 'SENIOR_STAFF':
 	        		routes = routes.concat(purchaseorderroute);
-	        		routes = routes.concat(searchroute);
+	        	case 'STAFF':
+	        		routes = routes.concat(customerorderroute);
 	        		break;
 	        	case 'CASHIER':
 	        		routes = routes.concat(cashierroute);
-	        		routes = routes.concat(searchroute);
 	        		break;
-	        	case 'STAFF':
-	        		routes = routes.concat(customerorderroute);
-	        		routes = routes.concat(searchroute);
+	        	case 'STORAGE_MANAGER':
 	        		break;
-	        	default:
-	        		routes = routes.concat(searchroute);
         	}
+        	
+        	routes = routes.concat(searchroute);
         	
         	$.each(routes, function(index, route) {
                 if (route.childRoutes === undefined)
