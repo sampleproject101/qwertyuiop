@@ -1,4 +1,4 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/manage/purchaseview'], function (router, app, ko, purchaseOrderService, companyService, PurchaseView) {
+define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/companyservice', 'viewmodels/manage/purchaseview'], function (app, ko, purchaseOrderService, companyService, PurchaseView) {
 	var PurchaseOrder = function() {
 		this.purchaseOrderList = ko.observable();
 		this.companyList = ko.observable();

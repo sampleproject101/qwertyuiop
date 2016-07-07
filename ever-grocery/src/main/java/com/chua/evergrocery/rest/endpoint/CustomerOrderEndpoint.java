@@ -29,10 +29,11 @@ public class CustomerOrderEndpoint {
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ObjectList<CustomerOrder> getAllCustomerOrderList(@QueryParam("pageNumber") Integer pageNumber,
+	public ObjectList<CustomerOrder> getCustomerOrderList(@QueryParam("pageNumber") Integer pageNumber,
 			@QueryParam("searchKey") String searchKey,
-			@QueryParam("showPaid") Boolean showPaid) {
-		return customerOrderHandler.getCustomerOrderList(pageNumber, searchKey, showPaid);
+			@QueryParam("showPaid") Boolean showPaid,
+			@QueryParam("daysAgo") Integer daysAgo) {
+		return customerOrderHandler.getCustomerOrderList(pageNumber, searchKey, showPaid, daysAgo);
 	}
 	
 	@GET

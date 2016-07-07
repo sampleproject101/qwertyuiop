@@ -40,10 +40,9 @@ define(['jquery'], function ($) {
     		});
     	},
     	
-    	refreshPurchaseOrder: function(purchaseOrderId, async) {
+    	refreshPurchaseOrder: function(purchaseOrderId) {
     		return $.ajax({
     			url: '/services/purchaseorder/refreshpurchaseorder',
-    			async: async,
     			method: 'POST',
     			data: {
     				purchaseOrderId: purchaseOrderId

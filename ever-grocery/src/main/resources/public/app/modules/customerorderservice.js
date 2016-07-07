@@ -1,12 +1,13 @@
 define(['jquery'], function ($) {
     return {
-    	getCustomerOrderList: function(pageNumber, searchKey, showPaid) {
+    	getCustomerOrderList: function(pageNumber, searchKey, showPaid, daysAgo) {
     		return $.ajax({
     			url: '/services/customerorder/list',
     			data: {
     				pageNumber: pageNumber - 1,
     				searchKey: searchKey,
-    				showPaid: showPaid
+    				showPaid: showPaid,
+    				daysAgo: daysAgo
     			}
     		});
     	},

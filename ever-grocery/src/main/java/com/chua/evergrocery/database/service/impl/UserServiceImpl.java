@@ -33,8 +33,8 @@ public class UserServiceImpl
 	}
 
 	@Override
-	public List<User> findAllOrderByUsername() {
-		return dao.findAllWithOrder(new Order[] { Order.asc("username") });
+	public List<User> findAllOrderByLastName() {
+		return dao.findAllWithOrder(new Order[] { Order.asc("lastName") });
 	}
 
 	@Override

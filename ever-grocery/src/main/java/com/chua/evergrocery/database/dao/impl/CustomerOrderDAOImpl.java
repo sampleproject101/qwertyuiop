@@ -17,48 +17,37 @@ import com.chua.evergrocery.objects.ObjectList;
 public class CustomerOrderDAOImpl 
 		extends AbstractDAO<CustomerOrder, Long>
 		implements CustomerOrderDAO {
-
-	@Override
-	public ObjectList<CustomerOrder> findAllWithPagingAndDayLimit(int pageNumber, int resultsPerPage, String searchKey, int daysAgo) {
-		final Junction conjunction = Restrictions.conjunction();
-		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
-		
-		final DateTime date = new DateTime();
-		
-		conjunction.add(Restrictions.ge("createdOn", date.minusDays(daysAgo)));
-		
-		final Disjunction disjunction = Restrictions.disjunction();
-		
-		if(StringUtils.isNotBlank(searchKey))
-		{
-			
-			disjunction.add(Restrictions.ilike("name", searchKey, MatchMode.ANYWHERE));
-		}
-		
-		conjunction.add(disjunction);
-		
-		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
-	}
 	
 	@Override
-	public ObjectList<CustomerOrder> findAllWithPagingAndStatus(int pageNumber, int resultsPerPage, String searchKey, Status[] status)
+	public ObjectList<CustomerOrder> findAllWithPaging(int pageNumber, int resultsPerPage, String searchKey, Status[] status, Integer daysAgo)
 	{
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
 		
-		final Disjunction disjunction = Restrictions.disjunction();
-		
 		if(StringUtils.isNotBlank(searchKey))
 		{
+			final Disjunction disjunction = Restrictions.disjunction();
 			
 			disjunction.add(Restrictions.ilike("name", searchKey, MatchMode.ANYWHERE));
+			
+			conjunction.add(disjunction);
 		}
 		
-		for(Status statuz : status) {
-			disjunction.add(Restrictions.eq("status", statuz));
+		if(status != null && status.length > 0) {
+			final Disjunction disjunction = Restrictions.disjunction();
+			
+			for(Status statuz : status) {
+				disjunction.add(Restrictions.eq("status", statuz));
+			}
+			
+			conjunction.add(disjunction);
 		}
 		
-		conjunction.add(disjunction);
+		if(daysAgo != null) {
+			final DateTime date = new DateTime();
+
+			conjunction.add(Restrictions.ge("createdOn", date.minusDays(daysAgo.intValue())));
+		}
 		
 		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
 	}

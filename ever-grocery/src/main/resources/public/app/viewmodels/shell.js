@@ -18,6 +18,7 @@
 	      		
 	      		{ route: 'customer', moduleId: 'customer', title: 'Customers', nav: true, hash: 'customer' },
 	      		
+	      		{ route: 'sale', moduleId: 'sale', title: 'Sales', nav: true, hash: 'sale'},
 	      		{ route: 'purchase', moduleId: 'purchase', title: 'Purchases', nav: true, hash: 'purchase'}
 	  		]
 	  	}

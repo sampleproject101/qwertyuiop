@@ -28,7 +28,7 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customer
 	Cashier.prototype.refreshCustomerOrderList = function() {
 		var self = this;
 		
-		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), self.showPaid(), true).done(function(data) {
+		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), self.showPaid(), 7).done(function(data) {
 			self.customerOrderList(data.list);
 			self.totalItems(data.total);
 		});

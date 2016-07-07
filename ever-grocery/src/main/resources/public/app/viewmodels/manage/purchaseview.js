@@ -1,4 +1,4 @@
-define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/purchaseorderservice', 'viewmodels/purchase-order/search'], function (dialog, app, ko, purchaseOrderService, Search) {
+define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/purchaseorderservice'], function (dialog, app, ko, purchaseOrderService) {
     var PurchaseView = function(purchaseOrder) {
     	this.purchaseOrder = purchaseOrder;
     	this.purchaseOrderDetailList = ko.observable();
@@ -8,7 +8,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/purchaseorderserv
 		this.currentPage = ko.observable(1);
 		this.currentPageSubscription = null;
 		
-		this.purchaseOrderPageModel = {
+		this.purchaseOrderViewModel = {
 			purchaseOrderId: ko.observable(),
 			totalAmount: ko.observable(),
 			companyName: ko.observable()
@@ -18,19 +18,16 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/purchaseorderserv
     PurchaseView.prototype.activate = function() {
     	var self = this;
     	
-    	self.purchaseOrderPageModel.purchaseOrderId(self.purchaseOrder.id);
+    	self.purchaseOrderViewModel.purchaseOrderId(self.purchaseOrder.id);
+    	self.purchaseOrderViewModel.totalAmount(self.purchaseOrder.totalAmount);
+		self.purchaseOrderViewModel.companyName(self.purchaseOrder.company.name);
     	
     	self.currentPage(1);
     	self.currentPageSubscription = self.currentPage.subscribe(function() {
     		self.refreshPurchaseOrderDetailList();
 		});
     	
-    	purchaseOrderService.refreshPurchaseOrder(self.purchaseOrder.id, false).done(function() {
-    		self.refreshPurchaseOrderDetailList();
-    	});
-    	
-    	self.purchaseOrderPageModel.totalAmount(self.purchaseOrder.totalAmount);
-		self.purchaseOrderPageModel.companyName(self.purchaseOrder.company.name);
+    	self.refreshPurchaseOrderDetailList();
     };
     
     PurchaseView.show = function(purchaseOrder) {
@@ -40,7 +37,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/purchaseorderserv
     PurchaseView.prototype.refreshPurchaseOrderDetailList = function() {
     	var self = this;
     	
-    	purchaseOrderService.getPurchaseOrderDetailList(self.currentPage(), self.purchaseOrderPageModel.purchaseOrderId(), false).done(function(data) { 
+    	purchaseOrderService.getPurchaseOrderDetailList(self.currentPage(), self.purchaseOrderViewModel.purchaseOrderId(), false).done(function(data) { 
 			self.purchaseOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});

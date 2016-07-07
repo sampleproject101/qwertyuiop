@@ -30,7 +30,7 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'viewmodels/
     		self.refreshPurchaseOrderDetailList();
 		});
     	
-    	purchaseOrderService.refreshPurchaseOrder(self.purchaseOrderPageModel.purchaseOrderId(), true).done(function() {
+    	purchaseOrderService.refreshPurchaseOrder(self.purchaseOrderPageModel.purchaseOrderId()).done(function() {
     		self.refreshPurchaseOrderDetailList();
     	});
     };

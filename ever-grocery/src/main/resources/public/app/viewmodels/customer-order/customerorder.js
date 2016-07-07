@@ -24,7 +24,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/customerorderserv
 	CustomerOrder.prototype.refreshCustomerOrderList = function() {
 		var self = this;
 		
-		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), false).done(function(data) {
+		customerOrderService.getCustomerOrderList(self.currentPage(), self.searchKey(), false, null).done(function(data) {
 			self.customerOrderList(data.list);
 			self.totalItems(data.total);
 		});

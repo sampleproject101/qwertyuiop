@@ -44,18 +44,12 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	private ProductDetailService productDetailService;
 
 	@Override
-	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid) {
-		final int daysToShow = 7;
-		
+	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid, Integer daysAgo) {
 		if(showPaid) {
-			return customerOrderService.findAllWithPagingAndDayLimit(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, daysToShow);
+			return customerOrderService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, null, daysAgo);
 		} else {
-			return this.getActiveCustomerOrderList(pageNumber, searchKey);
+			return customerOrderService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, new Status[] { Status.LISTING,  Status.PRINTED }, daysAgo);
 		}
-	}
-	
-	private ObjectList<CustomerOrder> getActiveCustomerOrderList(Integer pageNumber, String searchKey) {
-		return customerOrderService.findAllWithPagingAndStatus(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, new Status[] { Status.LISTING, Status.PRINTED });
 	}
 	
 	@Override

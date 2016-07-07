@@ -62,20 +62,24 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 	public ResultBean createPurchaseOrder(PurchaseOrderFormBean purchaseOrderForm) {
 		final ResultBean result;
 		
-		final PurchaseOrder purchaseOrder = new PurchaseOrder();
-		setPurchaseOrder(purchaseOrder, purchaseOrderForm);
-		purchaseOrder.setTotalAmount(0.0f);
-		purchaseOrder.setTotalItems(0);
-		
-		purchaseOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
-		purchaseOrder.setStatus(Status.LISTING);
-		
-		result = new ResultBean();
-		result.setSuccess(purchaseOrderService.insert(purchaseOrder) != null);
-		if(result.getSuccess()) {
-			result.setMessage("Purchase order successfully created.");
+		if(purchaseOrderForm.getCompanyId() != null) {
+			final PurchaseOrder purchaseOrder = new PurchaseOrder();
+			setPurchaseOrder(purchaseOrder, purchaseOrderForm);
+			purchaseOrder.setTotalAmount(0.0f);
+			purchaseOrder.setTotalItems(0);
+			
+			purchaseOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
+			purchaseOrder.setStatus(Status.LISTING);
+			
+			result = new ResultBean();
+			result.setSuccess(purchaseOrderService.insert(purchaseOrder) != null);
+			if(result.getSuccess()) {
+				result.setMessage("Purchase order successfully created.");
+			} else {
+				result.setMessage("Failed to create purchase order.");
+			}
 		} else {
-			result.setMessage("Failed to create purchase order.");
+			result = new ResultBean(false, "Select a company.");
 		}
 		
 		return result;
@@ -249,7 +253,7 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 	private ResultBean changePurchaseOrderDetailQuantity(PurchaseOrderDetail purchaseOrderDetail, Integer quantity) {
 		final ResultBean result;
 		
-		if(quantity > 0) {
+		if(quantity != 0) {
 			result = new ResultBean();
 			
 			setPurchaseOrderDetailQuantity(purchaseOrderDetail, quantity);

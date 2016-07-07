@@ -2,23 +2,16 @@
 	<br /><br /><br />
 	<div class="row">
 		<div class="col-md-4 col-xs-4">
-			<button data-bind="click: create" type="button" class="btn btn-success">Add New Customer Order</button>
+			<button type="button" class="btn btn-success">Generate Report</button>
 		</div>
-		<form class="form-inline" role="form">
-			<div class="input-group col-md-4 col-xs-4 pull-right">
-				<div class="form-group">
-					<input data-bind="value: searchKey" size="45" type="text" class="form-control" placeholder="Search Customer Order">
-				</div>
-				<div class="form-group">
-					<button data-bind="click: refreshCustomerOrderList" class="btn btn-default glyphicon glyphicon-search"></button>
-				</div>
-			</div>
-		</form>
 	</div>
 	<br />
 	
 	<div class="row">
-		<div data-bind="widget: { kind: 'pager', config: { numberOfPagesToShow: 5, itemsPerPage: itemsPerPage, totalItems: totalItems, currentPage: currentPage } }" class="col-md-12"></div>
+		<label class="checkbox-inline col-xs-offset-1 col-xs-2">
+			<input data-bind="checked: showRecent" type="checkbox" name="recentcheckbox">Show Recent Only
+		</label>
+		<div data-bind="widget: { kind: 'pager', config: { numberOfPagesToShow: 5, itemsPerPage: itemsPerPage, totalItems: totalItems, currentPage: currentPage } }" class="col-md-9"></div>
 	</div>
 	
     <div class="row">
@@ -30,6 +23,7 @@
     					<th>Name</th>
     					<th>Customer</th>
     					<th>Creator</th>
+    					<th>Cashier</th>
     					<th>Total Amount</th>
     					<th>Status</th>
     				</tr>
@@ -49,13 +43,16 @@
     							<span data-bind="text: customerOrder.creator.lastName"></span><span>, </span><span data-bind="text: customerOrder.creator.firstName"></span>
     						</span>
     					</td>
+    					<td>
+    						<span data-bind="if: customerOrder.cashier">
+    							<span data-bind="text: customerOrder.cashier.lastName"></span><span>, </span><span data-bind="text: customerOrder.cashier.firstName"></span>
+    						</span>
+    					</td>
     					<td>Php <span data-bind="text: customerOrder.totalAmount"></span></td>
     					<td data-bind="text: customerOrder.status"></td>
     					<td>
     						<div class="pull-right">
-    							<a data-bind="click: function() { $parent.details(customerOrder.id) }" type="button" class="btn btn-info btn-sm">Details</a>
-    							<button data-bind="click: function() { $parent.edit(customerOrder.id) }" type="button" class="btn btn-warning btn-sm">Edit</button>
-    							<button data-bind="click: function() { $parent.remove(customerOrder.id, customerOrder.name) }" type="button" class="btn btn-danger btn-sm">Cancel Order</button>
+    							<button data-bind="click: function() { $parent.view(customerOrder.id) }" type="button" class="btn btn-primary btn-sm">View</button>
     						</div>
     					</td>
     				</tr>
