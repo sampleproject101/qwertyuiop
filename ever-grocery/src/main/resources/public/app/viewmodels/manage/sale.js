@@ -50,5 +50,21 @@ define(['durandal/app', 'knockout', 'modules/customerorderservice', 'viewmodels/
 		});
 	};
 	
+	CustomerOrder.prototype.print = function(customerOrderId, customerOrderName) {
+		var self = this;
+		
+		app.showMessage('Are you sure you want to print Customer Order "' + customerOrderName + '"?',
+				'Confirm Print',
+				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
+		.then(function(confirm) {
+			if(confirm) {
+				customerOrderService.printCustomerOrderList(customerOrderId).done(function(result) {
+					self.refreshCustomerOrderList();
+					app.showMessage(result.message);
+				});
+			}
+		});
+	};
+	
     return CustomerOrder;
 });

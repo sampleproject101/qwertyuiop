@@ -25,6 +25,10 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/com
 			self.refreshPurchaseOrderList();
 		});
 		
+		self.showChecked.subscribe(function() {
+			self.refreshPurchaseOrderList();
+		});
+		
 		self.refreshPurchaseOrderList();
 	};
 	

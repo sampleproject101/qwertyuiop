@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customerorderservice', 'viewmodels/cashier/payform'], function (app, ko, securityService, customerOrderService, PayForm) {
+define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customerorderservice', 'viewmodels/cashier/payform', 'viewmodels/manage/saleview'], function (app, ko, securityService, customerOrderService, PayForm, SaleView) {
 	var Cashier = function() {
 		this.customerOrderList = ko.observable();
 		
@@ -34,19 +34,13 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customer
 		});
 	};
 	
-	Cashier.prototype.print = function(customerOrderId, customerOrderName) {
+	Cashier.prototype.view = function(customerOrderId) {
 		var self = this;
 		
-		app.showMessage('Are you sure you want to print Customer Order "' + customerOrderName + '"?',
-				'Confirm Print',
-				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
-		.then(function(confirm) {
-			if(confirm) {
-				customerOrderService.printCustomerOrderList(customerOrderId).done(function(result) {
-					self.refreshCustomerOrderList();
-					app.showMessage(result.message);
-				});
-			}
+		customerOrderService.getCustomerOrder(customerOrderId).done(function(data) {
+			SaleView.show(data).done(function() {
+				self.refreshCustomerOrderList();
+			});
 		});
 	};
 	

@@ -61,24 +61,28 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	public ResultBean createCustomerOrder(CustomerOrderFormBean customerOrderForm) {
 		final ResultBean result;
 		
-		if(!customerOrderService.isExistsByNameAndStatus(customerOrderForm.getName(), new Status[] { Status.LISTING, Status.PRINTED })) {
-			final CustomerOrder customerOrder = new CustomerOrder();
-			setCustomerOrder(customerOrder, customerOrderForm);
-			customerOrder.setTotalAmount(0.0f);
-			customerOrder.setTotalItems(0);
-			
-			customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
-			customerOrder.setStatus(Status.LISTING);
-			
-			result = new ResultBean();
-			result.setSuccess(customerOrderService.insert(customerOrder) != null);
-			if(result.getSuccess()) {
-				result.setMessage("Customer order successfully created.");
+		if(customerOrderForm.getName() != null) {
+			if(!customerOrderService.isExistsByNameAndStatus(customerOrderForm.getName(), new Status[] { Status.LISTING, Status.PRINTED })) {
+				final CustomerOrder customerOrder = new CustomerOrder();
+				setCustomerOrder(customerOrder, customerOrderForm);
+				customerOrder.setTotalAmount(0.0f);
+				customerOrder.setTotalItems(0);
+				
+				customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
+				customerOrder.setStatus(Status.LISTING);
+				
+				result = new ResultBean();
+				result.setSuccess(customerOrderService.insert(customerOrder) != null);
+				if(result.getSuccess()) {
+					result.setMessage("Customer order successfully created.");
+				} else {
+					result.setMessage("Failed to create customer order.");
+				}
 			} else {
-				result.setMessage("Failed to create customer order.");
+				result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
 			}
 		} else {
-			result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
+			result = new ResultBean(false, "Input a name for the customer order.");
 		}
 		
 		return result;
@@ -149,7 +153,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() != Status.PAID && customerOrder.getStatus() != Status.CANCELLED) {
+			if(customerOrder.getStatus() != Status.PRINTED) {
 				if(customerOrder.getTotalAmount() <= cash) {
 					result = new ResultBean();
 					
@@ -169,7 +173,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					result = new ResultBean(false, "Insufficient cash.");
 				}
 			} else {
-				result = new ResultBean(false, "Customer order already paid or cancelled.");
+				result = new ResultBean(false, "Customer order already paid or not yet printed.");
 			}
 		} else {
 			result = new ResultBean(false, "Customer order not found.");
@@ -434,7 +438,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					result.setMessage("Failed to print Customer order \"" + customerOrder.getName() + "\".");
 				}
 			} else {
-				result = new ResultBean(false, "Not authorized to make a copy.");
+				result = new ResultBean(false, "You are not authorized to print a copy.");
 			}
 		} else {
 			result = new ResultBean(false, "Customer order not found.");
