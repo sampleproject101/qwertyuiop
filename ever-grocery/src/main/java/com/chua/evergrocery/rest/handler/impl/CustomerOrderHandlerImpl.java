@@ -153,7 +153,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() != Status.PRINTED) {
+			if(customerOrder.getStatus() == Status.PRINTED) {
 				if(customerOrder.getTotalAmount() <= cash) {
 					result = new ResultBean();
 					

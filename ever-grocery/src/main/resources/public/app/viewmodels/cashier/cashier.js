@@ -47,9 +47,11 @@ define(['durandal/app', 'knockout', 'modules/securityservice', 'modules/customer
 	Cashier.prototype.pay = function(customerOrderId) {
 		var self = this;
 		
-		customerOrderService.getCustomerOrder(customerOrderId).done(function(data) {
-			PayForm.show(data).then(function() {
-				self.refreshCustomerOrderList();
+		customerOrderService.refreshCustomerOrder(customerOrderId).done(function() {
+			customerOrderService.getCustomerOrder(customerOrderId).done(function(data) {
+				PayForm.show(data).then(function() {
+					self.refreshCustomerOrderList();
+				});
 			});
 		});
 	};
