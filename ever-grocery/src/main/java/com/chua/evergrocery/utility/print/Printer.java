@@ -167,10 +167,10 @@ public class Printer
 	private PrintService getPrintService(DocFlavor serviceDocFlavor) throws Exception
 	{
 		PrintService printService = null;
-		System.out.println("service name: " + getServiceName());
+		//System.out.println("service name: " + getServiceName());
 		for(PrintService ps : getPrintServices())
 		{			
-			System.out.println("print service: " + ps.getName());
+			//System.out.println("print service: " + ps.getName());
 			if(getServiceName().equalsIgnoreCase(ps.getName()))
 			{
 				printService = ps;
@@ -189,7 +189,7 @@ public class Printer
 		return new SimpleDoc(printByte, printDocFlavor, null);
 	}	
 	
-	public void print(String text, String labNumber, String jobName, Boolean kickDrawer) throws Exception
+	public void print(String text, String labNumber, String jobName) throws Exception
 	{
 		PrintableDoc doc = new PrintableDoc(text, labNumber);
 		PrinterJob pj = PrinterJob.getPrinterJob();
@@ -211,33 +211,17 @@ public class Printer
 		pj.setJobName(jobName);
 		try {        	
 		    pj.print();
-		    if(kickDrawer)
-		    {
-		    	kickDrawer();
-		    }
 		} catch (PrinterException ex) {
 		    throw new RuntimeException("Unable to print \"" + jobName + "\" because " + ex.getMessage());
 		}
 	}
 	
-	public void print(byte [] printByte, Boolean kickDrawer, Boolean cutPaper) throws Exception
+	public void print(byte [] printByte, Boolean cutPaper) throws Exception
 	{
 		DocPrintJob docPrintJob = getDocPrintJob(getServiceDocFlavor());
-		if(kickDrawer) printByte = addKickDrawer(printByte);
 		if(cutPaper) printByte = addCutPaper(printByte);
 		Doc doc = getDoc(getPrintDocFlavor(), printByte);		
 		docPrintJob.print(doc, null);		
-	}
-	
-	private byte [] addKickDrawer(byte [] printByte) throws Exception
-	{
-		byte [] addKickDrawer = new byte[printByte.length + PrintConstants.KICK_DRAWER_CODE.length];
-		System.arraycopy(printByte, 0, addKickDrawer, 0, printByte.length);
-		for(int c = 0; c < PrintConstants.KICK_DRAWER_CODE.length; c++)
-		{
-			addKickDrawer[printByte.length + c] = PrintConstants.KICK_DRAWER_CODE[c];
-		}
-		return addKickDrawer;
 	}
 	
 	private byte [] addCutPaper(byte [] printByte) throws Exception
@@ -249,10 +233,5 @@ public class Printer
 			addCutPaper[printByte.length + c] = PrintConstants.CUTTER_CODE[c];
 		}
 		return addCutPaper;
-	}
-	
-	public void kickDrawer() throws Exception
-	{
-		print(PrintConstants.KICK_DRAWER_CODE, Boolean.FALSE, Boolean.FALSE);
 	}
 }

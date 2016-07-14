@@ -1,26 +1,13 @@
-${orderReceipt.pn}
-${orderReceipt.formattedHeader}      
+${orderReceipt.formattedHeader} 
  ${orderReceipt.formattedDateTime}
- 
- ${orderReceipt.customMessage}
 
- ${orderReceipt.orderNumber}
- ${orderReceipt.source}
- ${orderReceipt.patientNameAndCode}
- ${orderReceipt.patient.formattedSexDesc} - ${orderReceipt.patient.anonymousAge}Y DOB: ${orderReceipt.patient.stringBirthDate}
- ${orderReceipt.paymentMode}
- ${orderReceipt.dispatchMode}
- ${orderReceipt.clinician}
+ ${orderReceipt.formattedOrderNumber}
+ ${orderReceipt.formattedCustomer}
  ${orderReceipt.formattedRemarks}
 ==========================================
 
-Item(s)                        Amount
-#foreach( $item in $orderReceipt.orderItems )
- $item.transaction
-#end
-                            ----------
- Total Amount         ${orderReceipt.formattedTotalAmount} 
+ Total Amount         ${orderReceipt.totalAmount} 
 ${orderReceipt.formattedCashDue}
   
 ==========================================
-Encoder : ${orderReceipt.cashier}
+Cashier : ${orderReceipt.cashier}

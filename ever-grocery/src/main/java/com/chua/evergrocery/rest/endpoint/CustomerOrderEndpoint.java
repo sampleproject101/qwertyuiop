@@ -99,7 +99,7 @@ public class CustomerOrderEndpoint {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ResultBean addItem(@FormParam("productDetailId") Long productDetailId,
 			@FormParam("customerOrderId") Long customerOrderId,
-			@FormParam("quantity") Integer quantity) {
+			@FormParam("quantity") Float quantity) {
 		return customerOrderHandler.addItemByProductDetailId(productDetailId, customerOrderId, quantity);
 	}
 	
@@ -113,7 +113,7 @@ public class CustomerOrderEndpoint {
 	@POST
 	@Path("/changequantity")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResultBean changeCustomerOrderDetailQuantity(@FormParam("customerOrderDetailId") Long customerOrderDetailId, @FormParam("quantity") Integer quantity) {
+	public ResultBean changeCustomerOrderDetailQuantity(@FormParam("customerOrderDetailId") Long customerOrderDetailId, @FormParam("quantity") Float quantity) {
 		return customerOrderHandler.changeCustomerOrderDetailQuantity(customerOrderDetailId, quantity);
 	}
 	

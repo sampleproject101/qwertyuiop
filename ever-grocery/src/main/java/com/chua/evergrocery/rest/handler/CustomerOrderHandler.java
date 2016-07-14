@@ -22,11 +22,11 @@ public interface CustomerOrderHandler {
 	
 	ResultBean addItemByBarcode(String barcode, Long customerOrderId);
 	
-	ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Integer quantity);
+	ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Float quantity);
 	
 	ResultBean removeCustomerOrderDetail(Long customerOrderDetailId);
 	
-	ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity);
+	ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Float quantity);
 	
 	void refreshCustomerOrder(Long customerOrderId);
 	

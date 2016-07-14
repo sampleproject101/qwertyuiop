@@ -111,7 +111,7 @@ public class PrintableDoc
     	  totalPageCount--;  
       }      
       
-      System.out.println("page index: " + pageIndex);
+      //System.out.println("page index: " + pageIndex);
       if (pageIndex > totalPageCount) {
           return Printable.NO_SUCH_PAGE;
       }

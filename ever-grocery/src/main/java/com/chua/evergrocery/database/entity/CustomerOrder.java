@@ -41,7 +41,7 @@ public class CustomerOrder extends BaseObject {
 	
 	private Float totalAmount;
 	
-	private Integer totalItems;
+	private Float totalItems;
 	
 	private Status status;
 
@@ -103,11 +103,11 @@ public class CustomerOrder extends BaseObject {
 
 	@Basic
 	@Column(name = "total_items")
-	public Integer getTotalItems() {
+	public Float getTotalItems() {
 		return totalItems;
 	}
 
-	public void setTotalItems(Integer totalItems) {
+	public void setTotalItems(Float totalItems) {
 		this.totalItems = totalItems;
 	}
 

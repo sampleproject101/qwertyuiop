@@ -1,8 +1,5 @@
 package com.chua.evergrocery.utility.print;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.velocity.app.VelocityEngine;
 
 /**
@@ -17,10 +14,9 @@ public interface Printable
 	/**
 	 * 
 	 * @param velocityEngine
-	 * @param kickDrawer
 	 * @param request
 	 * @param servletContext
 	 * @throws Exception
 	 */
-	public void print(VelocityEngine velocityEngine, Boolean kickDrawer, HttpServletRequest request, ServletContext servletContext) throws Exception;
+	public void print(VelocityEngine velocityEngine) throws Exception;
 }

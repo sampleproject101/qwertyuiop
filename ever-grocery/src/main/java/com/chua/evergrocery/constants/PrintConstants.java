@@ -9,13 +9,11 @@ package com.chua.evergrocery.constants;
  */
 public class PrintConstants
 {
-	public static final String LOCAL_PRINTER_SERVICE = "EPSON TM-T88IV Receipt";
-	
-	public static final byte [] KICK_DRAWER_CODE = {27, 112, 48, 55, 121};
+	public static final String LOCAL_PRINTER_SERVICE = "\\" + "\\" + "LAPTOP-RDDBSM8J" + "\\" + "EPSON TM-U220 Receipt";
 	
 	public static final byte [] CUTTER_CODE = {27, 109};
 	
-	public static final String LOCAL_HOST = "127.0.0.1";
+	public static final String LOCAL_HOST = "192.168.1.6";
 	
 	/** The root element for the printer XML configuration file */
 	public static final String ROOT = "PrinterConfiguration";

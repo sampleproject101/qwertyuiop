@@ -1,9 +1,12 @@
 package com.chua.evergrocery.rest.handler.impl;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.app.VelocityEngine;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.CustomerOrderFormBean;
 import com.chua.evergrocery.beans.ResultBean;
+import com.chua.evergrocery.database.entity.Customer;
 import com.chua.evergrocery.database.entity.CustomerOrder;
 import com.chua.evergrocery.database.entity.CustomerOrderDetail;
 import com.chua.evergrocery.database.entity.ProductDetail;
+import com.chua.evergrocery.database.entity.User;
 import com.chua.evergrocery.database.service.CustomerOrderDetailService;
 import com.chua.evergrocery.database.service.CustomerOrderService;
 import com.chua.evergrocery.database.service.CustomerService;
@@ -23,6 +28,10 @@ import com.chua.evergrocery.enums.Status;
 import com.chua.evergrocery.enums.UserType;
 import com.chua.evergrocery.objects.ObjectList;
 import com.chua.evergrocery.rest.handler.CustomerOrderHandler;
+import com.chua.evergrocery.utility.print.OrderItem;
+import com.chua.evergrocery.utility.print.OrderList;
+import com.chua.evergrocery.utility.print.OrderReceipt;
+import com.chua.evergrocery.utility.print.OrderReceiptConfig;
 
 @Transactional
 @Component
@@ -42,6 +51,9 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	@Autowired
 	private ProductDetailService productDetailService;
+	
+	@Autowired
+	private VelocityEngine velocityEngine;
 
 	@Override
 	public ObjectList<CustomerOrder> getCustomerOrderList(Integer pageNumber, String searchKey, Boolean showPaid, Integer daysAgo) {
@@ -66,7 +78,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				final CustomerOrder customerOrder = new CustomerOrder();
 				setCustomerOrder(customerOrder, customerOrderForm);
 				customerOrder.setTotalAmount(0.0f);
-				customerOrder.setTotalItems(0);
+				customerOrder.setTotalItems(0.0f);
 				
 				customerOrder.setCreator(userService.find(UserContextHolder.getUser().getUserId()));
 				customerOrder.setStatus(Status.LISTING);
@@ -163,7 +175,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					result.setSuccess(customerOrderService.update(customerOrder));
 					if(result.getSuccess()) {
 						//#############################################################################################		remove from stock!!!
-						this.printReceipt(customerOrder);
+						this.printReceipt(customerOrder, cash);
 						
 						result.setMessage("CHANGE: Php " + df.format(cash - customerOrder.getTotalAmount()));
 					} else {
@@ -221,9 +233,11 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
 		result = new ResultBean();
 		
+		customerOrder.setTotalAmount(customerOrder.getTotalAmount() - customerOrderDetail.getTotalPrice());
+		customerOrder.setTotalItems(customerOrder.getTotalItems() - customerOrderDetail.getQuantity());
 		result.setSuccess(customerOrderDetailService.erase(customerOrderDetail));
-		refreshCustomerOrder(customerOrder);
 		if(result.getSuccess()) {
+			customerOrderService.update(customerOrder);
 			result.setMessage("Successfully removed item \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
 		} else {
 			result.setMessage("Failed to remove Customer order \"" + customerOrderDetail.getProductName() + " (" + customerOrderDetail.getUnitType() + ")\".");
@@ -238,7 +252,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final ProductDetail productDetail = productDetailService.findByBarcode(barcode);
 		
 		if(barcode != null && barcode.length() > 4 && productDetail != null) {
-			result = this.addItemByProductDetailId(productDetail.getId(), customerOrderId, 1);
+			result = this.addItemByProductDetailId(productDetail.getId(), customerOrderId, 1.0f);
 		} else {
 			result = new ResultBean(false, "Barcode not found.");
 		}
@@ -247,7 +261,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	}
 	
 	@Override
-	public ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Integer quantity) {
+	public ResultBean addItemByProductDetailId(Long productDetailId, Long customerOrderId, Float quantity) {
 		final ResultBean result;
 		
 		final ProductDetail productDetail = productDetailService.find(productDetailId);
@@ -270,7 +284,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	private ResultBean addItem(ProductDetail productDetail, CustomerOrder customerOrder, Integer quantity) {
+	private ResultBean addItem(ProductDetail productDetail, CustomerOrder customerOrder, Float quantity) {
 		final ResultBean result;
 		
 		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.findByOrderAndDetailId(customerOrder.getId(), productDetail.getId());
@@ -297,7 +311,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	}
 	
 	@Override
-	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Integer quantity) {
+	public ResultBean changeCustomerOrderDetailQuantity(Long customerOrderDetailId, Float quantity) {
 		final ResultBean result;
 		
 		final CustomerOrderDetail customerOrderDetail = customerOrderDetailService.find(customerOrderDetailId);
@@ -320,20 +334,26 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	private ResultBean changeCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, Integer quantity) {
+	private ResultBean changeCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, Float quantity) {
 		final ResultBean result;
 		
 		quantity = resolveCustomerOrderDetailUnitType(customerOrderDetail, quantity);
 		
 		if(quantity > 0) {
 			result = new ResultBean();
+			final CustomerOrder customerOrder = customerOrderDetail.getCustomerOrder();
+			
+			customerOrder.setTotalAmount(customerOrder.getTotalAmount() - customerOrderDetail.getTotalPrice());
+			customerOrder.setTotalItems(customerOrder.getTotalItems() - customerOrderDetail.getQuantity());
 			
 			setCustomerOrderDetailQuantity(customerOrderDetail, quantity);
 			result.setSuccess(customerOrderDetailService.update(customerOrderDetail));
 			
-			refreshCustomerOrder(customerOrderDetail.getCustomerOrder());
-			
 			if(result.getSuccess()) {
+				customerOrder.setTotalAmount(customerOrder.getTotalAmount() + customerOrderDetail.getTotalPrice());
+				customerOrder.setTotalItems(customerOrder.getTotalItems() + customerOrderDetail.getQuantity());
+				customerOrderService.update(customerOrder);
+				
 				result.setMessage("Quantity successfully updated.");
 			} else {
 				result.setMessage("Failed to update quantity.");
@@ -345,20 +365,22 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	private int resolveCustomerOrderDetailUnitType(CustomerOrderDetail customerOrderDetail, Integer quantity) {
-		final int result;
+	private float resolveCustomerOrderDetailUnitType(CustomerOrderDetail customerOrderDetail, Float quantity) {
+		final float result;
 		final ProductDetail productDetail = customerOrderDetail.getProductDetail();
 		
-		if(quantity == null) quantity = 0;
+		if(quantity == null) quantity = 0.0f;
 		
-		if(productDetail != null && quantity >= productDetail.getQuantity()) {
+		quantity -= (quantity % 0.5f);
+		
+		if(productDetail != null && quantity >= productDetail.getQuantity() / 2) {
 			final ProductDetail newProductDetail;
 			switch(productDetail.getTitle()) {
 			case "Piece":
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Whole");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % productDetail.getQuantity();
+					result = quantity % (productDetail.getQuantity() / 2);
 				} else {
 					result = quantity;
 				}
@@ -367,7 +389,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Piece");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % productDetail.getQuantity();
+					result = quantity % (productDetail.getQuantity() / 2);
 				} else {
 					result = quantity;
 				}
@@ -376,7 +398,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Inner Piece");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % productDetail.getQuantity();
+					result = quantity % (productDetail.getQuantity() / 2);
 				} else {
 					result = quantity;
 				}
@@ -397,8 +419,8 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	}
 	
 	private void refreshCustomerOrder(CustomerOrder customerOrder) {
-		float totalAmount = 0l;
-		int totalItems = 0;
+		float totalAmount = 0;
+		float totalItems = 0;
 		
 		List<CustomerOrderDetail> customerOrderDetails = customerOrderDetailService.findAllByCustomerOrderId(customerOrder.getId());
 		
@@ -431,7 +453,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				}
 				
 				if(result.getSuccess()) {
-					System.out.println("Printing Order List......... " + customerOrderId);
+					this.printOrderList(customerOrder);
 					
 					result.setMessage("Successfully printed Customer order \"" + customerOrder.getName() + "\".");
 				} else {
@@ -447,8 +469,56 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		return result;
 	}
 	
-	private void printReceipt(CustomerOrder customerOrder) {
-		System.out.println("Printing Receipt......." + customerOrder.getId());
+	private void printOrderList(CustomerOrder customerOrder) {
+		final String creatorName;
+		final User creator = customerOrder.getCreator();
+		
+		if(creator != null) {
+			creatorName = creator.getFirstName() + " " + creator.getLastName();
+		} else {
+			creatorName = "";
+		}
+		
+		final List<CustomerOrderDetail> customerOrderDetails = customerOrderDetailService.findAllByCustomerOrderId(customerOrder.getId());
+		final List<OrderItem> orderItems = new ArrayList<OrderItem>();
+		
+		for(CustomerOrderDetail orderDetail: customerOrderDetails) {
+			orderItems.add(new OrderItem(orderDetail.getProductName(), orderDetail.getTotalPrice(), orderDetail.getQuantity()));
+		}
+		
+		final OrderList orderList = new OrderList(creatorName, customerOrder.getId() + "", orderItems);
+		
+		try {
+			orderList.print(velocityEngine);
+		} catch (Exception e) { }
+	}
+	
+	private void printReceipt(CustomerOrder customerOrder, Float cash) {
+		
+		final String customerName;
+		final Customer customer = customerOrder.getCustomer();
+		
+		if(customer != null) {
+			customerName = customer.getFirstName() + " " + customer.getLastName();
+		} else {
+			customerName = "";
+		}
+		
+		final String cashierName;
+		final User cashier = customerOrder.getCashier();
+		
+		if(cashier != null) {
+			cashierName = cashier.getUsername();
+		} else {
+			cashierName = "";
+		}
+		
+		final OrderReceipt orderReceipt = new OrderReceipt(new DateTime(), cashierName, customerOrder.getId() + "", customerName,
+				customerOrder.getTotalAmount() + "", new OrderReceiptConfig("Ever Grocery"), "", cash + "");
+		
+		try {
+			orderReceipt.print(velocityEngine);
+		} catch (Exception e) { }
 	}
 	
 	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, CustomerOrder customerOrder, ProductDetail productDetail) {
@@ -457,11 +527,11 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		customerOrderDetail.setProductName(productDetail.getProduct().getName());
 		customerOrderDetail.setUnitType(productDetail.getUnitType());
 		customerOrderDetail.setUnitPrice(productDetail.getSellingPrice());
-		customerOrderDetail.setQuantity(0);
+		customerOrderDetail.setQuantity(0.0f);
 		customerOrderDetail.setTotalPrice(0.0f);
 	}
 	
-	private void setCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, int quantity) {
+	private void setCustomerOrderDetailQuantity(CustomerOrderDetail customerOrderDetail, float quantity) {
 		customerOrderDetail.setQuantity(quantity);
 		customerOrderDetail.setTotalPrice(quantity * customerOrderDetail.getUnitPrice());
 	}

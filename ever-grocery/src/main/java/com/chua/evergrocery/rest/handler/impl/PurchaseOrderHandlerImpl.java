@@ -215,9 +215,11 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 		final PurchaseOrder purchaseOrder = purchaseOrderDetail.getPurchaseOrder();
 		result = new ResultBean();
 		
+		purchaseOrder.setTotalAmount(purchaseOrder.getTotalAmount() - purchaseOrderDetail.getTotalPrice());
+		purchaseOrder.setTotalItems(purchaseOrder.getTotalItems() - purchaseOrderDetail.getQuantity());
 		result.setSuccess(purchaseOrderDetailService.erase(purchaseOrderDetail));
-		refreshPurchaseOrder(purchaseOrder);
 		if(result.getSuccess()) {
+			purchaseOrderService.update(purchaseOrder);
 			result.setMessage("Successfully removed item \"" + purchaseOrderDetail.getProductName() + " (" + purchaseOrderDetail.getUnitType() + ")\".");
 		} else {
 			result.setMessage("Failed to remove Purchase order \"" + purchaseOrderDetail.getProductName() + " (" + purchaseOrderDetail.getUnitType() + ")\".");
@@ -256,12 +258,19 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 		if(quantity != 0) {
 			result = new ResultBean();
 			
+			final PurchaseOrder purchaseOrder = purchaseOrderDetail.getPurchaseOrder();
+			
+			purchaseOrder.setTotalAmount(purchaseOrder.getTotalAmount() - purchaseOrderDetail.getTotalPrice());
+			purchaseOrder.setTotalItems(purchaseOrder.getTotalItems() - purchaseOrderDetail.getQuantity());
+			
 			setPurchaseOrderDetailQuantity(purchaseOrderDetail, quantity);
 			result.setSuccess(purchaseOrderDetailService.update(purchaseOrderDetail));
 			
-			refreshPurchaseOrder(purchaseOrderDetail.getPurchaseOrder());
-			
 			if(result.getSuccess()) {
+				purchaseOrder.setTotalAmount(purchaseOrder.getTotalAmount() + purchaseOrderDetail.getTotalPrice());
+				purchaseOrder.setTotalItems(purchaseOrder.getTotalItems() + purchaseOrderDetail.getQuantity());
+				purchaseOrderService.update(purchaseOrder);
+				
 				result.setMessage("Quantity successfully updated.");
 			} else {
 				result.setMessage("Failed to update quantity.");

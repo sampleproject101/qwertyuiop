@@ -35,7 +35,7 @@ public class CustomerOrderDetail extends BaseObject {
 	
 	private Float unitPrice;
 	
-	private Integer quantity;
+	private Float quantity;
 	
 	private Float totalPrice;
 
@@ -95,11 +95,11 @@ public class CustomerOrderDetail extends BaseObject {
 
 	@Basic
 	@Column(name = "quantity")
-	public Integer getQuantity() {
+	public Float getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Float quantity) {
 		this.quantity = quantity;
 	}
 
