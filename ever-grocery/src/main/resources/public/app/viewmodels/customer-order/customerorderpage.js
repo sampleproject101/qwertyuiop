@@ -78,12 +78,9 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     	
     	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrderPageModel.customerOrderId()).done(function(result) {	
     		if(result.success) {
-    			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
+    			if(result.message === 'NEW') self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
+    			self.refreshCustomerOrderDetailList();
     		} else {
-    			self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems()));
-    		}
-    		self.refreshCustomerOrderDetailList();
-    		if(!result.success) {
     			app.showMessage(result.message);
     		}
     	});

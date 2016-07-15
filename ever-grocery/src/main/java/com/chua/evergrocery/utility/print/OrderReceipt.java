@@ -23,6 +23,7 @@ public class OrderReceipt
 		implements Printable
 {
 	public static final int LINELENGTH = 36;
+	public static final int LINELENGTH15 = 26;
 	private DateTime dateTime;
 	private String orderNumber;
 	
@@ -110,7 +111,7 @@ public class OrderReceipt
 		String header;		
 		String title = config.getTitle();
 		int startLine = 0;
-		startLine = startLine + ((startLine%2 == 0)? 0:1);
+		startLine = (LINELENGTH15 - title.length()) / 2;
 		for(int i=0; i<startLine; i++){
 			title = " " + title;
 		}
@@ -130,7 +131,7 @@ public class OrderReceipt
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
 		
 		String time = dateTime.toString(dtf);
-		int center = 0;
+		int center = (LINELENGTH - time.length()) / 2;
 		for(int i=0; i<center; i++){
 			time = " " + time;
 		}
@@ -173,23 +174,11 @@ public class OrderReceipt
 	{
 		String strAdded = "";
 		
-		strAdded = " "+ "Cash";
-		int center = 0;
-		center = LINELENGTH - (strAdded.length() + getFormattedCash().length() - 1 + 2);
-		for(int i=0; i<center; i++)
-		{
-			strAdded += " ";
-		}
+		strAdded = " "+ String.format("%-29s", "Cash");
 		
 		strAdded += getFormattedCash();
 		
-		strAdded += "\n " + "Change";
-		
-		center = 0;
-		center = LINELENGTH - (6 + 6 + getFormattedChange().length() ) - 3;
-		
-		for(int i=0; i<center; i++)
-			strAdded += " ";
+		strAdded += "\n " + String.format("%-21s", "Change");
 		
 		strAdded += getFormattedChange() + "\n";	
 		

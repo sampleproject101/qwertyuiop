@@ -30,7 +30,7 @@
     			<thead>
     				<tr>
     					<th>Name</th>
-    					<th>Category</th>
+    					<th>Display Name</th>
     					<th>Company</th>
     					<th>Distributor</th>
     					<th>Receipt Type</th>
@@ -40,11 +40,7 @@
     			<tbody data-bind="foreach: { data: productList, as: 'product' }">
     				<tr>
     					<td data-bind="text: product.name"></td>
-    					<td>
-    						<span data-bind="if: product.category">
-    							<span data-bind="text: product.category.name"></span>
-    						</span>
-    					</td>
+    					<td data-bind="text: product.displayName"></td>
     					<td>
     						<span data-bind="if: product.company">
     							<span data-bind="text: product.company.name"></span>

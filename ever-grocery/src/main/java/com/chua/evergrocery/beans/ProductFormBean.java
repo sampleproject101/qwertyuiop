@@ -3,6 +3,7 @@ package com.chua.evergrocery.beans;
 public class ProductFormBean extends FormBean {
 
 	private String name;
+	private String displayName;
 	
 	private Long brandId;
 	private Long categoryId;
@@ -15,6 +16,14 @@ public class ProductFormBean extends FormBean {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 	
 	public Long getBrandId() {

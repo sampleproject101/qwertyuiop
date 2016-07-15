@@ -297,7 +297,10 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					this.changeCustomerOrderDetailQuantity(newCustomerOrderDetail, quantity).getSuccess());
 			
 			if(result.getSuccess()) {
-				result.setMessage("Successfully added item.");
+				//result message used instead as boolean to check if item is new
+				final String isNew = "NEW";
+				
+				result.setMessage(isNew);
 			} else {
 				result.setMessage("Failed to add item.");
 			}
@@ -352,7 +355,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				customerOrder.setTotalItems(customerOrder.getTotalItems() + customerOrderDetail.getQuantity());
 				customerOrderService.update(customerOrder);
 				
-				result.setMessage("Quantity successfully updated.");
+				result.setMessage("Successfully updated quantity.");
 			} else {
 				result.setMessage("Failed to update quantity.");
 			}
@@ -472,7 +475,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final User creator = customerOrder.getCreator();
 		
 		if(creator != null) {
-			creatorName = creator.getFirstName() + " " + creator.getLastName();
+			creatorName = creator.getUsername();
 		} else {
 			creatorName = "";
 		}
@@ -481,7 +484,15 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		
 		for(CustomerOrderDetail orderDetail: customerOrderDetails) {
-			orderItems.add(new OrderItem(orderDetail.getProductName(), orderDetail.getUnitType().getShorthand(), orderDetail.getTotalPrice(), orderDetail.getQuantity()));
+			final String displayName;
+			
+			if(orderDetail.getProductDisplayName() != null && orderDetail.getProductDisplayName().trim() != "") {
+				displayName = orderDetail.getProductDisplayName();
+			} else {
+				displayName = orderDetail.getProductName();
+			}
+			
+			orderItems.add(new OrderItem(displayName, orderDetail.getUnitType().getShorthand(), orderDetail.getTotalPrice(), orderDetail.getQuantity()));
 		}
 		
 		final OrderList orderList = new OrderList(creatorName, customerOrder.getId() + "", orderItems);
@@ -495,7 +506,11 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 	
 	@Override
 	public void printReceipt(Long customerOrderId, Float cash) {
-		this.printReceipt(customerOrderService.find(customerOrderId), cash);
+		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
+		
+		if(customerOrder != null) {
+			this.printReceipt(customerOrder, cash);
+		}
 	}
 	
 	private void printReceipt(CustomerOrder customerOrder, Float cash) {
@@ -513,7 +528,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final User cashier = customerOrder.getCashier();
 		
 		if(cashier != null) {
-			cashierName = cashier.getUsername();
+			cashierName = cashier.getFirstName() + " " + cashier.getLastName();
 		} else {
 			cashierName = "";
 		}
@@ -531,6 +546,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		customerOrderDetail.setCustomerOrder(customerOrder);
 		customerOrderDetail.setProductDetail(productDetail);
 		customerOrderDetail.setProductName(productDetail.getProduct().getName());
+		customerOrderDetail.setProductDisplayName(productDetail.getProduct().getDisplayName());
 		customerOrderDetail.setUnitType(productDetail.getUnitType());
 		customerOrderDetail.setUnitPrice(productDetail.getSellingPrice());
 		customerOrderDetail.setQuantity(0.0f);
