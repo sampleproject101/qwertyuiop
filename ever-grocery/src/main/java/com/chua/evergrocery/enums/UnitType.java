@@ -2,45 +2,45 @@ package com.chua.evergrocery.enums;
 
 public enum UnitType {
 	
-	BAG ("BAG"),
+	BAG ("bag"),
 	
-	BAR ("BAR"),
+	BAR ("bar"),
 	
-	BOTTLE ("BTL"),
+	BOTTLE ("btl"),
 	
-	BOX ("BOX"),
+	BOX ("box"),
 	
-	BUCKET ("BKT"),
+	BUCKET ("bkt"),
 	
-	BUNDLE ("BDL"),
+	BUNDLE ("bdl"),
 	
-	CAN ("CAN"),
+	CAN ("can"),
 	
-	CASE ("CS"),
+	CASE ("cs"),
 	
-	DOZEN ("DOZ"),
+	DOZEN ("doz"),
 	
-	JAR ("JAR"),
+	JAR ("jar"),
 	
-	PACK ("PACK"),
+	PACK ("pck"),
 	
-	PAIR ("PAIR"),
+	PAIR ("pr"),
 	
-	PIECE ("PC"),
+	PIECE ("pc"),
 	
-	POUCH ("POUCH"),
+	POUCH ("pch"),
 	
-	REAM ("REAM"),
+	REAM ("rm"),
 	
-	SACK ("SACK"),
+	SACK ("sck"),
 	
-	SET ("SET"),
+	SET ("set"),
 	
-	TAB ("TAB"),
+	TAB ("tab"),
 	
-	TIE ("TIE"),
+	TIE ("tie"),
 	
-	TIN ("TIN"),
+	TIN ("tin"),
 	
 	X6 ("6s"),
 	

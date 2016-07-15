@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.velocity.app.VelocityEngine;
-import org.springframework.ui.velocity.VelocityEngineUtils;
 
 public class OrderList implements Printable {
 
@@ -19,7 +18,19 @@ public class OrderList implements Printable {
 	public void print(VelocityEngine velocityEngine) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("orderList", this);
-		String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "orderList.vm", "UTF-8", model);
+		//String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "orderList.vm", "UTF-8", model);
+		///////////////////////////////////////////TEMP
+		String text = "";
+		text += this.getFormattedOrderNumber();
+		text += "==========================================\n";
+		text += "Qty Item(s)                   Amount\n";
+		for(OrderItem orderItem: orderItems) {
+			text += orderItem.getTransaction();
+		}
+		text += "\n";
+		text += "==========================================\n";
+		text += "Prepared by : " + getCreator();
+		///////////////////////////////////////////TEMP
 		Printer printer = new Printer();
 		printer.print(text, getOrderNumber(), "Order List " + getOrderNumber());
 	}
@@ -28,6 +39,15 @@ public class OrderList implements Printable {
 		this.creator = creator;
 		this.orderNumber = orderNumber;
 		this.orderItems = orderItems;
+	}
+	
+	public String getFormattedOrderNumber() {
+		try {
+			String formattedOrderNumber = "Order #  : " + orderNumber + "\n";
+			return formattedOrderNumber;
+		} catch(Exception e) {
+			return "";
+		}
 	}
 
 	public String getOrderNumber() {

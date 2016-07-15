@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 /**
@@ -61,7 +63,25 @@ public class OrderReceipt
 	{
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("orderReceipt", this);
-		String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "orderReceipt.vm", "UTF-8", model);
+		//String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "orderReceipt.vm", "UTF-8", model);
+		
+		///////////////////////////////////////////TEMP
+		String text = "";
+		text += this.getFormattedHeader();
+		text += this.getFormattedDateTime();
+		text += "\n";
+		text += this.getFormattedOrderNumber();
+		text += this.getFormattedCustomer();
+		text += this.getFormattedRemarks();
+		text += "==========================================\n";
+		text += "\n";
+		text += " Total Amount         " + this.getTotalAmount() + "\n";
+		text += this.getFormattedCashDue();
+		text += "\n";
+		text += "==========================================\n";
+		text += "Cashier : " + this.getCashier() + "\n";
+		///////////////////////////////////////////TEMP
+		
 		Printer printer = new Printer();
 		//printer.print(text.getBytes(), kickDrawer, Boolean.TRUE);
 		printer.print(text, getOrderNumber(), "Receipt " + getOrderNumber());
@@ -107,7 +127,9 @@ public class OrderReceipt
 			dateTime = new DateTime();
 		}
 		
-		String time = "";
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
+		
+		String time = dateTime.toString(dtf);
 		int center = 0;
 		for(int i=0; i<center; i++){
 			time = " " + time;
@@ -122,7 +144,7 @@ public class OrderReceipt
 	public String getFormattedRemarks()
 	{
 		try {
-			String formattedRemarks = "Remarks  " + ": " + remarks;
+			String formattedRemarks = "Remarks  " + ": " + remarks + "\n";
 			return formattedRemarks;
 		} catch(Exception e) {
 			return "";
@@ -131,8 +153,8 @@ public class OrderReceipt
 	
 	public String getFormattedCustomer() {
 		try {
-			String formattedCashier = "Customer : " + cashier;
-			return formattedCashier;
+			String formattedCustomer = "Customer : " + customer + "\n";
+			return formattedCustomer;
 		}catch(Exception e) {
 			return "";
 		}
@@ -140,7 +162,7 @@ public class OrderReceipt
 	
 	public String getFormattedOrderNumber() {
 		try {
-			String formattedOrderNumber = "Order #  : " + orderNumber;
+			String formattedOrderNumber = "Order #  : " + orderNumber + "\n";
 			return formattedOrderNumber;
 		} catch(Exception e) {
 			return "";
@@ -164,7 +186,7 @@ public class OrderReceipt
 		strAdded += "\n " + "Change";
 		
 		center = 0;
-		center = LINELENGTH - (6 + 6 + getFormattedChange().length() ) - 1;
+		center = LINELENGTH - (6 + 6 + getFormattedChange().length() ) - 3;
 		
 		for(int i=0; i<center; i++)
 			strAdded += " ";

@@ -13,22 +13,24 @@ import java.util.List;
 public class OrderItem
 {
 	private String itemName;
+	private String unit;
 	private Float totalPrice;
 	private Float quantity;
 	
 	private List<String> nextLineList;
 	private Boolean breakHere = Boolean.FALSE;
 	
-	public OrderItem(String itemName, Float totalPrice, Float quantity)
+	public OrderItem(String itemName, String unit, Float totalPrice, Float quantity)
 	{
 		this.itemName = itemName;
+		this.unit = unit;
 		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 	}
 	
-	public OrderItem(String itemName, Float totalPrice, Float quantity, Boolean breakHere)
+	public OrderItem(String itemName, String unit, Float totalPrice, Float quantity, Boolean breakHere)
 	{
-		this(itemName, totalPrice, quantity);
+		this(itemName, unit, totalPrice, quantity);
 		this.breakHere = breakHere;
 	}
 	
@@ -36,7 +38,7 @@ public class OrderItem
 	{	
 		String tmp = "";
 		
-		tmp += itemName;		
+		tmp += unit + " " + itemName;		
 		
 		int length = tmp.length(), index = 25;
 		nextLineList = new ArrayList<String> ();
@@ -89,8 +91,16 @@ public class OrderItem
 	public String getTransaction()
 	{
 		String transaction = "";
+		
+		final String qty;
+		
+		if(quantity == quantity.intValue()) {
+			qty = String.format("%-4d", quantity.intValue());
+		} else {
+			qty = String.format("%-4s", quantity);
+		}
 			
-		transaction = String.format("%-4s", quantity) + getName() + this.getTotalPrice() + "\n";
+		transaction = qty + String.format("%-25s", getName()) + " " + this.getTotalPrice() + "\n";
 		for(String nextLine : nextLineList)
 		{
 			transaction += "    " + nextLine;

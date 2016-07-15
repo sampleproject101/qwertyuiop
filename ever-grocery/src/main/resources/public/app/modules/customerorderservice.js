@@ -125,6 +125,17 @@ define(['jquery'], function ($) {
     				customerOrderId: customerOrderId
     			}
     		});
+    	},
+    	
+    	printReceipt: function(customerOrderId, cash) {
+    		return $.ajax({
+    			url: '/services/customerorder/printreceipt',
+    			method: 'POST',
+    			data: {
+    				customerOrderId: customerOrderId,
+    				cash: cash
+    			}
+    		});
     	}
     };
 });

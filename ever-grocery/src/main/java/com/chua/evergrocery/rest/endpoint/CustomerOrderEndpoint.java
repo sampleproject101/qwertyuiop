@@ -123,4 +123,11 @@ public class CustomerOrderEndpoint {
 	public ResultBean printCustomerOrderList(@FormParam("customerOrderId") Long customerOrderId) {
 		return customerOrderHandler.printCustomerOrderList(customerOrderId);
 	}
+	
+	@POST
+	@Path("/printreceipt")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public void printReceipt(@FormParam("customerOrderId") Long customerOrderId, @FormParam("cash") Float cash) {
+		customerOrderHandler.printReceipt(customerOrderId, cash);
+	}
 }

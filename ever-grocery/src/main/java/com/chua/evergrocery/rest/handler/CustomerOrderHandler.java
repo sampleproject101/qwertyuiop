@@ -33,4 +33,6 @@ public interface CustomerOrderHandler {
 	ResultBean payCustomerOrder(Long customerOrderId, Float cash);
 	
 	ResultBean printCustomerOrderList(Long customerOrderId);
+	
+	void printReceipt(Long customerOrderId, Float cash);
 }

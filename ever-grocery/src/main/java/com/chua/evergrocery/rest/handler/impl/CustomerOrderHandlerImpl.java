@@ -175,8 +175,6 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 					result.setSuccess(customerOrderService.update(customerOrder));
 					if(result.getSuccess()) {
 						//#############################################################################################		remove from stock!!!
-						this.printReceipt(customerOrder, cash);
-						
 						result.setMessage("CHANGE: Php " + df.format(cash - customerOrder.getTotalAmount()));
 					} else {
 						result.setMessage("Failed to pay Customer order \"" + customerOrder.getName() + "\".");
@@ -483,14 +481,21 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		
 		for(CustomerOrderDetail orderDetail: customerOrderDetails) {
-			orderItems.add(new OrderItem(orderDetail.getProductName(), orderDetail.getTotalPrice(), orderDetail.getQuantity()));
+			orderItems.add(new OrderItem(orderDetail.getProductName(), orderDetail.getUnitType().getShorthand(), orderDetail.getTotalPrice(), orderDetail.getQuantity()));
 		}
 		
 		final OrderList orderList = new OrderList(creatorName, customerOrder.getId() + "", orderItems);
 		
 		try {
 			orderList.print(velocityEngine);
-		} catch (Exception e) { }
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void printReceipt(Long customerOrderId, Float cash) {
+		this.printReceipt(customerOrderService.find(customerOrderId), cash);
 	}
 	
 	private void printReceipt(CustomerOrder customerOrder, Float cash) {
@@ -515,10 +520,11 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final OrderReceipt orderReceipt = new OrderReceipt(new DateTime(), cashierName, customerOrder.getId() + "", customerName,
 				customerOrder.getTotalAmount() + "", new OrderReceiptConfig("Ever Grocery"), "", cash + "");
-		
 		try {
 			orderReceipt.print(velocityEngine);
-		} catch (Exception e) { }
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
 	}
 	
 	private void setCustomerOrderDetail(CustomerOrderDetail customerOrderDetail, CustomerOrder customerOrder, ProductDetail productDetail) {

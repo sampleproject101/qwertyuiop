@@ -22,6 +22,7 @@ define(['plugins/dialog', 'durandal/app', 'knockout', 'modules/customerorderserv
 		customerOrderService.payCustomerOrder(self.customerOrder.id, self.cash()).done(function(result) {
 			if(result.success) {
         		dialog.close(self);
+        		customerOrderService.printReceipt(self.customerOrder.id, self.cash());
         	} 
         	app.showMessage(result.message);
 		});
