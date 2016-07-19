@@ -1,8 +1,9 @@
-define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderservice', 'modules/customerservice', 'viewmodels/customer-order/search'], function (app, ko, util, customerOrderService, customerService, Search) {
+define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', 'modules/customerorderservice', 'modules/customerservice', 'viewmodels/customer-order/search'], function (app, ko, util, soundUtil, customerOrderService, customerService, Search) {
     var CustomerOrderPage = function() {
     	this.customerOrderDetailList = ko.observable();
     	
     	this.barcodeKey = ko.observable();
+    	this.barcodeFocus = ko.observable(true);
     	
     	this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
@@ -55,6 +56,8 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
 			self.customerOrderDetailList(data.list);
 			self.totalItems(data.total);
 		});
+    	
+    	self.barcodeFocus(true);
     };
     
     CustomerOrderPage.prototype.remove = function(customerOrderDetailId, quantity, productName, unitType) {
@@ -67,10 +70,12 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
 			if(confirm) {
 				customerOrderService.removeCustomerOrderDetail(customerOrderDetailId).done(function(result) {
 					self.refreshCustomerOrderDetailList();
-					app.showMessage(result.message);
+					if(!result.success) {
+						app.showMessage(result.message);
+					}
 				});
 			}
-		})
+		});
 	};
     
     CustomerOrderPage.prototype.addItemByBarcode = function() {
@@ -81,7 +86,8 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/customerorderser
     			if(result.message === 'NEW') self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
     			self.refreshCustomerOrderDetailList();
     		} else {
-    			app.showMessage(result.message);
+    			soundUtil.beep();
+    			self.barcodeFocus(true);
     		}
     	});
     	

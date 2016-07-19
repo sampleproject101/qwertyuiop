@@ -255,7 +255,7 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 	private ResultBean changePurchaseOrderDetailQuantity(PurchaseOrderDetail purchaseOrderDetail, Integer quantity) {
 		final ResultBean result;
 		
-		if(quantity != 0) {
+		if(quantity != null && quantity != 0) {
 			result = new ResultBean();
 			
 			final PurchaseOrder purchaseOrder = purchaseOrderDetail.getPurchaseOrder();

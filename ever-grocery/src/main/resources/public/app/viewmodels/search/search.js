@@ -27,6 +27,11 @@ define(['durandal/app', 'knockout', 'modules/productservice', 'viewmodels/search
 		productService.getProductList(self.currentPage(), self.searchKey(), null, true).done(function(data) {
 			self.productList(data.list);
 			self.totalItems(data.total);
+			
+			if(self.totalItems() == 1) {
+				self.more(self.productList()[0].id);
+				self.searchKey("");
+			}
 		});
 	};
 	

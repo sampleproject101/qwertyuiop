@@ -1,5 +1,6 @@
 package com.chua.evergrocery.utility.print;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,10 +76,8 @@ public class OrderReceipt
 		text += this.getFormattedCustomer();
 		text += this.getFormattedRemarks();
 		text += "==========================================\n";
-		text += "\n";
-		text += " Total Amount         " + this.getTotalAmount() + "\n";
+		text += " Total Amount         " + this.getFormattedTotalAmount() + "\n";
 		text += this.getFormattedCashDue();
-		text += "\n";
 		text += "==========================================\n";
 		text += "Cashier : " + this.getCashier() + "\n";
 		///////////////////////////////////////////TEMP
@@ -111,7 +110,8 @@ public class OrderReceipt
 		String header;		
 		String title = config.getTitle();
 		int startLine = 0;
-		startLine = (LINELENGTH15 - title.length()) / 2;
+		
+		startLine = (int) Math.ceil((LINELENGTH15 - title.length()) / 2.0);
 		for(int i=0; i<startLine; i++){
 			title = " " + title;
 		}
@@ -131,7 +131,7 @@ public class OrderReceipt
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
 		
 		String time = dateTime.toString(dtf);
-		int center = (LINELENGTH - time.length()) / 2;
+		int center = (int) Math.ceil((LINELENGTH - time.length()) / 2.0);
 		for(int i=0; i<center; i++){
 			time = " " + time;
 		}
@@ -187,18 +187,28 @@ public class OrderReceipt
 
 	public String getFormattedCash()
 	{
-		String amount = cashDue+"";
+		final DecimalFormat df = new DecimalFormat("#.##");
+		
+		String amount = df.format(getCashDue());
 		return amount;
 		
 	}
 	
 	public String getFormattedChange()
 	{
+		final DecimalFormat df = new DecimalFormat("#.##");
 		Float amount = Float.parseFloat(getTotalAmount());
 		
 		amount = Float.parseFloat(getCashDue()) - amount;
-		String amountString = amount + "";
+		String amountString = df.format(amount);
 		return amountString;
+	}
+	
+	public String getFormattedTotalAmount() {
+		final DecimalFormat df = new DecimalFormat("#.##");
+		
+		String totalAmount = df.format(getTotalAmount());
+		return totalAmount;
 	}
 	
 	public DateTime getDateTime()

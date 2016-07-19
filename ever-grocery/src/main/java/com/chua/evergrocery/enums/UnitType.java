@@ -2,27 +2,27 @@ package com.chua.evergrocery.enums;
 
 public enum UnitType {
 	
-	BAG ("bag"),
+	BAG ("bg"),
 	
 	BAR ("bar"),
 	
 	BOTTLE ("btl"),
 	
-	BOX ("box"),
+	BOX ("bx"),
 	
 	BUCKET ("bkt"),
 	
-	BUNDLE ("bdl"),
+	BUNDLE ("bd"),
 	
-	CAN ("can"),
+	CAN ("cn"),
 	
 	CASE ("cs"),
 	
-	DOZEN ("doz"),
+	DOZEN ("dz"),
 	
 	JAR ("jar"),
 	
-	PACK ("pck"),
+	PACK ("pk"),
 	
 	PAIR ("pr"),
 	
@@ -32,11 +32,11 @@ public enum UnitType {
 	
 	REAM ("rm"),
 	
-	SACK ("sck"),
+	SACK ("sk"),
 	
-	SET ("set"),
+	SET ("st"),
 	
-	TAB ("tab"),
+	TAB ("tb"),
 	
 	TIE ("tie"),
 	

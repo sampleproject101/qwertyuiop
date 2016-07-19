@@ -51,7 +51,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'modules/customerorderserv
 					app.showMessage(result.message);
 				});
 			}
-		});
+		})
 	};
 	
 	CustomerOrder.prototype.edit = function(customerOrderId) {

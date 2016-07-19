@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chua.evergrocery.UserContextHolder;
 import com.chua.evergrocery.beans.CustomerOrderFormBean;
 import com.chua.evergrocery.beans.ResultBean;
+import com.chua.evergrocery.beans.UserBean;
 import com.chua.evergrocery.database.entity.Customer;
 import com.chua.evergrocery.database.entity.CustomerOrder;
 import com.chua.evergrocery.database.entity.CustomerOrderDetail;
@@ -106,7 +107,9 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderForm.getId());
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() == Status.LISTING) {
+			final UserBean currentUser = UserContextHolder.getUser();
+			
+			if(customerOrder.getStatus() == Status.LISTING && customerOrder.getCreator().getId() == currentUser.getUserId()) {
 				if(!(StringUtils.trimToEmpty(customerOrder.getName()).equalsIgnoreCase(customerOrderForm.getName())) &&
 						customerOrderService.isExistsByNameAndStatus(customerOrderForm.getName(), new Status[] { Status.LISTING, Status.PRINTED })) {
 					result = new ResultBean(false, "Customer order \"" + customerOrderForm.getName() + "\" already exists!");
@@ -137,7 +140,10 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() == Status.LISTING || customerOrder.getStatus() == Status.PRINTED) {
+			final UserBean currentUser = UserContextHolder.getUser();
+			
+			if(customerOrder.getStatus() != Status.PAID && (currentUser.getUserType() == UserType.ADMINISTRATOR ||
+					currentUser.getUserType() == UserType.MANAGER || currentUser.getUserType() == UserType.ASSISTANT_MANAGER)) {
 				result = new ResultBean();
 				
 				customerOrder.setStatus(Status.CANCELLED);
@@ -374,14 +380,14 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		
 		quantity -= (quantity % 0.5f);
 		
-		if(productDetail != null && quantity >= productDetail.getQuantity() / 2) {
+		if(productDetail != null && quantity >= productDetail.getQuantity() / 2.0f) {
 			final ProductDetail newProductDetail;
 			switch(productDetail.getTitle()) {
 			case "Piece":
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Whole");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % (productDetail.getQuantity() / 2);
+					result = quantity % (productDetail.getQuantity() / 2.0f);
 				} else {
 					result = quantity;
 				}
@@ -390,7 +396,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Piece");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % (productDetail.getQuantity() / 2);
+					result = quantity % (productDetail.getQuantity() / 2.0f);
 				} else {
 					result = quantity;
 				}
@@ -399,7 +405,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 				newProductDetail = productDetailService.findByProductIdAndTitle(productDetail.getProduct().getId(), "Inner Piece");
 				if(newProductDetail != null) {
 					this.addItem(newProductDetail, customerOrderDetail.getCustomerOrder(), quantity / productDetail.getQuantity());
-					result = quantity % (productDetail.getQuantity() / 2);
+					result = quantity % (productDetail.getQuantity() / 2.0f);
 				} else {
 					result = quantity;
 				}
@@ -442,8 +448,10 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		final CustomerOrder customerOrder = customerOrderService.find(customerOrderId);
 		
 		if(customerOrder != null) {
-			if(customerOrder.getStatus() == Status.LISTING || UserContextHolder.getUser().getUserType() == UserType.ADMINISTRATOR ||
-					UserContextHolder.getUser().getUserType() == UserType.MANAGER || UserContextHolder.getUser().getUserType() == UserType.ASSISTANT_MANAGER) {
+			final UserBean currentUser = UserContextHolder.getUser();
+			
+			if(customerOrder.getStatus() == Status.LISTING || currentUser.getUserType() == UserType.ADMINISTRATOR ||
+					currentUser.getUserType() == UserType.MANAGER || currentUser.getUserType() == UserType.ASSISTANT_MANAGER) {
 				result = new ResultBean();
 				
 				if(customerOrder.getStatus() == Status.LISTING) {
