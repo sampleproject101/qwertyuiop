@@ -1,5 +1,6 @@
 package com.chua.evergrocery.utility.print;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +88,19 @@ public class OrderItem
 	public Float getTotalPrice() {
 		return totalPrice;
 	}	
+	
+	public String getFormattedTotalPrice() {
+		final String formattedTotalPrice;
+		
+		if(totalPrice != totalPrice.intValue()) {
+			final DecimalFormat df = new DecimalFormat("#.##");
+			formattedTotalPrice = df.format(totalPrice);
+		} else {
+			formattedTotalPrice = totalPrice + "";
+		}
+		
+		return formattedTotalPrice;
+	}
 		
 	public String getTransaction()
 	{
@@ -100,7 +114,7 @@ public class OrderItem
 			qty = String.format("%-4s", quantity);
 		}
 			
-		transaction = qty + String.format("%-25s", getName()) + " " + this.getTotalPrice() + "\n";
+		transaction = qty + String.format("%-25s", getName()) + " " + this.getFormattedTotalPrice() + "\n";
 		for(String nextLine : nextLineList)
 		{
 			transaction += "    " + nextLine;
