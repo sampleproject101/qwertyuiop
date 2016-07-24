@@ -96,7 +96,7 @@ public class OrderItem
 			final DecimalFormat df = new DecimalFormat("#.##");
 			formattedTotalPrice = df.format(totalPrice);
 		} else {
-			formattedTotalPrice = totalPrice + "";
+			formattedTotalPrice = totalPrice.intValue() + "";
 		}
 		
 		return formattedTotalPrice;

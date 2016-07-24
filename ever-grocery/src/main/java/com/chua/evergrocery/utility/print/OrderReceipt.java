@@ -30,13 +30,13 @@ public class OrderReceipt
 	
 	private String cashier;
 	private String remarks;
-	private String cashDue;
-	private String totalAmount;
+	private Float cashDue;
+	private Float totalAmount;
 	private String customer;
 	private OrderReceiptConfig config;
 	
 	public OrderReceipt(DateTime date, String cashier, String orderNumber, String customer, 
-			String totalAmount, OrderReceiptConfig config, String remarks, String cashDue)
+			Float totalAmount, OrderReceiptConfig config, String remarks, Float cashDue)
 	{
 		this.dateTime = date;
 		this.cashier = cashier;
@@ -46,18 +46,6 @@ public class OrderReceipt
 		this.config = config;
 		this.remarks = remarks;
 		this.cashDue = cashDue;
-	}
-	
-	public OrderReceipt(DateTime date, String cashier, String orderNumber, String customer,
-			String totalAmount, OrderReceiptConfig config, String remarks)
-	{
-		this.dateTime = date;
-		this.cashier = cashier;
-		this.orderNumber = orderNumber;
-		this.totalAmount = totalAmount;
-		this.customer = customer;
-		this.config = config;
-		this.remarks = remarks;
 	}
 	
 	@Override
@@ -174,7 +162,7 @@ public class OrderReceipt
 	{
 		String strAdded = "";
 		
-		strAdded = " "+ String.format("%-29s", "Cash");
+		strAdded = " "+ String.format("%-27s", "Cash");
 		
 		strAdded += getFormattedCash();
 		
@@ -197,10 +185,8 @@ public class OrderReceipt
 	public String getFormattedChange()
 	{
 		final DecimalFormat df = new DecimalFormat("#.##");
-		Float amount = Float.parseFloat(getTotalAmount());
 		
-		amount = Float.parseFloat(getCashDue()) - amount;
-		String amountString = df.format(amount);
+		String amountString = df.format(getCashDue() - getTotalAmount());
 		return amountString;
 	}
 	
@@ -248,26 +234,26 @@ public class OrderReceipt
 		this.cashier = cashier;
 	}
 	
-	public String getTotalAmount()
+	public Float getTotalAmount()
 	{
 		return totalAmount;
 	}
 	
-	public void setTotalAmount(String totalAmount) {
+	public void setTotalAmount(Float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 	
 	/**
 	 * @return the cashDue
 	 */
-	public String getCashDue() {
+	public Float getCashDue() {
 		return cashDue;
 	}
 	
 	/**
 	 * @param cashDue the cashDue to set
 	 */
-	public void setCashDue(String cashDue) {
+	public void setCashDue(Float cashDue) {
 		this.cashDue = cashDue;
 	}
 	

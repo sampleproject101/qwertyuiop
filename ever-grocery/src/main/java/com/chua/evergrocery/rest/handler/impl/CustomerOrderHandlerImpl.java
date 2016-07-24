@@ -542,7 +542,7 @@ public class CustomerOrderHandlerImpl implements CustomerOrderHandler {
 		}
 		
 		final OrderReceipt orderReceipt = new OrderReceipt(new DateTime(), cashierName, customerOrder.getId() + "", customerName,
-				customerOrder.getTotalAmount() + "", new OrderReceiptConfig("Ever Grocery"), "", cash + "");
+				customerOrder.getTotalAmount(), new OrderReceiptConfig("Ever Grocery"), "", cash);
 		try {
 			orderReceipt.print(velocityEngine);
 		} catch (Exception e) { 
