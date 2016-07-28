@@ -87,7 +87,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', '
     			self.refreshCustomerOrderDetailList();
     		} else {
     			soundUtil.beep();
-    			self.barcodeFocus(true);
+    			app.showMessage(result.message);
     		}
     	});
     	
