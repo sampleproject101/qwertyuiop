@@ -6,6 +6,7 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/com
 		this.showChecked = ko.observable(false);
 		
 		this.companyId = ko.observable();
+		this.quickId = ko.observable();
 		
 		this.itemsPerPage = ko.observable(app.user.itemsPerPage);
 		this.totalItems = ko.observable();
@@ -41,20 +42,33 @@ define(['durandal/app', 'knockout', 'modules/purchaseorderservice', 'modules/com
 		});
 	};
 	
+	PurchaseOrder.prototype.quickView = function() {
+		var self = this;
+		
+		self.view(self.quickId());
+		self.quickId('');
+	};
+	
 	PurchaseOrder.prototype.view = function(purchaseOrderId) {
 		var self = this;
 		
-		purchaseOrderService.getPurchaseOrder(purchaseOrderId).done(function(data) {
-			PurchaseView.show(data).done(function() {
-				self.refreshPurchaseOrderList();
-			});
+		purchaseOrderService.getPurchaseOrder(purchaseOrderId).done(function(purchaseOrder) {
+			if(purchaseOrder.isValid) {
+				PurchaseView.show(purchaseOrder).done(function() {
+					self.refreshPurchaseOrderList();
+				});
+			} else {
+				app.showMessage('Purchase Order ID ' + purchaseOrderId + ' does not exist.');
+			}
 		});
 	};
-	
-	PurchaseOrder.prototype.check = function(purchaseOrderId, totalAmount) {
+
+	PurchaseOrder.prototype.check = function(purchaseOrderId, companyName, totalAmount) {
 		var self = this;
 		
-		app.showMessage('Total Amount: Php ' + totalAmount,
+		app.showMessage('<div class="container-fluid"><dl class="dl-horizontal"><dt>Purchase ID  :</dt><dd>' + purchaseOrderId + '</dd>' +
+						'<dt>Company Name :</dt><dd>' + companyName + '</dd>' +
+						'<dt>Total Amount :</dt><dd>Php ' + totalAmount + '</dd></div>',
 				'Confirm Check',
 				[{ text: 'Yes', value: true }, { text: 'No', value: false }])
 		.then(function(confirm) {

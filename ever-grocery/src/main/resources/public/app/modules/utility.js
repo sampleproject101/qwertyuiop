@@ -18,14 +18,6 @@ define(['knockout'], function (ko) {
     	
     	mod: function(dividend, divisor) {
     		return (((dividend % divisor) + divisor) % divisor);
-    	},
-    	
-    	getLastPage: function(itemsPerPage, totalItems) {
-    		if(totalItems != 0) {
-    			return Math.ceil(totalItems / itemsPerPage);
-    		} else {
-    			return 1;
-    		}
     	}
     };
 });

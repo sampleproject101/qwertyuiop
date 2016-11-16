@@ -1,4 +1,4 @@
-define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', 'modules/customerorderservice', 'modules/customerservice', 'viewmodels/customer-order/search'], function (app, ko, util, soundUtil, customerOrderService, customerService, Search) {
+define(['durandal/app', 'knockout', 'modules/soundutility', 'modules/customerorderservice', 'modules/customerservice', 'viewmodels/customer-order/search'], function (app, ko, soundUtil, customerOrderService, customerService, Search) {
     var CustomerOrderPage = function() {
     	this.customerOrderDetailList = ko.observable();
     	
@@ -38,6 +38,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', '
     	
     	customerOrderService.getCustomerOrder(self.customerOrderPageModel.customerOrderId()).done(function(data) { 
     		Search.show(data).done(function() {
+    			self.currentPage(1);
         		self.refreshCustomerOrderDetailList();
         	});
     	});
@@ -83,7 +84,7 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', '
     	
     	customerOrderService.addItemByBarcode(self.barcodeKey(), self.customerOrderPageModel.customerOrderId()).done(function(result) {	
     		if(result.success) {
-    			if(result.message === 'NEW') self.currentPage(util.getLastPage(self.itemsPerPage(), self.totalItems() + 1));
+    			self.currentPage(1);
     			self.refreshCustomerOrderDetailList();
     		} else {
     			soundUtil.beep();
@@ -98,6 +99,9 @@ define(['durandal/app', 'knockout', 'modules/utility', 'modules/soundutility', '
     	var self = this;
     	
     	customerOrderService.changeQuantity(customerOrderDetailId, quantity).done(function(result) {
+    		if(result.success) {
+    			self.currentPage(1);
+    		}
     		self.refreshCustomerOrderDetailList();
     		if(!result.success) {
     			app.showMessage(result.message);

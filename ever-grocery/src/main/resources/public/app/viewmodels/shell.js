@@ -99,7 +99,9 @@
         userSettings: function() {
         	var self = this;
         	
-        	UserSettings.show(self.user);
+        	UserSettings.show(self.user).then(function() {
+        		location.href = '/';
+        	});
         }
     };
 });

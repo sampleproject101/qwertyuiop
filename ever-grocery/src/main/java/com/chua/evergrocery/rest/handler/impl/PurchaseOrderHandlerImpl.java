@@ -41,7 +41,7 @@ public class PurchaseOrderHandlerImpl implements PurchaseOrderHandler {
 	private ProductDetailService productDetailService;
 
 	@Override
-	public ObjectList<PurchaseOrder> getCustomerOrderList(Integer pageNumber, Long companyId, Boolean showChecked) {
+	public ObjectList<PurchaseOrder> getPurchaseOrderList(Integer pageNumber, Long companyId, Boolean showChecked) {
 		if(showChecked) {
 			return purchaseOrderService.findAllWithPaging(pageNumber,  UserContextHolder.getItemsPerPage(), companyId);
 		} else {

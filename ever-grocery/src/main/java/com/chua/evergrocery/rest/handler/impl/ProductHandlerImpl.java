@@ -61,7 +61,7 @@ public class ProductHandlerImpl implements ProductHandler {
 			productList.setTotal(products.size());
 			return productList;
 		} else {
-			return productService.findAllWithPaging(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);
+			return productService.findAllWithPagingOrderByName(pageNumber, UserContextHolder.getItemsPerPage(), searchKey, companyId);
 		}
 	}
 	
@@ -154,16 +154,22 @@ public class ProductHandlerImpl implements ProductHandler {
 			result = new ResultBean();
 			
 			for(ProductDetailsFormBean productDetailsForm : productDetailsFormList) {
-				result.setSuccess(upsertProductDetails(product, productDetailsForm));
-				if(!result.getSuccess()) {
+				final ProductDetail temp = productDetailService.findByBarcode(productDetailsForm.getBarcode());
+				if(productDetailsForm.getBarcode() != null && !productDetailsForm.getBarcode().equals("") && temp != null && !temp.getId().equals(productDetailsForm.getId())) {
+					result.setSuccess(Boolean.FALSE);
+					result.setMessage("Barcode already exists.");
 					break;
+				} else {
+					result.setSuccess(upsertProductDetails(product, productDetailsForm));
+					if(!result.getSuccess()) {
+						result.setMessage("Failed to save product details.");
+						break;
+					}
 				}
 			}
 			
 			if(result.getSuccess()) {
 				result.setMessage("Product details successfully saved.");
-			} else {
-				result.setMessage("Failed to save product details.");
 			}
 		} else {
 			result = new ResultBean(false, "Product not found.");

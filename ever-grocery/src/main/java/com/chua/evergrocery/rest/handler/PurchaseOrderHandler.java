@@ -8,7 +8,7 @@ import com.chua.evergrocery.objects.ObjectList;
 
 public interface PurchaseOrderHandler {
 
-	ObjectList<PurchaseOrder> getCustomerOrderList(Integer pageNumber, Long companyId, Boolean showChecked);
+	ObjectList<PurchaseOrder> getPurchaseOrderList(Integer pageNumber, Long companyId, Boolean showChecked);
 	
 	PurchaseOrder getPurchaseOrder(Long purchaseOrderId);
 	

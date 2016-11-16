@@ -17,16 +17,22 @@
 	    					<th class = "text-center">Quantity</th>
 	    					<th>Unit</th>
 	    					<th>Product Name</th>
-	    					<th class = "text-center">Net Price</th>
-	    					<th class = "text-center">Total Price</th>
+	    					<th data-bind="visible: beforeVatAndDiscount" class="text-center">No VAT Price</th>
+	    					<th data-bind="visible: beforeVatAfterDiscount" class="text-center">No VAT w/ Disc Price</th>
+	    					<th data-bind="visible: afterVatBeforeDiscount" class="text-center">Gross Price</th>
+	    					<th class="text-center">Net Price</th>
+	    					<th class="text-center">Total Price</th>
 	    				</tr>
 	    			</thead>
 	    			
 	    			<tbody data-bind="foreach: { data: purchaseOrderDetailList, as: 'orderDetail' }">
 	    				<tr>
-	    					<td class = "text-center"><input data-bind="value: orderDetail.quantity" type="text" size="5" class="form-control" disabled></td>
+	    					<td data-bind="text: orderDetail.quantity" class = "text-center"></td>
 	    					<td data-bind="text: orderDetail.unitType"></td>
 	    					<td data-bind="text: orderDetail.productName"></td>
+	    					<td data-bind="text: Math.round(orderDetail.grossPrice * 100 / 1.12) / 100, visible: $parent.beforeVatAndDiscount" class = "text-center"></td>
+	    					<td data-bind="text: Math.round(orderDetail.totalPrice * 100 / 1.12) / 100, visible: $parent.beforeVatAfterDiscount" class = "text-center"></td>
+	    					<td data-bind="text: orderDetail.grossPrice, visible: $parent.afterVatBeforeDiscount" class = "text-center"></td>
 	    					<td data-bind="text: orderDetail.netPrice" class = "text-center"></td>
 	    					<td data-bind="text: orderDetail.totalPrice" class = "text-center"></td>
 	    				</tr>
@@ -37,7 +43,8 @@
     </div>
     
     <div class="modal-footer">
-        <button class="btn btn-success" data-bind="click: cancel">Done</button>
+    	<button class="btn btn-primary" data-bind="click: check, visible: isListing">Check</button>
+        <button class="btn btn-warning" data-bind="click: cancel">Cancel</button>
     </div>
 </div>
 

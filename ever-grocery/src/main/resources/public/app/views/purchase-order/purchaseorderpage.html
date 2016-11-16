@@ -1,4 +1,3 @@
-<br><br><br>
 <form class="form-inline" role="form">
 	<pre>
 	Purchase ID: <span data-bind="text: purchaseOrderPageModel.purchaseOrderId" class="text-danger"></span>			Company Name: <span data-bind="text: purchaseOrderPageModel.companyName" class="text-danger"></span>			Status:	<span data-bind="text: purchaseOrderPageModel.status" class="text-danger"></span>			Receipt Type:	<span data-bind="text: purchaseOrderPageModel.receiptType" class="text-danger"></span></pre>
@@ -25,15 +24,9 @@
     					<th class = "text-center">Quantity</th>
     					<th>Unit</th>
     					<th>Product Name</th>
-    					<!-- ko if: beforeVatAndDiscount -->
-    					<th class = "text-center">Before VAT Price</th>
-    					<!-- /ko -->
-    					<!-- ko if: beforeVatAfterDiscount -->
-    					<th class = "text-center">Bef VAT Aft Disc Price</th>
-    					<!-- /ko -->
-    					<!-- ko if: afterVatBeforeDiscount -->
-    					<th class = "text-center">Gross Price</th>
-    					<!-- /ko -->
+    					<th data-bind="visible: beforeVatAndDiscount" class="text-center">No VAT Price</th>
+    					<th data-bind="visible: beforeVatAfterDiscount" class="text-center">No VAT w/ Disc Price</th>
+    					<th data-bind="visible: afterVatBeforeDiscount" class="text-center">Gross Price</th>
     					<th class = "text-center">Net Price</th>
     					<th class = "text-center">Total Price</th>
     				</tr>
@@ -44,15 +37,9 @@
     					<td class = "text-center"><input data-bind="value: orderDetail.quantity, event: { change: function() { $parent.changeQuantity(orderDetail.id, orderDetail.quantity) } }" type="text" size="5" class="form-control"></td>
     					<td data-bind="text: orderDetail.unitType"></td>
     					<td data-bind="text: orderDetail.productName"></td>
-    					<!-- ko if: $parent.beforeVatAndDiscount -->
-    					<td data-bind="text: Math.round(orderDetail.grossPrice * 100 / 1.12) / 100" class = "text-center"></td>
-    					<!-- /ko -->
-    					<!-- ko if: $parent.beforeVatAfterDiscount -->
-    					<td data-bind="text: Math.round(orderDetail.totalPrice * 100 / 1.12) / 100" class = "text-center"></td>
-    					<!-- /ko -->
-    					<!-- ko if: $parent.afterVatBeforeDiscount -->
-    					<td data-bind="text: orderDetail.grossPrice" class = "text-center"></td>
-    					<!-- /ko -->
+    					<td data-bind="text: Math.round(orderDetail.grossPrice * 100 / 1.12) / 100, visible: $parent.beforeVatAndDiscount" class = "text-center"></td>
+    					<td data-bind="text: Math.round(orderDetail.totalPrice * 100 / 1.12) / 100, visible: $parent.beforeVatAfterDiscount" class = "text-center"></td>
+    					<td data-bind="text: orderDetail.grossPrice, visible: $parent.afterVatBeforeDiscount" class = "text-center"></td>
     					<td data-bind="text: orderDetail.netPrice" class = "text-center"></td>
     					<td data-bind="text: orderDetail.totalPrice" class = "text-center"></td>
     					<td>

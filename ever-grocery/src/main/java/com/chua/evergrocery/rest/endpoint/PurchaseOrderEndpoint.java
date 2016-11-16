@@ -32,7 +32,7 @@ public class PurchaseOrderEndpoint {
 	public ObjectList<PurchaseOrder> getAllPurhcaseOrderList(@QueryParam("pageNumber") Integer pageNumber,
 			@QueryParam("companyId") Long companyId,
 			@QueryParam("showChecked") Boolean showChecked) {
-		return purchaseOrderHandler.getCustomerOrderList(pageNumber, companyId, showChecked);
+		return purchaseOrderHandler.getPurchaseOrderList(pageNumber, companyId, showChecked);
 	}
 	
 	@GET

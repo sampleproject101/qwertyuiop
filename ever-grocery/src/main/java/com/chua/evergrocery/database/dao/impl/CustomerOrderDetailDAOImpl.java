@@ -3,6 +3,7 @@ package com.chua.evergrocery.database.dao.impl;
 import java.util.List;
 
 import org.hibernate.criterion.Junction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -18,11 +19,17 @@ public class CustomerOrderDetailDAOImpl
 
 	@Override
 	public ObjectList<CustomerOrderDetail> findAllWithPaging(int pageNumber, int resultsPerPage, long customerOrderId) {
+		return findAllWithPagingAndOrder(pageNumber, resultsPerPage, customerOrderId, null);
+	}
+	
+	@Override
+	public ObjectList<CustomerOrderDetail> findAllWithPagingAndOrder(int pageNumber, int resultsPerPage,
+			long customerOrderId, Order[] orders) {
 		final Junction conjunction = Restrictions.conjunction();
 		conjunction.add(Restrictions.eq("isValid", Boolean.TRUE));
 		conjunction.add(Restrictions.eq("customerOrder.id", customerOrderId));
 		
-		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, null, conjunction);
+		return findAllByCriterion(pageNumber, resultsPerPage, null, null, null, orders, conjunction);
 	}
 	
 	@Override
